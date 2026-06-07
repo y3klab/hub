@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<!--
+  Fractal Self-Describing Nodes — a Y3K Lab concept page.
+  A self-contained, zero-dependency reference, built in the same hand as the hub
+  (../index.html): same palette, floor grid, CRT scanlines, power-on motion.
+
+  This page is itself a fractal self-describing node: it names itself (the slug
+  is the concept), it points UP to its index (the Y3K Lab hub), and DOWN to its
+  instances (the surfaces that apply the law). It practices what it documents.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fractal Self-Describing Nodes — Y3K Lab</title>
+<meta name="description" content="A structural law: every node describes itself, in a consistent shape, at every altitude. Self-describing, scale-invariant, whole-and-part at once. Every node is a fractal self.">
+<link rel="canonical" href="https://y3klab.com/fractal-self-describing-nodes/">
+
+<!-- Favicon + share assets live at the site root; we're one level deep. -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="/favicon.svg">
+<link rel="mask-icon" href="/favicon.svg" color="#ff5fff">
+
+<!-- OpenGraph / Twitter — reuses the Lab share card until a bespoke one ships. -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fractal Self-Describing Nodes">
+<meta property="og:description" content="Every node describes itself, in a consistent shape, at every altitude. A structural law from Y3K Lab. Every node is a fractal self.">
+<meta property="og:url" content="https://y3klab.com/fractal-self-describing-nodes/">
+<meta property="og:image" content="https://y3klab.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fractal Self-Describing Nodes">
+<meta name="twitter:description" content="Every node describes itself, in a consistent shape, at every altitude. Every node is a fractal self.">
+<meta name="twitter:image" content="https://y3klab.com/og-image.png">
+<meta name="theme-color" content="#0a0a12">
+<style>
+  /* ── The palette: the one canonical shared asset (ANSI-256 → hex). ──
+     Mirrors ../index.html; runtime-canonical values live in Phos4's y3k.sh. */
+  :root {
+    --magenta: #ff5fff;  /* 201 — warm end */
+    --rose:    #ff5fd7;  /* 207 */
+    --pink:    #d75fd7;  /* 171 */
+    --purple:  #af5fff;  /* 135 */
+    --indigo:  #875fff;  /*  99 */
+    --blue:    #5fafff;  /*  75 */
+    --cyan:    #00d7ff;  /*  45 */
+    --brtcyan: #00ffff;  /*  51 — cool end */
+    --accent:  #00afff;  /*  39 — the live cue */
+
+    --ramp: linear-gradient(100deg,
+      var(--magenta), var(--pink), var(--purple), var(--indigo),
+      var(--blue), var(--cyan), var(--brtcyan));
+
+    --bg:    #0a0a12;
+    --panel: #12121f;
+    --ink:   #e8e8f4;
+    --dim:   #8a8aa6;
+    --rail:  #2a2a3e;
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(900px 500px at 8% -8%, color-mix(in srgb, var(--magenta) 16%, transparent), transparent 55%),
+      radial-gradient(900px 500px at 100% 108%, color-mix(in srgb, var(--cyan) 12%, transparent), transparent 55%),
+      radial-gradient(1200px 600px at 50% -10%, #1a1030 0%, transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font: 16px/1.7 ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    min-height: 100vh;
+    padding: 0 24px 64px;
+  }
+  /* Faint synthwave floor grid — fixed, faded near the top so reading stays calm. */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      repeating-linear-gradient(to right,  color-mix(in srgb, var(--cyan) 8%, transparent) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(to bottom, color-mix(in srgb, var(--magenta) 6%, transparent) 0 1px, transparent 1px 64px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 45%, #000 100%);
+            mask-image: linear-gradient(to bottom, transparent 45%, #000 100%);
+    opacity: .5;
+  }
+  /* Faint CRT scanlines — overlaid on top so the page sits "behind the glass". */
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none;
+    background:
+      repeating-linear-gradient(to bottom, rgba(0,0,0,.16) 0 1px, transparent 1px 4px),
+      repeating-linear-gradient(to bottom,
+        color-mix(in srgb, var(--cyan) 9%, transparent) 0 1px, transparent 1px 4px);
+    background-size: 100% 4px;
+  }
+  @media (min-resolution: 2dppx) {
+    body::after {
+      background:
+        repeating-linear-gradient(to bottom, rgba(0,0,0,.20) 0 1.5px, transparent 1.5px 5px),
+        repeating-linear-gradient(to bottom,
+          color-mix(in srgb, var(--cyan) 9%, transparent) 0 1.5px, transparent 1.5px 5px);
+      background-size: 100% 5px;
+    }
+  }
+
+  .wrap { max-width: 720px; margin: 0 auto; }
+
+  /* ── Up-link: the node points UP to its index (the hub). ── */
+  .uplink {
+    display: flex; align-items: center; gap: 10px;
+    padding: 26px 0 0; margin-bottom: 4rem;
+    font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .uplink a {
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    text-decoration: none; transition: color .18s;
+  }
+  .uplink a:hover, .uplink a:focus-visible { color: var(--cyan); outline: none; }
+  .uplink .home {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text;
+    color: transparent; font-weight: 800; letter-spacing: .06em;
+  }
+  .uplink .sep { color: var(--rail); }
+  .uplink .here { color: var(--dim); }
+
+  /* ── Title block ── */
+  .kicker {
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    letter-spacing: .28em; text-transform: uppercase; font-size: 11.5px;
+    margin: 0 0 18px;
+  }
+  .kicker::before { content: "[ "; color: var(--accent); }
+  .kicker::after  { content: " ]"; color: var(--accent); }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(36px, 7.5vw, 64px);
+    font-weight: 800; letter-spacing: .005em; line-height: 1.05;
+    background: var(--ramp);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter:
+      drop-shadow(-1.5px 0 0 color-mix(in srgb, var(--magenta) 55%, transparent))
+      drop-shadow( 1.5px 0 0 color-mix(in srgb, var(--cyan)    55%, transparent))
+      drop-shadow(0 0 16px color-mix(in srgb, var(--purple) 30%, transparent));
+  }
+  /* The law, stated once, large. */
+  .law {
+    margin: 40px 0 0; padding: 26px 28px;
+    border: 1px solid color-mix(in srgb, var(--purple) 30%, var(--rail));
+    border-left: 3px solid var(--magenta);
+    border-radius: 10px;
+    background:
+      linear-gradient(150deg, color-mix(in srgb, var(--magenta) 7%, transparent), transparent 50%),
+      var(--panel);
+    box-shadow: inset 0 0 60px -40px var(--magenta);
+    font-size: clamp(18px, 2.6vw, 23px); line-height: 1.5; font-weight: 700;
+    color: var(--ink);
+  }
+  .law strong { color: var(--cyan); }
+
+  /* ── Section headers — dim uppercase with a gradient rule (hub idiom). ── */
+  h2 {
+    width: 100%; margin: 5rem 0 1.4rem;
+    color: var(--dim); font-size: 13px; font-weight: 700;
+    letter-spacing: .26em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 14px;
+  }
+  h2 .n {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text;
+    color: transparent; font-weight: 800;
+  }
+  h2::after {
+    content: ""; flex: 1; height: 1px;
+    background: linear-gradient(90deg,
+      var(--magenta), color-mix(in srgb, var(--cyan) 50%, transparent), transparent);
+    opacity: .5;
+  }
+
+  p { color: color-mix(in srgb, var(--ink) 82%, var(--dim)); }
+  p strong { color: var(--ink); font-weight: 700; }
+  a.inline { color: var(--blue); text-decoration: none; border-bottom: 1px dotted color-mix(in srgb, var(--blue) 50%, transparent); }
+  a.inline:hover { color: var(--cyan); border-bottom-color: var(--cyan); }
+  code {
+    font-family: inherit; font-size: .92em;
+    color: var(--brtcyan);
+    background: color-mix(in srgb, var(--cyan) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--cyan) 22%, var(--rail));
+    border-radius: 5px; padding: 1px 6px;
+  }
+
+  /* ── The three properties — reuse the hub card, spine stepping the ramp. ── */
+  .props { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+  .prop {
+    position: relative; padding: 18px 18px 18px 22px; overflow: hidden;
+    background:
+      linear-gradient(150deg, color-mix(in srgb, var(--stop, var(--accent)) 7%, transparent), transparent 44%),
+      var(--panel);
+    border: 1px solid var(--rail); border-radius: 10px;
+  }
+  .prop::before {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 3px;
+    background: var(--stop, var(--accent)); opacity: .9;
+  }
+  .prop h3 {
+    margin: 0 0 8px; font-size: 15px; font-weight: 700; color: var(--ink);
+    display: flex; align-items: baseline; gap: 8px;
+  }
+  .prop h3 .i { color: var(--stop, var(--accent)); font-size: 12px; font-weight: 800; letter-spacing: .1em; }
+  .prop p { margin: 0; font-size: 13.5px; line-height: 1.55; color: color-mix(in srgb, var(--ink) 64%, var(--dim)); }
+
+  /* ── The mechanism — a code-ish block showing the self-naming index file. ── */
+  .tree {
+    margin: 4px 0 0; padding: 20px 22px;
+    background: #060608; border: 1px solid var(--rail); border-radius: 10px;
+    box-shadow: inset 0 0 50px -38px var(--cyan);
+    font-size: 13.5px; line-height: 1.85; color: color-mix(in srgb, var(--ink) 72%, var(--dim));
+    overflow-x: auto; white-space: pre;
+  }
+  .tree .self { color: var(--brtcyan); }
+  .tree .dir  { color: var(--purple); }
+  .tree .cmt  { color: color-mix(in srgb, var(--ink) 42%, var(--dim)); }
+
+  /* ── Instances — the node points DOWN to its children. ── */
+  .down { display: grid; gap: 12px; }
+  .down .item {
+    display: block; text-decoration: none; color: inherit;
+    padding: 14px 16px 14px 18px; position: relative; overflow: hidden;
+    background: var(--panel); border: 1px solid var(--rail); border-radius: 9px;
+    transition: border-color .18s, transform .18s, box-shadow .18s;
+  }
+  .down .item::before {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 3px;
+    background: var(--stop, var(--accent)); opacity: .85;
+  }
+  a.item:hover, a.item:focus-visible {
+    outline: none; transform: translateX(2px);
+    border-color: var(--stop, var(--accent));
+    box-shadow: 0 10px 26px -20px var(--stop, var(--accent));
+  }
+  .down .item b { color: var(--ink); font-weight: 700; }
+  .down .item .d { color: color-mix(in srgb, var(--ink) 60%, var(--dim)); font-size: 13px; }
+  .down .item .arw { float: right; color: var(--stop, var(--accent)); }
+
+  /* ── Lineage — the constituent ideas, as a clear list. ── */
+  .lineage { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 16px; }
+  .lineage li { position: relative; padding-left: 20px; }
+  .lineage li::before {
+    content: "▸"; position: absolute; left: 2px; top: 1px;
+    color: var(--cyan); font-size: 12px;
+  }
+  .lineage .src { color: var(--ink); font-weight: 700; }
+  .lineage .tag {
+    font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--cyan); margin-left: 8px;
+  }
+  .lineage .gloss {
+    display: block; margin-top: 3px;
+    color: color-mix(in srgb, var(--ink) 74%, var(--dim)); font-size: 14.5px;
+  }
+
+  /* ── The meta close — the page declares its own node-hood. ── */
+  .meta-close {
+    margin: 5rem 0 0; padding: 28px;
+    border: 1px solid color-mix(in srgb, var(--cyan) 26%, var(--rail));
+    border-radius: 12px; text-align: center;
+    background:
+      radial-gradient(600px 200px at 50% 0%, color-mix(in srgb, var(--magenta) 10%, transparent), transparent 70%),
+      var(--panel);
+  }
+  .meta-close p { margin: 0; color: var(--ink); font-size: 15.5px; line-height: 1.6; }
+  .meta-close .echo {
+    display: block; margin-top: 16px; font-weight: 800; letter-spacing: .04em;
+    font-size: clamp(16px, 2.4vw, 20px);
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  footer {
+    max-width: 720px; margin: 4.5rem auto 0; padding-top: 28px;
+    border-top: 1px solid var(--rail);
+    text-align: center; color: var(--dim); font-size: 12px;
+  }
+  footer .motto {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text; color: transparent;
+    letter-spacing: .18em; text-transform: uppercase; font-weight: 700;
+  }
+  footer a { color: var(--blue); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 560px) {
+    body { padding: 0 18px 48px; }
+    .uplink { margin-bottom: 2.5rem; letter-spacing: .12em; font-size: 11px; }
+    .law { padding: 20px; }
+    h2 { margin: 3rem 0 1.2rem; letter-spacing: .2em; }
+    .tree { font-size: 12px; padding: 16px; }
+    .meta-close { padding: 22px; }
+  }
+
+  /* ── Power-on load — content rises in; honors reduced-motion (§ degrade-off-TTY). ── */
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { opacity: 0; animation: rise .55s ease forwards; }
+    .rise:nth-child(1){animation-delay:.04s} .rise:nth-child(2){animation-delay:.10s}
+    .rise:nth-child(3){animation-delay:.16s} .rise:nth-child(4){animation-delay:.22s}
+    @keyframes rise { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform:none; } }
+    body::after { animation: crtflicker 6s steps(60) infinite; }
+    @keyframes crtflicker { 0%,96%,100%{opacity:1} 97%{opacity:.94} 98%{opacity:.995} }
+  }
+</style>
+</head>
+<body>
+
+  <!-- UP — the node points to its index. -->
+  <nav class="uplink">
+    <a class="home" href="/">Y3K Lab</a>
+    <span class="sep">/</span>
+    <span class="here">Fractal Self-Describing Nodes</span>
+  </nav>
+
+  <article class="wrap">
+
+    <header>
+      <p class="kicker rise">A structural law</p>
+      <h1 class="rise">Fractal Self-Describing Nodes</h1>
+      <p class="law rise"><strong>Every node describes itself</strong>, in a consistent
+        shape, <strong>at every altitude.</strong></p>
+    </header>
+
+    <h2 id="node"><span class="n">01</span> &nbsp;What a node is</h2>
+    <p>A <strong>node</strong> is any unit of organization — the whole portfolio, a
+      project, a sub-tool, a single catalog entry. The word is deliberate: a node is
+      inherently <em>part of a graph</em>. It is never just an item; it is a thing that
+      sits among other things and knows its place among them.</p>
+    <p>The law says that whatever the node, and whatever its size, it carries its own
+      identity in the same recognizable shape — and it does so all the way up and all
+      the way down.</p>
+
+    <h2 id="properties"><span class="n">02</span> &nbsp;Three properties</h2>
+    <div class="props">
+      <div class="prop" style="--stop: var(--magenta);">
+        <h3><span class="i">i</span> Self-describing</h3>
+        <p>Each node carries its own overview in a consistent, templated shape — the
+          portfolio's index, a project's overview, a tool's doc. The same
+          “describe&nbsp;yourself” move at every level.</p>
+      </div>
+      <div class="prop" style="--stop: var(--purple);">
+        <h3><span class="i">ii</span> Scale-invariant</h3>
+        <p>That move repeats at <em>every</em> altitude. Zoom in or out and you always
+          land on a node that explains itself. Self-similar, like a fractal — hence the
+          name.</p>
+      </div>
+      <div class="prop" style="--stop: var(--cyan);">
+        <h3><span class="i">iii</span> Whole <em>and</em> part</h3>
+        <p>Each node is self-contained <em>and</em> a member of the node above and an
+          index to the nodes below. It points <strong>up</strong> and
+          <strong>down</strong>, so navigation never dead-ends.</p>
+      </div>
+    </div>
+
+    <h2 id="mechanism"><span class="n">03</span> &nbsp;The mechanism</h2>
+    <p>The law isn't a metaphor — it's enforced by a single rule of construction: a
+      container's overview is <strong>named after the container</strong>, in the shape
+      that level uses. The same law, one level down, forever.</p>
+    <div class="tree"><span class="cmt"># a self-naming index file at every altitude</span>
+<span class="dir">portfolio/</span>
+├─ <span class="self">INDEX.md</span>            <span class="cmt">← the portfolio describes itself</span>
+└─ <span class="dir">project/</span>
+   ├─ <span class="self">project.md</span>       <span class="cmt">← the project describes itself</span>
+   └─ <span class="dir">tool/</span>
+      └─ <span class="self">tool.md</span>      <span class="cmt">← the tool describes itself</span></div>
+    <p style="margin-top:20px"><strong>Don't create a node that can't describe itself.</strong>
+      Any new container — a project, a sub-tool, a module, a grouping — gets a
+      self-named overview in its level's shape, pointing up to its index and down to
+      its children. That single discipline is the whole law, applied.</p>
+
+    <h2 id="why"><span class="n">04</span> &nbsp;Why it matters</h2>
+    <p>Why enforce this, instead of keeping a good index by hand? Because the law buys
+      properties a maintained map can't:</p>
+    <p><strong>The description can't drift from the thing.</strong> The overview lives
+      inside what it describes and is named after it, so the two move together — rename,
+      relocate, or delete a node and its description travels with it. There is no separate
+      map to forget to update, so there is no stale map.</p>
+    <p><strong>Navigation never dead-ends.</strong> Land at any altitude — a deep leaf, a
+      mid-level folder, the root — and you can always read where you are, step up to its
+      context, or step down into its parts. Wayfinding and handoff stop depending on a
+      guide who already knows the layout.</p>
+    <p><strong>It scales without a center.</strong> No master document has to know
+      everything; each node knows only itself and its neighbors. Add a thousand nodes and
+      nothing has to be rewired — the rule carries the structure, not a registry that
+      grows more brittle the larger it gets.</p>
+    <p><strong>It's traversable by machines, not just people.</strong> A predictable shape
+      at every altitude means a tool — or an AI agent — can walk the structure with no
+      bespoke instructions per level. Self-similarity is an API.</p>
+
+    <h2 id="example"><span class="n">05</span> &nbsp;A worked example</h2>
+    <p>Say you add a Traxxas Maxx to the <a class="inline" href="https://garage.y3krc.com"
+      target="_blank" rel="noopener noreferrer">Garage</a>. The law decides the shape
+      before you do:</p>
+    <div class="tree"><span class="dir">fleet/</span>
+├─ <span class="self">INDEX.md</span>             <span class="cmt">← lists every vehicle</span>
+└─ <span class="dir">traxxas-maxx/</span>        <span class="cmt">← the new node, named for the slug</span>
+   ├─ <span class="self">traxxas-maxx.md</span>   <span class="cmt">← names itself; describes the vehicle</span>
+   └─ hero.png            <span class="cmt">← a role-named asset</span></div>
+    <p style="margin-top:20px">The folder is named for the vehicle; inside it, a file
+      named for the folder describes it — the self-naming move. Navigation now works in
+      both directions <em>for free</em>: from the fleet index you step <strong>down</strong>
+      into the vehicle; from the vehicle you step <strong>up</strong> to the index and
+      across to its siblings. Nobody wired those links — the shape did.</p>
+    <p>Skip the rule and you get a folder of assets with no <code>traxxas-maxx.md</code>:
+      a node that can't describe itself. It might still be listed in <code>INDEX.md</code>
+      — but that listing is now hand-maintained, and the day it isn't, the index lies and
+      the folder is a dead-end. The law makes that failure impossible by construction.</p>
+
+    <h2 id="instances"><span class="n">06</span> &nbsp;Instances</h2>
+    <p>The law is already load-bearing across the lab — the node pointing <strong>down</strong>.
+      Each of these describes itself and indexes the nodes beneath it:</p>
+    <div class="down">
+      <div class="item" style="--stop: var(--magenta);">
+        <b>The self-identifying filesystem</b> &nbsp;
+        <span class="d">— a folder's overview is named after the folder, at every level. The Project System runs on this.</span>
+      </div>
+      <div class="item" style="--stop: var(--purple);">
+        <b>A folder-per-tool catalog</b> &nbsp;
+        <span class="d">— <code>stack/&lt;tool&gt;/&lt;tool&gt;.md</code>, each entry a self-describing node under a master index.</span>
+      </div>
+      <a class="item" href="https://garage.y3krc.com" target="_blank" rel="noopener noreferrer" style="--stop: var(--cyan);">
+        <span class="arw">→</span>
+        <b>The Y3K RC Garage</b> &nbsp;
+        <span class="d">— a fleet catalog where every vehicle is a node: <code>fleet/&lt;slug&gt;/&lt;slug&gt;.md</code> plus role-named assets.</span>
+      </a>
+      <div class="item" style="--stop: var(--blue);">
+        <b>An ecosystem map</b> &nbsp;
+        <span class="d">— a self-describing node for an entire multi-project ecosystem, indexing platforms, tools, and catalogs alike.</span>
+      </div>
+    </div>
+
+    <h2 id="lineage"><span class="n">07</span> &nbsp;Lineage</h2>
+    <p>This is a deliberate synthesis, not a coinage from nothing. What's genuinely new
+      is none of the pieces below but their <strong>fusion — and the insistence on
+      enforcing it</strong>: the synthesis becomes a rule of construction rather than a
+      description added after the fact — a self-naming index file at every altitude, so a
+      structure can never drift from the thing that explains it. The ideas it fuses:</p>
+    <ul class="lineage">
+      <li>
+        <span class="src">Holon &amp; holarchy</span><span class="tag">whole-and-part</span>
+        <span class="gloss">Koestler, 1967 — a thing that is simultaneously a whole and a
+          part. The closest single-named ancestor.</span>
+      </li>
+      <li>
+        <span class="src">The Composite pattern</span><span class="tag">in code</span>
+        <span class="gloss">Gang of Four — treat an individual object and a composition of
+          objects uniformly. The same idea, stated for software.</span>
+      </li>
+      <li>
+        <span class="src">HATEOAS · Zettelkasten · Maps of Content</span><span class="tag">up/down links</span>
+        <span class="gloss">Hypermedia that carries its own links; atomic notes, each
+          self-contained yet an index to others. The “never dead-ends” property.</span>
+      </li>
+      <li>
+        <span class="src">Self-similarity</span><span class="tag">fractal</span>
+        <span class="gloss">Mandelbrot — the part resembles the whole, at every scale.</span>
+      </li>
+    </ul>
+
+    <!-- The payoff: the page declares its own node-hood. -->
+    <div class="meta-close">
+      <p>This page is itself a fractal self-describing node. It names itself, it points
+        <strong>up</strong> to its index — <a class="inline" href="/">the Y3K&nbsp;Lab
+        hub</a> — and <strong>down</strong> to <a class="inline" href="#instances">its
+        instances</a>. It practices what it documents.</p>
+      <span class="echo">Every node is a fractal self.</span>
+    </div>
+
+  </article>
+
+  <footer>
+    <p class="motto">Certified Y3K Ready</p>
+    <p><a href="/">← Y3K Lab</a> · © 1970–3000 Y3K Lab · Shareware — copy it, share it, distribute freely on any BBS.</p>
+  </footer>
+
+</body>
+</html>
