@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Y3K">
+  <defs>
+    <!-- The synthwave ramp, magenta → cyan (IDENTITY §2). -->
+    <linearGradient id="ramp" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0"    stop-color="#ff5fff"/>
+      <stop offset=".22"  stop-color="#d75fd7"/>
+      <stop offset=".42"  stop-color="#af5fff"/>
+      <stop offset=".60"  stop-color="#875fff"/>
+      <stop offset=".78"  stop-color="#5fafff"/>
+      <stop offset=".92"  stop-color="#00d7ff"/>
+      <stop offset="1"    stop-color="#00ffff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Dark panel, double-line-frame nod (IDENTITY §4 wordmark box). -->
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#0a0a12"/>
+  <rect x="2.6" y="2.6" width="26.8" height="26.8" rx="5.4"
+        fill="none" stroke="url(#ramp)" stroke-opacity=".55" stroke-width="1.1"/>
+
+  <!-- The Y mark — bold, gradient-filled, legible at 16px (IDENTITY §4: arms
+       drop to a single stem). Short arms + a long centered stem so it reads as
+       a Y, not a chevron, when shrunk. -->
+  <path d="M9 9 L16 16.5 L23 9 M16 16 L16 24"
+        fill="none" stroke="url(#ramp)" stroke-width="3.6"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

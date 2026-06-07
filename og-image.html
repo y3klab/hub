@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!--
+  Y3K — social / OpenGraph share card. Body is EXACTLY 1200×630px.
+  Render to og-image.png with headless Chrome at 1200×630 (deviceScaleFactor 2
+  for a crisp 2400×1260 source is fine — the frame stays 1200×630). No deps.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Y3K Lab — share card</title>
+<style>
+  :root {
+    --magenta:#ff5fff; --rose:#ff5fd7; --pink:#d75fd7; --purple:#af5fff;
+    --indigo:#875fff;  --blue:#5fafff; --cyan:#00d7ff; --brtcyan:#00ffff;
+    --accent:#00afff;
+    --ramp: linear-gradient(100deg,
+      var(--magenta), var(--pink), var(--purple), var(--indigo),
+      var(--blue), var(--cyan), var(--brtcyan));
+    --bg:#0a0a12; --ink:#e8e8f4; --dim:#8a8aa6; --rail:#2a2a3e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    background:
+      radial-gradient(1100px 620px at 50% -18%, #1a1030 0%, transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font: 16px/1.5 ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* A faint synthwave grid floor for depth — recedes into the dark. */
+  .floor {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 230px;
+    background-image:
+      linear-gradient(to right,  color-mix(in srgb, var(--purple) 22%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--cyan)   22%, transparent) 1px, transparent 1px);
+    background-size: 64px 44px;
+    transform: perspective(420px) rotateX(62deg);
+    transform-origin: bottom center;
+    mask-image: linear-gradient(to top, #000 0%, transparent 92%);
+    -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 92%);
+    opacity: .5;
+  }
+
+  /* The ramp bar across the very top — the palette, the canonical asset. */
+  .topramp { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--ramp); }
+
+  .stage { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+
+  .mark {
+    position: relative;
+    border: 4px double color-mix(in srgb, var(--purple) 34%, var(--rail));
+    border-radius: 20px;
+    padding: 26px 72px;
+    background: rgba(255,255,255,.015);
+    box-shadow: 0 0 160px -34px var(--purple), inset 0 0 70px -40px var(--magenta);
+  }
+  /* Y3K Lab periodic element tile — corner of the wordmark, scaled for the card */
+  .el-tile {
+    position: absolute; top: -40px; right: -40px;
+    width: 128px; height: 144px;
+    display: grid; place-items: center; padding: 14px;
+    border: 2px solid color-mix(in srgb, var(--cyan) 45%, var(--rail));
+    border-radius: 18px;
+    background: #060608;
+    box-shadow: 0 0 44px -22px var(--cyan);
+  }
+  .el-num {
+    position: absolute; top: 14px; left: 16px;
+    font-size: 22px; font-weight: 700; line-height: 1; letter-spacing: .04em;
+    background: linear-gradient(100deg, var(--cyan), var(--blue), var(--indigo));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .el-sym {
+    font-size: 60px; font-weight: 800; line-height: 1; letter-spacing: -.01em;
+    color: var(--ink); transform: translateY(4px);
+    text-shadow: 0 0 22px color-mix(in srgb, var(--cyan) 35%, transparent);
+  }
+  h1 {
+    font-size: 232px;
+    font-weight: 800;
+    letter-spacing: .05em;
+    line-height: 1;
+    background: var(--ramp);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .tagline {
+    margin-top: 38px;
+    padding: 10px 30px;
+    border: 1px solid color-mix(in srgb, var(--accent) 38%, var(--rail));
+    border-radius: 999px;
+    color: var(--accent);
+    letter-spacing: .34em;
+    text-transform: uppercase;
+    font-size: 24px;
+  }
+
+  /* Bottom-left wordmark + bottom-right motto, like a brand sheet footer. */
+  .label {
+    position: absolute; bottom: 34px; z-index: 2;
+    font-size: 17px; letter-spacing: .26em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .label.left  { left: 44px; }
+  .label.right { right: 44px; }
+  .label .motto {
+    background: var(--ramp);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+  <div class="topramp"></div>
+  <div class="floor"></div>
+
+  <div class="stage">
+    <div class="mark"><h1>Y3K</h1><span class="el-tile"><span class="el-num">3000</span><span class="el-sym">Lab</span></span></div>
+    <div class="tagline">Built for the year 3000</div>
+  </div>
+
+  <div class="label left">Y3K Lab — Incubator</div>
+  <div class="label right"><span class="motto">certified Y3K-compliant</span></div>
+</body>
+</html>

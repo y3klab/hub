@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<!--
+  Y3K — brand hub. Self-contained, zero dependencies.
+  The vibe statement + a link directory to every surface that wears the brand.
+  Federated, not centralized: canonical palette values live in Phos4's y3k.sh;
+  this page is the front door, IDENTITY.md is the constitution behind it.
+
+  TODO: every surface href is "#" for now — nothing is published yet. Wire each
+  card's href as that surface ships (Phos4 public, blue-steel-claude-theme repo, …).
+  Spec → bindings tooling is deferred (flagged, not built).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Y3K Lab — Built for the year 3000</title>
+<meta name="description" content="Y3K Lab — a retro-futurist synthwave incubator. Every experiment speaks A3K, the Y3K design language, from a terminal to a race car.">
+
+<!-- Favicon: on-brand SVG mark, with a fallback. -->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="favicon.svg">
+<link rel="mask-icon" href="favicon.svg" color="#ff5fff">
+
+<!-- OpenGraph / Twitter share card -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Y3K Lab — Built for the year 3000">
+<meta property="og:description" content="Y3K Lab — a retro-futurist synthwave incubator. Every experiment speaks A3K, the Y3K design language, from a terminal to a race car.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Y3K Lab wordmark — gradient Y3K with a periodic-element Lab tile — over a dark synthwave field.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Y3K Lab — Built for the year 3000">
+<meta name="twitter:description" content="Y3K Lab — a retro-futurist synthwave incubator. Every experiment speaks A3K, the Y3K design language, from a terminal to a race car.">
+<meta name="twitter:image" content="og-image.png">
+<meta name="theme-color" content="#0a0a12">
+<style>
+  /* ── The palette: the one canonical shared asset (ANSI-256 → hex). ──
+     Look reference only; runtime-canonical values live in Phos4's y3k.sh. */
+  :root {
+    --magenta: #ff5fff;  /* 201 — warm end */
+    --rose:    #ff5fd7;  /* 207 — magenta-pink (from the animation ramp) */
+    --pink:    #d75fd7;  /* 171 */
+    --purple:  #af5fff;  /* 135 */
+    --indigo:  #875fff;  /*  99 */
+    --blue:    #5fafff;  /*  75 */
+    --cyan:    #00d7ff;  /*  45 */
+    --brtcyan: #00ffff;  /*  51 — cool end */
+    --accent:  #00afff;  /*  39 — the live cue */
+
+    --ramp: linear-gradient(100deg,
+      var(--magenta), var(--pink), var(--purple), var(--indigo),
+      var(--blue), var(--cyan), var(--brtcyan));
+
+    --bg:    #0a0a12;
+    --panel: #12121f;
+    --ink:   #e8e8f4;
+    --dim:   #8a8aa6;
+    --rail:  #2a2a3e;
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+  body {
+    margin: 0;
+    background:
+      /* warm corner (active/advances) + cool corner (dormant/recedes) — the
+         temperature map baked into the room. */
+      radial-gradient(900px 500px at 8% -8%, color-mix(in srgb, var(--magenta) 16%, transparent), transparent 55%),
+      radial-gradient(900px 500px at 100% 108%, color-mix(in srgb, var(--cyan) 12%, transparent), transparent 55%),
+      radial-gradient(1200px 600px at 50% -10%, #1a1030 0%, transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font: 16px/1.6 ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 7vh 24px 48px;
+  }
+  /* Faint synthwave floor grid — fixed layer, faded out before it reaches the cards. */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      repeating-linear-gradient(to right,  color-mix(in srgb, var(--cyan) 8%, transparent) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(to bottom, color-mix(in srgb, var(--magenta) 6%, transparent) 0 1px, transparent 1px 64px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 55%, #000 100%);
+            mask-image: linear-gradient(to bottom, transparent 55%, #000 100%);
+    opacity: .6;
+  }
+  /* Faint CRT scanlines — overlaid ON TOP of all content (z-index) so the whole UI
+     sits "behind the glass"; subtractive (darkening) lines preserve the glows; a
+     hairline cyan tint keeps it synthwave, not grey. Vignette omitted. */
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none;
+    background:
+      repeating-linear-gradient(to bottom, rgba(0,0,0,.16) 0 1px, transparent 1px 4px),
+      repeating-linear-gradient(to bottom,
+        color-mix(in srgb, var(--cyan) 9%, transparent) 0 1px, transparent 1px 4px);
+    background-size: 100% 4px;
+  }
+  /* High-DPI: 1px CSS repeats blur/moiré on Retina — snap the period to whole device px. */
+  @media (min-resolution: 2dppx) {
+    body::after {
+      background:
+        repeating-linear-gradient(to bottom, rgba(0,0,0,.20) 0 1.5px, transparent 1.5px 5px),
+        repeating-linear-gradient(to bottom,
+          color-mix(in srgb, var(--cyan) 9%, transparent) 0 1.5px, transparent 1.5px 5px);
+      background-size: 100% 5px;
+    }
+  }
+
+  /* ── Wordmark ── double-line box-drawing nod, gradient-filled. */
+  .mark {
+    position: relative;
+    border: 3px double color-mix(in srgb, var(--purple) 30%, var(--rail));
+    border-radius: 12px;
+    padding: 20px 44px;
+    background: rgba(255,255,255,.015);
+    box-shadow: 0 0 80px -24px var(--purple), inset 0 0 40px -30px var(--magenta);
+  }
+  /* Y3K Lab — periodic element cell straddling the top-right corner:
+     atomic number (Y3K) top-left, symbol (Lab) big-center. Kept deliberately spare. */
+  .el-tile {
+    position: absolute; top: -18px; right: -18px;
+    width: 57px; height: 64px;
+    display: grid; place-items: center; padding: 6px;
+    border: 1px solid color-mix(in srgb, var(--cyan) 45%, var(--rail));
+    border-radius: 8px;
+    background: #060608;                       /* clinical black */
+    box-shadow: 0 0 16px -12px var(--cyan);
+  }
+  /* atomic number: small gray overlay, top-left corner (periodic format) */
+  .el-num {
+    position: absolute; top: 6px; left: 7px;
+    font-size: 9.5px; font-weight: 700; line-height: 1; letter-spacing: .04em;
+    /* reversed sweep — cyan lands on the readable "3", zeros recede into indigo */
+    background: linear-gradient(100deg, var(--cyan), var(--blue), var(--indigo));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  /* element symbol: white, centered in the whole cell */
+  .el-sym {
+    font-size: 26px; font-weight: 800; line-height: 1; letter-spacing: -.01em;
+    color: var(--ink);
+    text-shadow: 0 0 10px color-mix(in srgb, var(--cyan) 35%, transparent);
+    /* optical-center nudge: "Lab" has no descenders + 3000 adds weight up top,
+       so geometric centering reads high; +2px drops it to true visual center. */
+    transform: translateY(2px);
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(56px, 16vw, 120px);
+    font-weight: 800;
+    letter-spacing: .06em;
+    line-height: 1;
+    background: var(--ramp);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* Phosphor bloom + chromatic fringe on the wordmark only — keeps card text crisp. */
+    filter:
+      drop-shadow(-2px 0 0 color-mix(in srgb, var(--magenta) 65%, transparent))
+      drop-shadow( 2px 0 0 color-mix(in srgb, var(--cyan)    65%, transparent))
+      drop-shadow(0 0 18px color-mix(in srgb, var(--purple) 35%, transparent));
+  }
+  .tagline {
+    margin: 16px 0 0;
+    align-self: center;
+    border: 0;
+    padding: 0;
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    font-size: 11.5px;
+  }
+  .tagline::before { content: "[ "; color: var(--accent); }
+  .tagline::after  { content: " ]"; color: var(--accent); }
+
+  /* ── Vibe statement ── */
+  .vibe {
+    max-width: 60ch;
+    text-align: center;
+    color: var(--ink);
+    margin: 40px 0 8px;
+  }
+  .vibe .w1 { color: var(--magenta); font-weight: 800; }
+  .vibe .w2 { color: var(--purple);  font-weight: 800; }
+  .vibe .w3 { color: var(--cyan);    font-weight: 800; }
+  .vibe strong { color: var(--ink); font-weight: 800; }
+
+  /* ── Surfaces directory ── */
+  .surfaces-label {
+    width: 100%;
+    max-width: 1040px;
+    margin: 48px 0 16px;
+    color: var(--dim);
+    font-size: 12px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .surfaces-label::after {
+    content: ""; flex: 1; height: 1px;
+    background: linear-gradient(90deg,
+      var(--magenta), color-mix(in srgb, var(--cyan) 50%, transparent), transparent);
+    opacity: .5;
+  }
+
+  /* A3K card spine — the full magenta→cyan ramp (it IS the whole palette), vs the
+     single-stop experiment cards. Otherwise a normal card, sitting last. */
+  .card.a3k::before {
+    background: linear-gradient(180deg, var(--magenta), var(--pink), var(--purple),
+      var(--indigo), var(--blue), var(--cyan), var(--brtcyan));
+    opacity: 1;
+  }
+
+  .grid {
+    width: 100%;
+    max-width: 1040px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  /* Each card's top rail steps along the ramp — the gradient field, applied. */
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    background:
+      linear-gradient(150deg,
+        color-mix(in srgb, var(--stop, var(--accent)) 6%, transparent),
+        transparent 42%),
+      var(--panel);
+    border: 1px solid var(--rail);
+    border-radius: 10px;
+    padding: 18px 18px 16px 20px;
+    overflow: hidden;
+    transition: border-color .18s, transform .18s, box-shadow .18s;
+  }
+  /* Left spine steps along the ramp — the gradient field, read as a column. */
+  .card::before {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 3px;
+    background: var(--stop, var(--accent));
+    opacity: .9;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--stop, var(--accent));
+    box-shadow: 0 12px 30px -18px var(--stop, var(--accent));
+  }
+  .card:hover::before { opacity: 1; width: 4px; }
+  .card:hover p { color: var(--ink); }
+  /* Keyboard parity with hover, plus a visible ring in the card's own --stop. */
+  .card:focus-visible {
+    outline: none;
+    transform: translateY(-3px);
+    border-color: var(--stop, var(--accent));
+    box-shadow:
+      0 0 0 2px var(--bg),
+      0 0 0 4px var(--stop, var(--accent)),
+      0 12px 30px -18px var(--stop, var(--accent));
+  }
+  .card:focus-visible::before { opacity: 1; width: 4px; }
+  .card h3 {
+    margin: 2px 0 7px;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: .01em;
+    color: var(--ink);
+  }
+  .card h3 .sub {
+    color: color-mix(in srgb, var(--stop, var(--accent)) 72%, var(--dim));
+    font-weight: 500;
+    font-size: .82em;
+  }
+  .card p {
+    margin: 0; font-size: 13.5px; line-height: 1.55;
+    color: color-mix(in srgb, var(--ink) 60%, var(--dim));
+  }
+  .card .meta {
+    margin-top: auto;
+    padding-top: 12px;
+    display: flex; align-items: center; justify-content: flex-end;
+    font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  }
+  /* `soon` = a single calm cyan dormant stamp (temperature map: dormant = cool),
+     decoupled from the per-card --stop so it doesn't compete with the spine. */
+  .soon {
+    color: color-mix(in srgb, var(--accent) 70%, var(--dim));
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--rail));
+    border-radius: 999px;
+    padding: 2px 9px;
+    background: color-mix(in srgb, var(--accent) 7%, transparent);
+  }
+  /* Not-yet-live cards: signal honestly until their href is wired. */
+  .card[href="#"] { cursor: not-allowed; }
+  .card[href="#"]:active { transform: translateY(-3px); }
+  .card.central {
+    border-color: color-mix(in srgb, var(--magenta) 45%, var(--rail));
+    box-shadow: 0 0 40px -28px var(--magenta);
+  }
+  .card.central::before { opacity: 1; width: 4px; }
+
+  footer {
+    margin-top: 56px;
+    text-align: center;
+    color: var(--dim);
+    font-size: 12px;
+    max-width: 60ch;
+  }
+  footer .motto {
+    background: var(--ramp);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    letter-spacing: .18em; text-transform: uppercase; font-weight: 700;
+  }
+  footer a { color: var(--blue); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 560px) {
+    .grid { grid-template-columns: 1fr; }
+    body { padding: 5vh 20px 40px; }
+    .mark { padding: 16px 26px; border-radius: 10px; }
+    h1 { font-size: clamp(64px, 19vw, 120px); }
+    .vibe { max-width: 36ch; margin: 32px 0 8px; font-size: 15px; }
+    .surfaces-label { margin: 32px 0 14px; letter-spacing: .2em; }
+    .card { padding: 20px 18px 18px 22px; }
+    .el-tile { width: 50px; height: 56px; top: -15px; right: -15px; }
+    .el-num { font-size: 8.5px; top: 5px; left: 6px; }
+    .el-sym { font-size: 22px; transform: translateY(1.5px); }
+  }
+  @media (hover: none) {
+    .card:hover, .card:active { transform: none; }
+  }
+
+  /* ── Power-on load ──
+     The wordmark and tagline render statically; the vibe statement flickers on
+     like a neon sign powering up; the surface cards cascade in. Opt-in via
+     prefers-reduced-motion — the web analogue of §7's "degrade off-TTY". */
+  @media (prefers-reduced-motion: no-preference) {
+    .card { opacity: 0; animation: poweron .5s ease forwards; }
+    .card:nth-child(1){animation-delay:.05s} .card:nth-child(2){animation-delay:.10s}
+    .card:nth-child(3){animation-delay:.15s} .card:nth-child(4){animation-delay:.20s}
+    .card:nth-child(5){animation-delay:.25s} .card:nth-child(6){animation-delay:.30s}
+    .card:nth-child(7){animation-delay:.35s} .card:nth-child(8){animation-delay:.40s} .card:nth-child(9){animation-delay:.45s}
+    @keyframes poweron { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: none; } }
+
+    /* CRT idle flicker — one barely-perceptible dip per ~6s loop. */
+    body::after { animation: crtflicker 6s steps(60) infinite; }
+    @keyframes crtflicker {
+      0%, 96%, 100% { opacity: 1; }
+      97%           { opacity: .94; }
+      98%           { opacity: .995; }
+    }
+
+    /* Vibe statement — neon power-on (.boot, once on load) + occasional VARIED
+       re-flickers (.fk1/.fk2/.fk3, fired by JS at randomized intervals so it never
+       reads as a fixed loop). JS also gates on reduced-motion + tab visibility. */
+    .vibe.boot { animation: vibe-boot 1.2s ease .15s both; }
+    .vibe.fk1  { animation: vibe-fk1 .2s ease both; }   /* short single stutter */
+    .vibe.fk2  { animation: vibe-fk2 .3s ease both; }   /* quick double */
+    @keyframes vibe-boot {
+      0%{opacity:0} 8%{opacity:1} 10%{opacity:.25} 14%{opacity:1}
+      17%{opacity:.45} 20%{opacity:1} 24%{opacity:.7} 27%{opacity:1} 100%{opacity:1}
+    }
+    @keyframes vibe-fk1 { 0%{opacity:1} 35%{opacity:.35} 60%{opacity:1} 100%{opacity:1} }
+    @keyframes vibe-fk2 { 0%{opacity:1} 14%{opacity:.4} 26%{opacity:1} 42%{opacity:.4} 56%{opacity:1} 100%{opacity:1} }
+  }
+</style>
+</head>
+<body>
+
+  <div class="mark"><h1>Y3K</h1>
+    <span class="el-tile"><span class="el-num">3000</span><span class="el-sym">Lab</span></span>
+  </div>
+  <p class="tagline">Built for the year 3000</p>
+
+  <p class="vibe">Y3K Lab is a personal incubator for retro-futurist experiments: a
+    workshop where <span class="w1">software</span>, <span class="w2">hardware</span>,
+    and <span class="w3">ideas</span> are <strong>made real</strong>.</p>
+
+  <div class="surfaces-label">Experiments</div>
+
+  <div class="grid">
+
+    <!-- TODO href: Phos4 (not yet public) -->
+    <a class="card central" href="#" style="--stop: var(--magenta);">
+      <h3>Phos<span style="color: var(--pink)">4</span> <span class="sub">| Terminal-UI Engine</span></h3>
+      <p>The pure-bash, themeable terminal-UI engine that renders Y3K — and owns the
+         canonical machine-readable palette values. The most central component.</p>
+      <div class="meta"><span class="soon">soon</span></div>
+    </a>
+
+    <!-- TODO href: github.com/…/blue-steel-claude-theme (repo not yet live) -->
+    <a class="card" href="#" style="--stop: var(--rose);">
+      <h3>Blue Steel <span class="sub">| Claude Theme</span></h3>
+      <p>A really, really, ridiculously good-looking theme (a Zoolander homage) —
+         the Y3K palette as ANSI-256/hex token overrides on Claude Code’s
+         <code>dark</code> base.</p>
+      <div class="meta"><span class="soon">soon</span></div>
+    </a>
+
+    <!-- TODO href: project-system -->
+    <a class="card" href="#" style="--stop: var(--pink);">
+      <h3>Project System <span class="sub">| Dashboard</span></h3>
+      <p>Wears the brand in its dashboard UI — the original surface the Y3K look
+         grew up in.</p>
+      <div class="meta"><span class="soon">soon</span></div>
+    </a>
+
+    <!-- TODO href: dotfiles (includes the Ghostty terminal config) -->
+    <a class="card" href="#" style="--stop: var(--purple);">
+      <h3>[dot]files <span class="sub">| Shell &amp; Terminal</span></h3>
+      <p>Shell, terminal (Ghostty), and tool configs — the palette carried across
+         the everyday environment.</p>
+      <div class="meta"><span class="soon">soon</span></div>
+    </a>
+
+    <!-- TODO href: ABP (site/repo TBD) -->
+    <a class="card" href="#" style="--stop: var(--indigo);">
+      <h3>ABP 3D <span class="sub">| Always Be Printing</span></h3>
+      <p>The 3D-print crew — filament-fed prototypes, parts, and one-off props,
+         stamped with the Y3K look.</p>
+      <div class="meta"><span class="soon">soon</span></div>
+    </a>
+
+    <!-- TODO href: Y3K Home -->
+    <a class="card" href="#" style="--stop: var(--blue);">
+      <h3>Y3K Home <span class="sub">| Homelab of the Future</span></h3>
+      <p>Home Assistant, personal infrastructure, and the admin/finances stack —
+         a household running on Y3K.</p>
+      <div class="meta"><span class="soon">soon</span></div>
+    </a>
+
+    <!-- TODO href: Y3K RC -->
+    <a class="card" href="#" style="--stop: var(--cyan);">
+      <h3>Y3K RC <span class="sub">| Build · Race · Bash · Crawl</span></h3>
+      <p>The RC car club — building, racing, bashing, and crawling (scale 4×4
+         off-roading) RC cars and trucks, all in Y3K livery.</p>
+      <div class="meta"><span class="soon">soon</span></div>
+    </a>
+
+    <!-- TODO href: Tuesday Drockets -->
+    <a class="card" href="#" style="--stop: var(--brtcyan);">
+      <h3>Tuesday Drockets <span class="sub">| Model Rocket Squad</span></h3>
+      <p>The model rocket squad — building and launching, with a name that riffs on
+         “two-stage rockets.” In Y3K livery.</p>
+      <div class="meta"><span class="soon">soon</span></div>
+    </a>
+
+    <!-- A3K — the design language; links to the live spec -->
+    <a class="card a3k" href="IDENTITY.md" style="--stop: var(--accent);">
+      <h3>A3K <span class="sub">| Design Language</span></h3>
+      <p>The synthwave look every experiment here speaks — neon magenta→cyan
+         gradients, double-line wordmarks, power-on motion.</p>
+      <div class="meta"><span class="soon">read the spec →</span></div>
+    </a>
+
+  </div>
+
+  <footer>
+    <p class="motto">certified Y3K-compliant</p>
+    <p>The palette is the through-line, not a monorepo — each surface stays separate
+       and portable. Canonical values live in Phos4; the full constitution is in
+       <a href="IDENTITY.md">IDENTITY.md</a>.</p>
+  </footer>
+
+  <script>
+    // Placeholder cards (href="#") don't navigate yet — prevent the jump-to-top
+    // on click/Enter. Retires automatically once real hrefs are wired.
+    for (const a of document.querySelectorAll('.card[href="#"]'))
+      a.addEventListener('click', e => e.preventDefault());
+
+    // Vibe statement: neon power-on on load, then occasional VARIED re-flickers —
+    // randomized interval + flicker pattern, so it never reads as a fixed loop.
+    // Respects reduced-motion; pauses while the tab is hidden.
+    (function () {
+      const vibe = document.querySelector('.vibe');
+      if (!vibe || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const FLK = ['fk1', 'fk2'];
+      const strip = () => vibe.classList.remove('boot', 'fk1', 'fk2');
+      vibe.addEventListener('animationend', strip);
+      vibe.classList.add('boot');                          // initial power-on
+      (function loop() {
+        setTimeout(function () {
+          if (!document.hidden) {
+            strip(); void vibe.offsetWidth;                // restart cleanly
+            vibe.classList.add(FLK[(Math.random() * FLK.length) | 0]);
+          }
+          loop();                                          // re-randomize each cycle
+        }, 8000 + Math.random() * 8000);                   // ~8–16s between flickers
+      })();
+    })();
+  </script>
+
+</body>
+</html>
