@@ -291,6 +291,22 @@
     padding: 2px 9px;
     background: color-mix(in srgb, var(--accent) 7%, transparent);
   }
+  /* `play` = the warm, live counterpart to the cool `soon` stamp (temperature map:
+     active = warm). A shipped surface; the arrow is the external-link affordance. */
+  .play {
+    color: color-mix(in srgb, var(--magenta) 78%, var(--ink));
+    border: 1px solid color-mix(in srgb, var(--magenta) 42%, var(--rail));
+    border-radius: 999px;
+    padding: 2px 9px;
+    background: color-mix(in srgb, var(--magenta) 12%, transparent);
+    text-shadow: 0 0 10px color-mix(in srgb, var(--magenta) 35%, transparent);
+  }
+  .play .arw { transition: transform .18s; display: inline-block; }
+  .card.live:hover .play .arw,
+  .card.live:focus-visible .play .arw { transform: translate(2px, -2px); }
+  /* Live cards: a real, warm, navigable surface — active pointer + a faint warm lift. */
+  .card.live { cursor: pointer; }
+  .card.live:hover { box-shadow: 0 12px 30px -18px color-mix(in srgb, var(--stop, var(--accent)) 60%, var(--magenta)); }
   /* Not-yet-live cards: signal honestly until their href is wired. */
   .card[href="#"] { cursor: not-allowed; }
   .card[href="#"]:active { transform: translateY(-3px); }
@@ -342,6 +358,7 @@
     .card:nth-child(3){animation-delay:.15s} .card:nth-child(4){animation-delay:.20s}
     .card:nth-child(5){animation-delay:.25s} .card:nth-child(6){animation-delay:.30s}
     .card:nth-child(7){animation-delay:.35s} .card:nth-child(8){animation-delay:.40s} .card:nth-child(9){animation-delay:.45s}
+    .card:nth-child(10){animation-delay:.50s}
     @keyframes poweron { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: none; } }
 
     /* CRT idle flicker — one barely-perceptible dip per ~6s loop. */
@@ -437,6 +454,14 @@
       <p>The RC car club — building, racing, bashing, and crawling (scale 4×4
          off-roading) RC cars and trucks, all in Y3K livery.</p>
       <div class="meta"><span class="soon">soon</span></div>
+    </a>
+
+    <a class="card live" href="https://bolo2k.com" target="_blank" rel="noopener noreferrer" style="--stop: #00ebff;">
+      <h3>Bolo2K <span class="sub">| Networked Tank Game</span></h3>
+      <p>A fan-made browser revival of Stuart Cheshire’s cult 90s multiplayer tank
+         game — capture refuelling bases, build pillboxes and fortresses, form
+         alliances, hold the island.</p>
+      <div class="meta"><span class="play">play <span class="arw">→</span></span></div>
     </a>
 
     <!-- TODO href: Tuesday Drockets -->
