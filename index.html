@@ -137,9 +137,9 @@
     font-size: 26px; font-weight: 800; line-height: 1; letter-spacing: -.01em;
     color: var(--ink);
     text-shadow: 0 0 10px color-mix(in srgb, var(--cyan) 35%, transparent);
-    /* optical-center nudge: "Lab" has no descenders + 3000 adds weight up top,
-       so geometric centering reads high; +2px drops it to true visual center. */
-    transform: translateY(2px);
+    /* optical-center nudge: "Lab" reads high and the "3000" up top adds weight
+       there — so cheat the symbol down to feel centered. */
+    transform: translateY(4px);
   }
   h1 {
     margin: 0;
@@ -342,7 +342,7 @@
     .card { padding: 20px 18px 18px 22px; }
     .el-tile { width: 50px; height: 56px; top: -15px; right: -15px; }
     .el-num { font-size: 8.5px; top: 5px; left: 6px; }
-    .el-sym { font-size: 22px; transform: translateY(1.5px); }
+    .el-sym { font-size: 22px; transform: translateY(3px); }
   }
   @media (hover: none) {
     .card:hover, .card:active { transform: none; }
