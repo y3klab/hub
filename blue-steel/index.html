@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<!--
+  Blue Steel — a Y3K Lab experiment page: a theme + status bar for Claude Code.
+  A self-contained, zero-dependency page built in the same hand as the hub
+  (../index.html): same palette, floor grid, CRT scanlines, power-on motion.
+  The downloadable kit (blue-steel-kit.zip) sits beside this file.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blue Steel — a theme + status bar for Claude Code | Y3K Lab</title>
+<meta name="description" content="A really, really, ridiculously good-looking terminal. Blue Steel is a free theme + live status bar for Claude Code: neon gradient project name, context and rate-limit gauges, and a dark steel look.">
+<link rel="canonical" href="https://y3klab.com/blue-steel/">
+
+<!-- Favicon + share assets live at the site root; we're one level deep. -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="/favicon.svg">
+<link rel="mask-icon" href="/favicon.svg" color="#ff5fff">
+
+<!-- OpenGraph / Twitter — reuses the Lab share card until a bespoke one ships. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Blue Steel — a theme + status bar for Claude Code">
+<meta property="og:description" content="A really, really, ridiculously good-looking terminal. A free theme + live status bar for Claude Code, from Y3K Lab.">
+<meta property="og:url" content="https://y3klab.com/blue-steel/">
+<meta property="og:image" content="https://y3klab.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Blue Steel — a theme + status bar for Claude Code">
+<meta name="twitter:description" content="A really, really, ridiculously good-looking terminal. A free theme + live status bar for Claude Code, from Y3K Lab.">
+<meta name="twitter:image" content="https://y3klab.com/og-image.png">
+<meta name="theme-color" content="#0a0a12">
+<style>
+  /* ── The palette: the one canonical shared asset (ANSI-256 → hex). ──
+     Mirrors ../index.html. */
+  :root {
+    --magenta: #ff5fff;  /* 201 — warm end */
+    --rose:    #ff5fd7;  /* 207 */
+    --pink:    #d75fd7;  /* 171 */
+    --purple:  #af5fff;  /* 135 */
+    --indigo:  #875fff;  /*  99 */
+    --blue:    #5fafff;  /*  75 */
+    --cyan:    #00d7ff;  /*  45 */
+    --brtcyan: #00ffff;  /*  51 — cool end */
+    --accent:  #00afff;  /*  39 — the live cue */
+
+    --ramp: linear-gradient(100deg,
+      var(--magenta), var(--pink), var(--purple), var(--indigo),
+      var(--blue), var(--cyan), var(--brtcyan));
+
+    --bg:    #0a0a12;
+    --panel: #12121f;
+    --ink:   #e8e8f4;
+    --dim:   #8a8aa6;
+    --rail:  #2a2a3e;
+
+    /* status-gauge greens/ambers/reds (ANSI 42 / 220 / 203) */
+    --ok:    #00d787;
+    --warn:  #ffd700;
+    --hot:   #ff5f5f;
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(900px 500px at 8% -8%, color-mix(in srgb, var(--magenta) 16%, transparent), transparent 55%),
+      radial-gradient(900px 500px at 100% 108%, color-mix(in srgb, var(--cyan) 12%, transparent), transparent 55%),
+      radial-gradient(1200px 600px at 50% -10%, #1a1030 0%, transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font: 16px/1.7 ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    min-height: 100vh;
+    padding: 0 24px 64px;
+  }
+  /* Faint synthwave floor grid — fixed, faded near the top so reading stays calm. */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      repeating-linear-gradient(to right,  color-mix(in srgb, var(--cyan) 8%, transparent) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(to bottom, color-mix(in srgb, var(--magenta) 6%, transparent) 0 1px, transparent 1px 64px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 45%, #000 100%);
+            mask-image: linear-gradient(to bottom, transparent 45%, #000 100%);
+    opacity: .5;
+  }
+  /* Faint CRT scanlines — overlaid on top so the page sits "behind the glass". */
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none;
+    background:
+      repeating-linear-gradient(to bottom, rgba(0,0,0,.16) 0 1px, transparent 1px 4px),
+      repeating-linear-gradient(to bottom,
+        color-mix(in srgb, var(--cyan) 9%, transparent) 0 1px, transparent 1px 4px);
+    background-size: 100% 4px;
+  }
+  @media (min-resolution: 2dppx) {
+    body::after {
+      background:
+        repeating-linear-gradient(to bottom, rgba(0,0,0,.20) 0 1.5px, transparent 1.5px 5px),
+        repeating-linear-gradient(to bottom,
+          color-mix(in srgb, var(--cyan) 9%, transparent) 0 1.5px, transparent 1.5px 5px);
+      background-size: 100% 5px;
+    }
+  }
+
+  .wrap { max-width: 720px; margin: 0 auto; }
+
+  /* ── Up-link: the page points UP to its index (the hub). ── */
+  .uplink {
+    display: flex; align-items: center; gap: 10px;
+    padding: 26px 0 0; margin-bottom: 4rem;
+    font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .uplink a {
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    text-decoration: none; transition: color .18s;
+  }
+  .uplink a:hover, .uplink a:focus-visible { color: var(--cyan); outline: none; }
+  .uplink .home {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text;
+    color: transparent; font-weight: 800; letter-spacing: .06em;
+  }
+  .uplink .sep { color: var(--rail); }
+  .uplink .here { color: var(--dim); }
+
+  /* ── Title block ── */
+  .kicker {
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    letter-spacing: .28em; text-transform: uppercase; font-size: 11.5px;
+    margin: 0 0 18px;
+  }
+  .kicker::before { content: "[ "; color: var(--accent); }
+  .kicker::after  { content: " ]"; color: var(--accent); }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(40px, 9vw, 72px);
+    font-weight: 800; letter-spacing: .005em; line-height: 1.05;
+    background: var(--ramp);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter:
+      drop-shadow(-1.5px 0 0 color-mix(in srgb, var(--magenta) 55%, transparent))
+      drop-shadow( 1.5px 0 0 color-mix(in srgb, var(--cyan)    55%, transparent))
+      drop-shadow(0 0 16px color-mix(in srgb, var(--purple) 30%, transparent));
+  }
+  /* The pitch, stated once, large. */
+  .law {
+    margin: 40px 0 0; padding: 26px 28px;
+    border: 1px solid color-mix(in srgb, var(--purple) 30%, var(--rail));
+    border-left: 3px solid var(--magenta);
+    border-radius: 10px;
+    background:
+      linear-gradient(150deg, color-mix(in srgb, var(--magenta) 7%, transparent), transparent 50%),
+      var(--panel);
+    box-shadow: inset 0 0 60px -40px var(--magenta);
+    font-size: clamp(17px, 2.5vw, 21px); line-height: 1.5; font-weight: 700;
+    color: var(--ink);
+  }
+  .law strong { color: var(--cyan); }
+
+  /* ── Section headers — dim uppercase with a gradient rule (hub idiom). ── */
+  h2 {
+    width: 100%; margin: 5rem 0 1.4rem;
+    color: var(--dim); font-size: 13px; font-weight: 700;
+    letter-spacing: .26em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 14px;
+  }
+  h2 .n {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text;
+    color: transparent; font-weight: 800;
+  }
+  h2::after {
+    content: ""; flex: 1; height: 1px;
+    background: linear-gradient(90deg,
+      var(--magenta), color-mix(in srgb, var(--cyan) 50%, transparent), transparent);
+    opacity: .5;
+  }
+
+  /* Sub-headings inside a numbered section — quieter than h2: no rule, a cyan tick. */
+  h3.sub {
+    margin: 2.6rem 0 1rem;
+    color: color-mix(in srgb, var(--ink) 80%, var(--dim));
+    font-size: 12.5px; font-weight: 700;
+    letter-spacing: .2em; text-transform: uppercase;
+  }
+  h3.sub::before { content: "▸ "; color: var(--accent); }
+
+  p { color: color-mix(in srgb, var(--ink) 82%, var(--dim)); }
+  p strong { color: var(--ink); font-weight: 700; }
+  a.inline { color: var(--blue); text-decoration: none; border-bottom: 1px dotted color-mix(in srgb, var(--blue) 50%, transparent); }
+  a.inline:hover { color: var(--cyan); border-bottom-color: var(--cyan); }
+  code {
+    font-family: inherit; font-size: .92em;
+    color: var(--brtcyan);
+    background: color-mix(in srgb, var(--cyan) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--cyan) 22%, var(--rail));
+    border-radius: 5px; padding: 1px 6px;
+  }
+
+  /* ── The status bar, demoed live in CSS — a terminal window chrome. ── */
+  .term {
+    margin: 28px 0 0;
+    background: #060608; border: 1px solid var(--rail); border-radius: 10px;
+    box-shadow: inset 0 0 50px -38px var(--cyan), 0 0 60px -30px var(--purple);
+    overflow: hidden;
+  }
+  .term .bar {
+    display: flex; gap: 6px; padding: 10px 12px;
+    border-bottom: 1px solid var(--rail);
+  }
+  .term .bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--rail); }
+  .term .screen {
+    padding: 18px 18px 14px;
+    font-size: 12.5px; line-height: 1.9; overflow-x: auto; white-space: pre;
+  }
+  /* The demo sheds gauges on narrow screens in the same order the real bar's
+     width guard does: session first, then the model, then the 7-day limit. */
+  @media (max-width: 820px) { .term .gd { display: none; } }
+  @media (max-width: 700px) { .term .gm { display: none; } }
+  @media (max-width: 600px) { .term .g7 { display: none; } }
+  .term .ghost { color: color-mix(in srgb, var(--ink) 30%, transparent); }
+  .term .status { display: block; margin-top: 10px; }
+  .b-l { color: var(--magenta); font-weight: 800; }
+  .b-r { color: var(--brtcyan); font-weight: 800; }
+  .name {
+    font-weight: 800;
+    background: var(--ramp);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .sep2  { color: #3a3a4e; }
+  .lbl   { color: var(--dim); }
+  .ok    { color: var(--ok); }
+  .wrn   { color: var(--warn); }
+  .hot   { color: var(--hot); }
+  .val   { color: color-mix(in srgb, var(--ink) 55%, var(--dim)); }
+
+  /* ── What-you-get cards — the hub card idiom, spine stepping the ramp. ── */
+  .props { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+  .prop {
+    position: relative; padding: 18px 18px 18px 22px; overflow: hidden;
+    background:
+      linear-gradient(150deg, color-mix(in srgb, var(--stop, var(--accent)) 7%, transparent), transparent 44%),
+      var(--panel);
+    border: 1px solid var(--rail); border-radius: 10px;
+  }
+  .prop::before {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 3px;
+    background: var(--stop, var(--accent)); opacity: .9;
+  }
+  .prop h3 {
+    margin: 0 0 8px; font-size: 15px; font-weight: 700; color: var(--ink);
+    display: flex; align-items: baseline; gap: 8px;
+  }
+  .prop h3 .i { color: var(--stop, var(--accent)); font-size: 12px; font-weight: 800; letter-spacing: .1em; }
+  .prop p { margin: 0; font-size: 13.5px; line-height: 1.55; color: color-mix(in srgb, var(--ink) 64%, var(--dim)); }
+
+  .tree {
+    margin: 0; padding: 16px 20px;
+    background: #060608; border: 1px solid var(--rail); border-radius: 10px;
+    box-shadow: inset 0 0 50px -38px var(--cyan);
+    font-size: 13px; line-height: 1.8; color: color-mix(in srgb, var(--ink) 78%, var(--dim));
+    overflow-x: auto; white-space: pre;
+  }
+  .tree .cmt { color: color-mix(in srgb, var(--ink) 42%, var(--dim)); }
+  .tree .k   { color: var(--purple); }
+  .tree .s   { color: var(--brtcyan); }
+
+  footer {
+    max-width: 720px; margin: 4.5rem auto 0; padding-top: 28px;
+    border-top: 1px solid var(--rail);
+    text-align: center; color: var(--dim); font-size: 12px;
+  }
+  footer .motto {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text; color: transparent;
+    letter-spacing: .18em; text-transform: uppercase; font-weight: 700;
+  }
+  footer a { color: var(--blue); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 560px) {
+    body { padding: 0 18px 48px; }
+    .uplink { margin-bottom: 2.5rem; letter-spacing: .12em; font-size: 11px; }
+    .law { padding: 20px; }
+    h2 { margin: 3rem 0 1.2rem; letter-spacing: .2em; }
+    .term .screen { font-size: 12px; }
+    .tree { font-size: 12px; padding: 14px; }
+    .steps > li { padding-left: 36px; }
+  }
+
+  /* ── Power-on load — content rises in; honors reduced-motion. ── */
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { opacity: 0; animation: rise .55s ease forwards; }
+    .rise:nth-child(1){animation-delay:.04s} .rise:nth-child(2){animation-delay:.10s}
+    .rise:nth-child(3){animation-delay:.16s} .rise:nth-child(4){animation-delay:.22s}
+    @keyframes rise { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform:none; } }
+    body::after { animation: crtflicker 6s steps(60) infinite; }
+    @keyframes crtflicker { 0%,96%,100%{opacity:1} 97%{opacity:.94} 98%{opacity:.995} }
+  }
+</style>
+</head>
+<body>
+
+  <!-- UP — the page points to its index. -->
+  <nav class="uplink">
+    <a class="home" href="/">Y3K Lab</a>
+    <span class="sep">/</span>
+    <span class="here">Blue Steel</span>
+  </nav>
+
+  <article class="wrap">
+
+    <header>
+      <p class="kicker rise">A Claude Code theme + status bar</p>
+      <h1 class="rise">Blue Steel</h1>
+      <p class="law rise">A really, really, <strong>ridiculously good-looking</strong>
+        terminal. A free theme + live status bar for
+        <strong>Claude&nbsp;Code</strong> — two small files, one minute to install,
+        instantly reversible.</p>
+    </header>
+
+    <h2 id="what"><span class="n">01</span> &nbsp;What you get</h2>
+    <p>The status bar pins to the bottom of your terminal and answers the question
+      every multi-window session asks — <strong>“which project is this?”</strong> —
+      with your project name swept in the synthwave magenta→cyan gradient of A3K,
+      the Y3K&nbsp;Lab design language, followed by live gauges:</p>
+    <div class="term">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <div class="screen"><span class="ghost">❯ claude</span>
+<span class="status"><span class="b-l">[</span> <span class="name">your-project</span> <span class="b-r">]</span>  <span class="lbl">context</span> <span class="ok">▄42%</span> <span class="sep2">|</span> <span class="lbl">5h limit</span> <span class="hot">85%</span> <span class="g7"><span class="sep2">|</span> <span class="lbl">7d limit</span> <span class="wrn">60%</span> </span><span class="gd"><span class="sep2">|</span> <span class="lbl">session</span> <span class="val">4h20m</span> </span><span class="gm"><span class="sep2">|</span> <span class="val">Fable 5</span></span></span></div>
+    </div>
+    <p style="margin-top:20px">The percentage gauges — context-window usage and your
+      five-hour and seven-day rate limits — colour themselves
+      <strong>green → amber → red</strong> as they fill, so the colour <em>is</em> the
+      warning. Session time and the active model ride along. Each gauge appears only
+      once it has a value — and in a narrow terminal the bar sheds its quietest
+      gauges first rather than overflow. (The demo above does the same: resize this
+      window and watch.)</p>
+
+    <div class="props" style="margin-top:28px">
+      <div class="prop" style="--stop: var(--magenta);">
+        <h3><span class="i">i</span> Status bar</h3>
+        <p>Gradient project name + context %, 5-hour and 7-day limit %, session
+          time, and the active model. One small shell script.</p>
+      </div>
+      <div class="prop" style="--stop: var(--purple);">
+        <h3><span class="i">ii</span> The theme</h3>
+        <p>A dark steel base laced with the Y3K synthwave palette — including a
+          steel-blue tint behind your own messages, themed diffs, borders, and
+          spinners.</p>
+      </div>
+      <div class="prop" style="--stop: var(--cyan);">
+        <h3><span class="i">iii</span> Pinned</h3>
+        <p>The bar stays pinned at the bottom of the terminal while the conversation
+          scrolls above it. Optional — it works in the classic scrolling view too.</p>
+      </div>
+    </div>
+
+    <h2 id="install"><span class="n">02</span> &nbsp;Install</h2>
+
+    <h3 class="sub">One command</h3>
+    <p>Paste this into your terminal:</p>
+    <div class="tree">curl -fsSL https://y3klab.com/blue-steel/install.sh | bash</div>
+    <p style="margin-top:14px">The installer announces every file it touches, backs
+      up your <code>settings.json</code> before merging in the three keys it needs,
+      and touches nothing else. Piping a stranger's script into your shell deserves
+      suspicion — <a class="inline" href="install.sh">read it first</a>; it's fifty
+      lines. Then restart Claude Code and you're done.</p>
+
+    <h3 class="sub">By hand</h3>
+    <p>Prefer to place things yourself? Same result. Download
+      <a class="inline" href="blue-steel-kit.zip" download>blue-steel-kit.zip</a>
+      (5&nbsp;KB — the status bar script, the theme, and a README with these same
+      instructions). Unzip it, then from that folder, copy the two files into
+      place:</p>
+    <div class="tree">mkdir -p ~/.claude/themes
+cp statusline.sh ~/.claude/statusline.sh
+chmod +x ~/.claude/statusline.sh
+cp blue-steel.json ~/.claude/themes/blue-steel.json</div>
+    <p style="margin-top:20px">Merge this into <code>~/.claude/settings.json</code>
+      (create the file if it doesn't exist):</p>
+    <div class="tree">{
+  <span class="k">"statusLine"</span>: {
+    <span class="k">"type"</span>: <span class="s">"command"</span>,
+    <span class="k">"command"</span>: <span class="s">"~/.claude/statusline.sh"</span>
+  },
+  <span class="k">"tui"</span>: <span class="s">"fullscreen"</span>,
+  <span class="k">"theme"</span>: <span class="s">"custom:blue-steel"</span>
+}</div>
+    <p style="margin-top:20px">Restart Claude Code. Done — the bar fills in as the
+      session runs.</p>
+    <p style="margin-top:26px"><strong>Requirements:</strong> the gauges need
+      <code>jq</code>, which is built into macOS 15 and later; on anything older,
+      <code>brew install jq</code> (without it you still get the gradient name, just
+      no meters). Custom themes need a current Claude Code. Prefer the bar to ride
+      along with the conversation instead of staying pinned at the bottom? Skip the
+      <code>"tui"</code> line.</p>
+
+    <h2 id="update"><span class="n">03</span> &nbsp;Update</h2>
+    <p><strong>Updating is the install command, run again</strong> — it fetches the
+      latest files over the old ones and leaves your settings alone:</p>
+    <div class="tree">curl -fsSL https://y3klab.com/blue-steel/install.sh | bash</div>
+    <p style="margin-top:14px">Installed by hand from the zip? Same idea: download
+      the current <a class="inline" href="blue-steel-kit.zip" download>kit</a> and
+      re-copy the two files — they're the only things that change. Either way,
+      restart Claude Code to pick it up. There's no auto-update and no version to
+      track; when you hear Blue Steel got better, this is the whole ritual.</p>
+
+    <h2 id="uninstall"><span class="n">04</span> &nbsp;Uninstall</h2>
+    <p>Blue Steel touches exactly two files and three settings keys — nothing else,
+      no background processes, no other state. One command removes all of it:</p>
+    <div class="tree">curl -fsSL https://y3klab.com/blue-steel/install.sh | bash -s -- --uninstall</div>
+    <p style="margin-top:14px">Restart Claude Code and you're back to stock. (By
+      hand: delete the two files and remove the three keys from
+      <code>~/.claude/settings.json</code> — that's everything the installer did.)</p>
+
+  </article>
+
+  <footer>
+    <p class="motto">Certified Y3K Ready</p>
+    <p><a href="/">← Y3K Lab</a> · © 1970–3000 Y3K Lab · Shareware — copy it, share it, distribute freely on any BBS.</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+{
+  "name": "Blue Steel",
+  "base": "dark",
+  "overrides": {
+    "userMessageBackground": "#0c3a5c",
+    "userMessageBackgroundHover": "#134f79",
+    "memoryBackgroundColor": "#2a1830",
+    "bashMessageBackgroundColor": "#26200f",
+
+    "briefLabelYou": "ansi256(201)",
+    "briefLabelClaude": "ansi256(45)",
+
+    "claude": "ansi256(39)",
+    "claudeShimmer": "ansi256(51)",
+    "claudeBlue_FOR_SYSTEM_SPINNER": "ansi256(39)",
+    "claudeBlueShimmer_FOR_SYSTEM_SPINNER": "ansi256(51)",
+
+    "permission": "ansi256(135)",
+    "suggestion": "ansi256(99)",
+    "remember": "ansi256(171)",
+    "inactive": "ansi256(245)",
+    "subtle": "ansi256(240)",
+
+    "success": "ansi256(42)",
+    "warning": "ansi256(220)",
+    "error": "ansi256(203)",
+    "merged": "ansi256(135)",
+
+    "promptBorder": "ansi256(39)",
+    "planMode": "ansi256(75)",
+    "autoAccept": "ansi256(201)",
+    "bashBorder": "ansi256(220)",
+    "ide": "ansi256(45)",
+    "fastMode": "ansi256(207)",
+
+    "diffAdded": "#13352a",
+    "diffRemoved": "#3a1820",
+    "diffAddedWord": "#1f6b54",
+    "diffRemovedWord": "#7a2438",
+
+    "rate_limit_fill": "ansi256(135)",
+    "rate_limit_empty": "ansi256(238)",
+
+    "rainbow_red": "ansi256(201)",
+    "rainbow_orange": "ansi256(171)",
+    "rainbow_yellow": "ansi256(135)",
+    "rainbow_green": "ansi256(99)",
+    "rainbow_blue": "ansi256(75)",
+    "rainbow_indigo": "ansi256(45)",
+    "rainbow_violet": "ansi256(51)"
+  }
+}
