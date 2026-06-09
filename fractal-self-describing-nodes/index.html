@@ -356,9 +356,12 @@
     </div>
 
     <h2 id="mechanism"><span class="n">03</span> &nbsp;The mechanism</h2>
-    <p>The law isn't a metaphor — it's enforced by a single rule of construction: a
+    <p>The law isn't a metaphor — a single rule of construction makes it concrete: a
       container's overview is <strong>named after the container</strong>, in the shape
-      that level uses. The same law, one level down, forever.</p>
+      that level uses. That co-location <strong>structurally enforces it against
+      orphaning and drift</strong> — the description can't separate from the thing it
+      describes — while completeness and accuracy stay a <em>discipline</em>. The same
+      law, one level down, forever.</p>
     <div class="tree"><span class="cmt"># a self-naming index file at every altitude</span>
 <span class="dir">portfolio/</span>
 ├─ <span class="self">INDEX.md</span>            <span class="cmt">← the portfolio describes itself</span>
@@ -370,6 +373,14 @@
       Any new container — a project, a sub-tool, a module, a grouping — gets a
       self-named overview in its level's shape, pointing up to its index and down to
       its children. That single discipline is the whole law, applied.</p>
+    <p><strong>The mechanism is medium-specific.</strong> The law is the
+      <em>behavior</em> — self-describe, point up and down — not the file type. Folders a
+      human opens to understand the structure get a <code>folder/folder.md</code>.
+      <em>Code</em> packages already self-describe in their own idiom — a package
+      docstring, a README — so they satisfy the law without a parallel <code>.md</code>
+      that would only shadow the code's own description. The test: <em>would a human
+      navigate here to understand the system?</em> If yes, it's an organizational node and
+      earns the overview.</p>
 
     <h2 id="why"><span class="n">04</span> &nbsp;Why it matters</h2>
     <p>Why enforce this, instead of keeping a good index by hand? Because the law buys
