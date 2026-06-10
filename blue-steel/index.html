@@ -236,6 +236,58 @@
   .hot   { color: var(--hot); }
   .val   { color: color-mix(in srgb, var(--ink) 55%, var(--dim)); }
 
+  /* ── Hero session — the theme demoed whole: scrollback above, bar pinned
+     beneath. Same .term chrome, grown to hero scale; every color is the theme
+     doing the talking (tinted user message, ramp diff, spinner). ── */
+  .term.hero .screen {
+    display: flex; flex-direction: column;
+    min-height: clamp(270px, 40vh, 390px);
+    white-space: normal; padding: 18px 20px 10px;
+    font-size: 13px;
+  }
+  .hero .scroll { flex: 1; }
+  .hero .ghost { display: block; margin-bottom: 6px; }
+  /* The signature move: your words get a full-bleed steel-blue block, exactly
+     like the real renderer — multi-line, edge to edge, unmistakably yours. */
+  .hero .msg {
+    margin: 16px -20px; padding: 10px 20px;
+    background: color-mix(in srgb, var(--blue) 16%, transparent);
+    border-left: 3px solid color-mix(in srgb, var(--blue) 75%, transparent);
+    color: color-mix(in srgb, var(--ink) 92%, var(--blue));
+    white-space: pre-wrap;
+  }
+  .hero .msg .chev { color: var(--blue); font-weight: 800; }
+  .hero .resp { margin: 0; color: color-mix(in srgb, var(--ink) 80%, var(--dim)); }
+  .hero .resp .dot { color: var(--ink); }
+  /* Spinner = the theme's real colors AND real motion: glyph + verb in ansi 39
+     (#00afff) with an ansi 51 (#00ffff) sheen sweeping across — per
+     blue-steel.json's claudeBlue/claudeBlueShimmer overrides. Only the verb is
+     blue; the rest of the line stays default dim, like the real renderer. */
+  .hero .spin { margin: 14px 0 0; }
+  .hero .verb { color: var(--accent); }
+  .hero .glyph { font-weight: 800; }
+  .hero .glyph::before { content: "✻"; }
+  .hero .dim2 { color: color-mix(in srgb, var(--ink) 38%, transparent); }
+  .hero .pinned {
+    margin: 14px -20px 0; padding: 10px 20px 4px;
+    border-top: 1px solid var(--rail);
+    background: linear-gradient(to top, color-mix(in srgb, var(--cyan) 4%, transparent), transparent);
+    white-space: pre; overflow-x: hidden;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero .glyph::before { animation: glyph 1.2s steps(1) infinite; }
+    @keyframes glyph { 0%{content:"✻"} 25%{content:"✢"} 50%{content:"✳"} 75%{content:"✶"} }
+    .hero .verb {
+      background: linear-gradient(90deg,
+        var(--accent) 0%, var(--accent) 35%,
+        var(--brtcyan) 50%,
+        var(--accent) 65%, var(--accent) 100%) 0 0 / 250% 100%;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: shimmer 1.8s linear infinite;
+    }
+    @keyframes shimmer { to { background-position: -250% 0; } }
+  }
+
   /* ── What-you-get cards — the hub card idiom, spine stepping the ramp. ── */
   .props { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
   .prop {
@@ -343,14 +395,25 @@
     </header>
 
     <h2 id="what"><span class="n">01</span> &nbsp;What you get</h2>
-    <p>The status bar pins to the bottom of your terminal and answers the question
-      every multi-window session asks — <strong>“which project is this?”</strong> —
-      with your project name swept in the synthwave magenta→cyan gradient of A3K,
-      the Y3K&nbsp;Lab design language, followed by live gauges:</p>
-    <div class="term">
+    <p>The whole look, in one frame: the steel-blue block behind everything
+      <em>you</em> type — your words never lost in the scroll — the live spinner,
+      and the status bar pinned beneath it all, answering the question every
+      multi-window session asks —
+      <strong>“which project is this?”</strong> — with your project name in the
+      synthwave magenta→cyan gradient of A3K, the Y3K&nbsp;Lab design language:</p>
+    <div class="term hero">
       <div class="bar"><i></i><i></i><i></i></div>
-      <div class="screen"><span class="ghost">❯ claude</span>
-<span class="status"><span class="b-l">[</span> <span class="name">your-project</span> <span class="b-r">]</span>  <span class="lbl">context</span> <span class="ok">▄42%</span> <span class="sep2">|</span> <span class="lbl">5h limit</span> <span class="hot">85%</span> <span class="g7"><span class="sep2">|</span> <span class="lbl">7d limit</span> <span class="wrn">60%</span> </span><span class="gd"><span class="sep2">|</span> <span class="lbl">session</span> <span class="val">4h20m</span> </span><span class="gm"><span class="sep2">|</span> <span class="val">Fable 5</span></span></span></div>
+      <div class="screen">
+        <div class="scroll">
+          <span class="ghost">❯ claude</span>
+          <div class="msg"><span class="chev">❯</span> make this terminal *ridiculously good-looking* and put a blue-steel color behind everything I type so my words will stand apart from yours at a glance</div>
+          <p class="resp"><span class="dot">●</span> I'll put every word you type on the
+            blue-steel block and leave mine on bare steel — one glance and you'll always
+            know who said what, even 10,000 lines deep in the scrollback buffer.</p>
+          <div class="spin"><span class="verb"><span class="glyph"></span> Cooking…</span> <span class="dim2">(16s · ↓ 585 tokens · thinking)</span></div>
+        </div>
+        <div class="pinned"><span class="b-l">[</span> <span class="name">your-project</span> <span class="b-r">]</span>  <span class="lbl">context</span> <span class="ok">▄42%</span> <span class="sep2">|</span> <span class="lbl">5h limit</span> <span class="hot">85%</span> <span class="g7"><span class="sep2">|</span> <span class="lbl">7d limit</span> <span class="wrn">60%</span> </span><span class="gd"><span class="sep2">|</span> <span class="lbl">session</span> <span class="val">4h20m</span> </span><span class="gm"><span class="sep2">|</span> <span class="val">Fable 5</span></span></div>
+      </div>
     </div>
     <p style="margin-top:20px">The percentage gauges — context-window usage and your
       five-hour and seven-day rate limits — colour themselves
@@ -362,20 +425,14 @@
 
     <div class="props" style="margin-top:28px">
       <div class="prop" style="--stop: var(--magenta);">
-        <h3><span class="i">i</span> Status bar</h3>
-        <p>Gradient project name + context %, 5-hour and 7-day limit %, session
-          time, and the active model. One small shell script.</p>
-      </div>
-      <div class="prop" style="--stop: var(--purple);">
-        <h3><span class="i">ii</span> The theme</h3>
-        <p>A dark steel base laced with the Y3K synthwave palette — including a
-          steel-blue tint behind your own messages, themed diffs, borders, and
-          spinners.</p>
+        <h3><span class="i">i</span> The theme</h3>
+        <p>Dark steel base, synthwave accents — your words on a steel-blue
+          block, themed diffs, borders, spinners.</p>
       </div>
       <div class="prop" style="--stop: var(--cyan);">
-        <h3><span class="i">iii</span> Pinned</h3>
-        <p>The bar stays pinned at the bottom of the terminal while the conversation
-          scrolls above it. Optional — it works in the classic scrolling view too.</p>
+        <h3><span class="i">ii</span> Status bar</h3>
+        <p>Gradient name + live gauges, pinned under the scroll (optional). One
+          small shell script.</p>
       </div>
     </div>
 
