@@ -257,6 +257,7 @@
   .prop p { margin: 0; font-size: 13.5px; line-height: 1.55; color: color-mix(in srgb, var(--ink) 64%, var(--dim)); }
 
   .tree {
+    position: relative;
     margin: 0; padding: 16px 20px;
     background: #060608; border: 1px solid var(--rail); border-radius: 10px;
     box-shadow: inset 0 0 50px -38px var(--cyan);
@@ -266,6 +267,27 @@
   .tree .cmt { color: color-mix(in srgb, var(--ink) 42%, var(--dim)); }
   .tree .k   { color: var(--purple); }
   .tree .s   { color: var(--brtcyan); }
+
+  /* Copy chip on each code block — muted until needed, like the rest of the chrome. */
+  .copybtn {
+    position: absolute; top: 8px; right: 8px;
+    font: inherit; font-size: 10.5px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--dim);
+    background: color-mix(in srgb, #060608 82%, transparent);
+    border: 1px solid var(--rail); border-radius: 6px;
+    padding: 3px 9px; cursor: pointer;
+    transition: color .18s, border-color .18s;
+  }
+  .copybtn:hover, .copybtn:focus-visible {
+    color: var(--cyan);
+    border-color: color-mix(in srgb, var(--cyan) 45%, var(--rail));
+    outline: none;
+  }
+  .copybtn.done, .copybtn.done:hover {
+    color: var(--ok);
+    border-color: color-mix(in srgb, var(--ok) 45%, var(--rail));
+  }
 
   footer {
     max-width: 720px; margin: 4.5rem auto 0; padding-top: 28px;
@@ -422,6 +444,45 @@ cp blue-steel.json ~/.claude/themes/blue-steel.json</div>
     <p class="motto">Certified Y3K Ready</p>
     <p><a href="/">← Y3K Lab</a> · © 1970–3000 Y3K Lab · Shareware — copy it, share it, distribute freely on any BBS.</p>
   </footer>
+
+  <!-- Copy buttons for the code blocks — injected here so the markup above stays
+       plain, and no-JS visitors simply don't see a button that couldn't work.
+       Text is captured before the button joins the block, so it never copies
+       itself; textContent flattens the highlighted JSON back to plain text. -->
+  <script>
+    document.querySelectorAll('.tree').forEach(function (tree) {
+      var text = tree.textContent.trimEnd();
+      var btn = document.createElement('button');
+      btn.className = 'copybtn';
+      btn.type = 'button';
+      btn.textContent = 'copy';
+      btn.setAttribute('aria-label', 'Copy to clipboard');
+      var reset;
+      btn.addEventListener('click', function () {
+        var write = navigator.clipboard
+          ? navigator.clipboard.writeText(text)
+          : Promise.reject();
+        write.catch(function () {
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+        }).then(function () {
+          btn.textContent = 'copied';
+          btn.classList.add('done');
+          clearTimeout(reset);
+          reset = setTimeout(function () {
+            btn.textContent = 'copy';
+            btn.classList.remove('done');
+          }, 1600);
+        });
+      });
+      tree.appendChild(btn);
+    });
+  </script>
 
 </body>
 </html>
