@@ -126,10 +126,11 @@ if [ -n "${NO_COLOR:-}" ] || [ "${TERM:-dumb}" = "dumb" ]; then
   exit 0
 fi
 
-# ── A3K livery. The project NAME sweeps the canonical Phos4 magenta→cyan ramp per
-# character (idx = i*6/(N-1) — the dashboard-wordmark rule), bold, anchored magenta
-# on char 0 and bright-cyan on the last; framed by padded gradient-tipped brackets
-# ([ magenta … cyan ]) that cap the sweep. Gauges follow, dim with status-coloured %.
+# ── A3K livery. The project NAME sweeps the A3K magenta→cyan ramp per character
+# (idx = i*6/(N-1); canonical ramp values live in Phos4's Y3K theme), bold, anchored
+# magenta on char 0 and bright-cyan on the last; framed by padded gradient-tipped
+# brackets ([ magenta … cyan ]) that cap the sweep. Gauges follow, dim with
+# status-coloured %.
 ESC=$'\033'; RST="${ESC}[0m"
 RAMP=(201 171 135 99 75 45 51); PN=7
 n=${#label}; (( n < 2 )) && n=2

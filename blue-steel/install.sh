@@ -41,6 +41,10 @@ fi
 
 # ── The sign-off banner: BLUE over STEEL, swept top-to-bottom through the same
 # ramp, revealed row by row on a TTY (plain rows when piped). Install-end only.
+# Vendored from Phos4 (the Y3K Lab terminal-UI engine): the canonical
+# implementation is phos4_celebrate_banner in phos4/src/engine.sh — this
+# installer arrives via curl on machines with nothing installed, so it carries
+# its own copy. Sync from the engine when the font or sweep changes.
 banner() {
   local rows=(
 '██████╗ ██╗     ██╗   ██╗███████╗'
