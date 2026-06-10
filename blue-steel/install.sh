@@ -23,6 +23,7 @@ say() { printf '%s\n' "$*"; }
 if [ -t 1 ] && [ "${TERM:-dumb}" != dumb ] && [ -z "${NO_COLOR:-}" ]; then
   ESC=$'\033'; RST="${ESC}[0m"
   DIM="${ESC}[38;5;245m"; OK="${ESC}[38;5;42m"; WRN="${ESC}[38;5;220m"
+  ACC="${ESC}[38;5;39m"
   header() {
     local s="Blue Steel" ramp=(201 171 135 99 75 45 51) n=10 out="" i idx
     for (( i = 0; i < n; i++ )); do
@@ -34,9 +35,38 @@ if [ -t 1 ] && [ "${TERM:-dumb}" != dumb ] && [ -z "${NO_COLOR:-}" ]; then
       "${ESC}[1m${ESC}[38;5;51m]${RST}" "${DIM}$1${RST}"
   }
 else
-  RST=""; DIM=""; OK=""; WRN=""
+  RST=""; DIM=""; OK=""; WRN=""; ACC=""
   header() { printf '[ Blue Steel ] %s\n' "$1"; }
 fi
+
+# ── The sign-off banner: BLUE over STEEL, swept top-to-bottom through the same
+# ramp, revealed row by row on a TTY (plain rows when piped). Install-end only.
+banner() {
+  local rows=(
+'██████╗ ██╗     ██╗   ██╗███████╗'
+'██╔══██╗██║     ██║   ██║██╔════╝'
+'██████╔╝██║     ██║   ██║█████╗  '
+'██╔══██╗██║     ██║   ██║██╔══╝  '
+'██████╔╝███████╗╚██████╔╝███████╗'
+'╚═════╝ ╚══════╝ ╚═════╝ ╚══════╝'
+'███████╗████████╗███████╗███████╗██╗     '
+'██╔════╝╚══██╔══╝██╔════╝██╔════╝██║     '
+'███████╗   ██║   █████╗  █████╗  ██║     '
+'╚════██║   ██║   ██╔══╝  ██╔══╝  ██║     '
+'███████║   ██║   ███████╗███████╗███████╗'
+'╚══════╝   ╚═╝   ╚══════╝╚══════╝╚══════╝'
+  )
+  local ramp=(201 171 135 99 75 45 51) i idx
+  for (( i = 0; i < ${#rows[@]}; i++ )); do
+    if [ -n "$RST" ]; then
+      idx=$(( i * 6 / (${#rows[@]} - 1) ))
+      printf '%s%s%s\n' "${ESC}[38;5;${ramp[idx]}m" "${rows[i]}" "$RST"
+      sleep 0.04
+    else
+      printf '%s\n' "${rows[i]}"
+    fi
+  done
+}
 
 # --uninstall: remove exactly what install added — the two files and the
 # three settings keys.
@@ -106,6 +136,24 @@ else
 fi
 
 say ""
+banner
+say ""
+# The caption: A3K's tagline idiom — accent brackets, dim letter-spaced caps.
+say "${ACC}[ ${RST}${DIM}S U C C E S S F U L L Y   I N S T A L L E D${RST} ${ACC}]${RST}"
+say ""
+# Instant proof: render the just-installed bar itself with a sample session
+# (colour only when the installer itself is colouring).
+sample='{"workspace":{"current_dir":"/tmp/your-project"},"cost":{"total_duration_ms":15600000},"context_window":{"used_percentage":42},"rate_limits":{"five_hour":{"used_percentage":85},"seven_day":{"used_percentage":60}},"model":{"display_name":"Fable 5"}}'
+if [ -n "$RST" ]; then
+  preview=$(printf '%s' "$sample" | bash "$claude/statusline.sh" 2>/dev/null) || preview=""
+else
+  preview=$(printf '%s' "$sample" | NO_COLOR=1 bash "$claude/statusline.sh" 2>/dev/null) || preview=""
+fi
+if [ -n "$preview" ]; then
+  say "${DIM}your bar:${RST}"
+  say "$preview"
+  say ""
+fi
 command -v jq >/dev/null 2>&1 || \
   say "note: the status-bar gauges need jq (built into macOS 15+; otherwise: brew install jq)"
 say "Done. Restart Claude Code to power it on."
