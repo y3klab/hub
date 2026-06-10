@@ -226,10 +226,29 @@
     background: var(--ramp);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .sec   { color: var(--dim); font-weight: 700; }
-  .chip  { color: color-mix(in srgb, var(--ink) 38%, transparent); }
+  /* The PHOS4 banner needs terminal leading: at the screen's 1.9 line-height
+     browsers stretch box-drawing glyphs to fill the line box, shredding the
+     double-line frame. ~1.05 lets the rows seat against each other. */
+  .wordmark {
+    display: inline-block; line-height: 1.05; font-weight: 600;
+    margin: 6px 0 4px;
+    background: var(--ramp);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  /* Section header = gradient_text "Active" sliced from the ramp's warm end
+     (stops 0–2), bold; the count rides dim. Mirrors list-projects.sh. */
+  .hdr {
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--magenta), var(--pink, #d75fd7));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  /* Number chips: dither frame in the section colour (Active = ansi 201
+     magenta), the number itself a bold neutral keycap. */
+  .dith  { color: var(--magenta); }
+  .num   { font-weight: 700; color: var(--ink); }
   .pname { color: color-mix(in srgb, var(--ink) 88%, var(--dim)); }
-  .sep2  { color: #3a3a4e; }
+  .hl    { font-weight: 700; color: var(--accent, #00afff); }  /* selected row */
+  .sep2  { color: #585858; }  /* ansi 240 — the dim rule between columns */
   .lbl   { color: var(--dim); }
   .ok    { color: var(--ok); }
   .wrn   { color: var(--warn); }
@@ -337,23 +356,20 @@
       <div class="bar"><i></i><i></i><i></i></div>
       <div class="screen"><span class="ghost">❯ proj</span>
 
-<span class="name">  ╔═════════════════════════════════╗
+<span class="wordmark">  ╔═════════════════════════════════╗
   ║ ╔═╗ ╦═╗ ╔═╗  ╦  ╔═╗ ╔═╗ ╔╦╗ ╔═╗ ║
   ║ ╠═╝ ╠╦╝ ║ ║  ║  ╠═  ║    ║  ╚═╗ ║
   ║ ╩   ╩╚═ ╚═╝ ╚╝  ╚═╝ ╚═╝  ╩  ╚═╝ ║
   ╚═════════════════════════════════╝</span>
 
-<span class="sec">Active  (3)</span>
-<span class="chip">░▒  1 ▒░</span>   <span class="pname">rocket-skates</span>          <span class="sep2">│</span> <span class="wrn">●</span> <span class="stxt">Phase 2 · thruster tuning next</span>
-<span class="chip">░▒  2 ▒░</span>   <span class="pname">bbs-revival</span>            <span class="sep2">│</span> <span class="ok">●</span> <span class="stxt">Live · two new door games shipping</span>
-<span class="chip">░▒  3 ▒░</span> <span class="stl">x</span> <span class="pname">zine-printer</span>           <span class="sep2">│</span> <span class="pnd">●</span> <span class="stxt">Phase 1 · blocked on toner supplier</span>
-
-<span class="sec">Inactive  (1)</span>
-<span class="chip">░▒  4 ▒░</span>   <span class="pname">seance-app</span>             <span class="sep2">│</span>   <span class="stxt">paused · resuming after the equinox</span>
+<span class="hdr">Active</span>  <span class="lbl">(3)</span>
+<span class="dith">░▒</span> <span class="num"> 1</span> <span class="dith">▒░</span>   <span class="pname hl">rocket-skates</span>          <span class="sep2">│</span> <span class="wrn">●</span> <span class="stxt">Phase 2</span> <span class="sep2">·</span> <span class="wrn">thruster tuning next</span>
+<span class="dith">░▒</span> <span class="num"> 2</span> <span class="dith">▒░</span>   <span class="pname">bbs-revival</span>            <span class="sep2">│</span> <span class="ok">●</span> <span class="stxt">Live</span> <span class="sep2">·</span> <span class="stxt">two new door games shipping</span>
+<span class="dith">░▒</span> <span class="num"> 3</span> <span class="dith">▒░</span> <span class="stl">x</span> <span class="pname">zine-printer</span>           <span class="sep2">│</span> <span class="pnd">●</span> <span class="stxt">Phase 1</span> <span class="sep2">·</span> <span class="pnd">blocked on toner supplier</span>
 
 <span class="ok">●</span> <span class="lbl">good ·</span> <span class="wrn">●</span> <span class="lbl">actionable ·</span> <span class="pnd">●</span> <span class="lbl">pending ·</span> <span class="stl">x</span> <span class="lbl">stale</span>
 
-<span class="kcp">↑/↓</span> <span class="lbl">move</span> <span class="sep2">·</span> <span class="kcp">enter</span> <span class="lbl">open</span> <span class="sep2">·</span> <span class="kcp">m</span> <span class="lbl">move</span> <span class="sep2">·</span> <span class="kcp">1-4</span> <span class="lbl">jump</span> <span class="sep2">·</span> <span class="kcp">q</span> <span class="lbl">quit</span>
+<span class="kcp">↑/↓</span> <span class="lbl">move</span> <span class="sep2">·</span> <span class="kcp">enter</span> <span class="lbl">open</span> <span class="sep2">·</span> <span class="kcp">m</span> <span class="lbl">move</span> <span class="sep2">·</span> <span class="kcp">1-3</span> <span class="lbl">jump</span> <span class="sep2">·</span> <span class="kcp">q</span> <span class="lbl">quit</span>
 <span class="kcw">n</span> <span class="lbl">new</span> <span class="sep2">·</span> <span class="kcw">i</span> <span class="lbl">import</span> <span class="sep2">·</span> <span class="kcg">r</span> <span class="lbl">refresh stale</span> <span class="sep2">·</span> <span class="kcg">a</span> <span class="lbl">archive</span></div>
     </div>
     <p style="margin-top:20px">Those status lines aren't something you type in and
