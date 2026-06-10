@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<!--
+  Project System — a Y3K Lab experiment page: a tiny operating system for your
+  projects. A self-contained, zero-dependency page built in the same hand as the
+  hub (../index.html) and Blue Steel (../blue-steel/): same palette, floor grid,
+  CRT scanlines, power-on motion. The downloadable system (project-system.zip,
+  built by the release tool — personal files structurally excluded) sits beside
+  this file. The dashboard demo below is hand-maintained HTML with fictional
+  project names — keep it faithful to what bin/list-projects.sh actually draws.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project System — a tiny operating system for your projects | Y3K Lab</title>
+<meta name="description" content="A tiny operating system for your projects. Spin up, shelve, archive, and index a personal project portfolio from the terminal — pure bash, an arrow-key dashboard, Claude Code intake built in. Free from Y3K Lab.">
+<link rel="canonical" href="https://y3klab.com/project-system/">
+
+<!-- Favicon + share assets live at the site root; we're one level deep. -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="/favicon.svg">
+<link rel="mask-icon" href="/favicon.svg" color="#ff5fff">
+
+<!-- OpenGraph / Twitter — reuses the Lab share card until a bespoke one ships. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Project System — a tiny operating system for your projects">
+<meta property="og:description" content="Spin up, shelve, archive, and index a personal project portfolio from the terminal — pure bash, an arrow-key dashboard, Claude Code intake built in. Free from Y3K Lab.">
+<meta property="og:url" content="https://y3klab.com/project-system/">
+<meta property="og:image" content="https://y3klab.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Project System — a tiny operating system for your projects">
+<meta name="twitter:description" content="Spin up, shelve, archive, and index a personal project portfolio from the terminal — pure bash, an arrow-key dashboard, Claude Code intake built in. Free from Y3K Lab.">
+<meta name="twitter:image" content="https://y3klab.com/og-image.png">
+<meta name="theme-color" content="#0a0a12">
+<style>
+  /* ── The palette: the one canonical shared asset (ANSI-256 → hex). ──
+     Mirrors ../index.html. */
+  :root {
+    --magenta: #ff5fff;  /* 201 — warm end */
+    --rose:    #ff5fd7;  /* 207 */
+    --pink:    #d75fd7;  /* 171 */
+    --purple:  #af5fff;  /* 135 */
+    --indigo:  #875fff;  /*  99 */
+    --blue:    #5fafff;  /*  75 */
+    --cyan:    #00d7ff;  /*  45 */
+    --brtcyan: #00ffff;  /*  51 — cool end */
+    --accent:  #00afff;  /*  39 — the live cue */
+
+    --ramp: linear-gradient(100deg,
+      var(--magenta), var(--pink), var(--purple), var(--indigo),
+      var(--blue), var(--cyan), var(--brtcyan));
+
+    --bg:    #0a0a12;
+    --panel: #12121f;
+    --ink:   #e8e8f4;
+    --dim:   #8a8aa6;
+    --rail:  #2a2a3e;
+
+    /* dashboard status chips (ANSI 42 / 220 / 45 / 167) */
+    --ok:    #00d787;
+    --warn:  #ffd700;
+    --pend:  #00d7ff;
+    --stale: #d75f5f;
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(900px 500px at 8% -8%, color-mix(in srgb, var(--magenta) 16%, transparent), transparent 55%),
+      radial-gradient(900px 500px at 100% 108%, color-mix(in srgb, var(--cyan) 12%, transparent), transparent 55%),
+      radial-gradient(1200px 600px at 50% -10%, #1a1030 0%, transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font: 16px/1.7 ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    min-height: 100vh;
+    padding: 0 24px 64px;
+  }
+  /* Faint synthwave floor grid — fixed, faded near the top so reading stays calm. */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      repeating-linear-gradient(to right,  color-mix(in srgb, var(--cyan) 8%, transparent) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(to bottom, color-mix(in srgb, var(--magenta) 6%, transparent) 0 1px, transparent 1px 64px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 45%, #000 100%);
+            mask-image: linear-gradient(to bottom, transparent 45%, #000 100%);
+    opacity: .5;
+  }
+  /* Faint CRT scanlines — overlaid on top so the page sits "behind the glass". */
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none;
+    background:
+      repeating-linear-gradient(to bottom, rgba(0,0,0,.16) 0 1px, transparent 1px 4px),
+      repeating-linear-gradient(to bottom,
+        color-mix(in srgb, var(--cyan) 9%, transparent) 0 1px, transparent 1px 4px);
+    background-size: 100% 4px;
+  }
+  @media (min-resolution: 2dppx) {
+    body::after {
+      background:
+        repeating-linear-gradient(to bottom, rgba(0,0,0,.20) 0 1.5px, transparent 1.5px 5px),
+        repeating-linear-gradient(to bottom,
+          color-mix(in srgb, var(--cyan) 9%, transparent) 0 1.5px, transparent 1.5px 5px);
+      background-size: 100% 5px;
+    }
+  }
+
+  .wrap { max-width: 720px; margin: 0 auto; }
+
+  /* ── Up-link: the page points UP to its index (the hub). ── */
+  .uplink {
+    display: flex; align-items: center; gap: 10px;
+    padding: 26px 0 0; margin-bottom: 4rem;
+    font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .uplink a {
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    text-decoration: none; transition: color .18s;
+  }
+  .uplink a:hover, .uplink a:focus-visible { color: var(--cyan); outline: none; }
+  .uplink .home {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text;
+    color: transparent; font-weight: 800; letter-spacing: .06em;
+  }
+  .uplink .sep { color: var(--rail); }
+  .uplink .here { color: var(--dim); }
+
+  /* ── Title block ── */
+  .kicker {
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    letter-spacing: .28em; text-transform: uppercase; font-size: 11.5px;
+    margin: 0 0 18px;
+  }
+  .kicker::before { content: "[ "; color: var(--accent); }
+  .kicker::after  { content: " ]"; color: var(--accent); }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(40px, 9vw, 72px);
+    font-weight: 800; letter-spacing: .005em; line-height: 1.05;
+    background: var(--ramp);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter:
+      drop-shadow(-1.5px 0 0 color-mix(in srgb, var(--magenta) 55%, transparent))
+      drop-shadow( 1.5px 0 0 color-mix(in srgb, var(--cyan)    55%, transparent))
+      drop-shadow(0 0 16px color-mix(in srgb, var(--purple) 30%, transparent));
+  }
+  /* The pitch, stated once, large. */
+  .law {
+    margin: 40px 0 0; padding: 26px 28px;
+    border: 1px solid color-mix(in srgb, var(--purple) 30%, var(--rail));
+    border-left: 3px solid var(--magenta);
+    border-radius: 10px;
+    background:
+      linear-gradient(150deg, color-mix(in srgb, var(--magenta) 7%, transparent), transparent 50%),
+      var(--panel);
+    box-shadow: inset 0 0 60px -40px var(--magenta);
+    font-size: clamp(17px, 2.5vw, 21px); line-height: 1.5; font-weight: 700;
+    color: var(--ink);
+  }
+  .law strong { color: var(--cyan); }
+
+  /* ── Section headers — dim uppercase with a gradient rule (hub idiom). ── */
+  h2 {
+    width: 100%; margin: 5rem 0 1.4rem;
+    color: var(--dim); font-size: 13px; font-weight: 700;
+    letter-spacing: .26em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 14px;
+  }
+  h2 .n {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text;
+    color: transparent; font-weight: 800;
+  }
+  h2::after {
+    content: ""; flex: 1; height: 1px;
+    background: linear-gradient(90deg,
+      var(--magenta), color-mix(in srgb, var(--cyan) 50%, transparent), transparent);
+    opacity: .5;
+  }
+
+  /* Sub-headings inside a numbered section — quieter than h2: no rule, a cyan tick. */
+  h3.sub {
+    margin: 2.6rem 0 1rem;
+    color: color-mix(in srgb, var(--ink) 80%, var(--dim));
+    font-size: 12.5px; font-weight: 700;
+    letter-spacing: .2em; text-transform: uppercase;
+  }
+  h3.sub::before { content: "▸ "; color: var(--accent); }
+
+  p { color: color-mix(in srgb, var(--ink) 82%, var(--dim)); }
+  p strong { color: var(--ink); font-weight: 700; }
+  a.inline { color: var(--blue); text-decoration: none; border-bottom: 1px dotted color-mix(in srgb, var(--blue) 50%, transparent); }
+  a.inline:hover { color: var(--cyan); border-bottom-color: var(--cyan); }
+  code {
+    font-family: inherit; font-size: .92em;
+    color: var(--brtcyan);
+    background: color-mix(in srgb, var(--cyan) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--cyan) 22%, var(--rail));
+    border-radius: 5px; padding: 1px 6px;
+  }
+
+  /* ── The dashboard, demoed live in CSS — a terminal window chrome. ── */
+  .term {
+    margin: 28px 0 0;
+    background: #060608; border: 1px solid var(--rail); border-radius: 10px;
+    box-shadow: inset 0 0 50px -38px var(--cyan), 0 0 60px -30px var(--purple);
+    overflow: hidden;
+  }
+  .term .bar {
+    display: flex; gap: 6px; padding: 10px 12px;
+    border-bottom: 1px solid var(--rail);
+  }
+  .term .bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--rail); }
+  .term .screen {
+    padding: 18px 18px 14px;
+    font-size: 12.5px; line-height: 1.9; overflow-x: auto; white-space: pre;
+  }
+  .term .ghost { color: color-mix(in srgb, var(--ink) 30%, transparent); }
+  /* The demo dashboard's parts, mirroring bin/list-projects.sh's registers. */
+  .name {
+    font-weight: 800;
+    background: var(--ramp);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .sec   { color: var(--dim); font-weight: 700; }
+  .chip  { color: color-mix(in srgb, var(--ink) 38%, transparent); }
+  .pname { color: color-mix(in srgb, var(--ink) 88%, var(--dim)); }
+  .sep2  { color: #3a3a4e; }
+  .lbl   { color: var(--dim); }
+  .ok    { color: var(--ok); }
+  .wrn   { color: var(--warn); }
+  .pnd   { color: var(--pend); }
+  .stl   { color: var(--stale); }
+  .stxt  { color: color-mix(in srgb, var(--ink) 55%, var(--dim)); }
+  /* Keycap pills — purple primaries, warm magenta doorways, grey cold/meta keys. */
+  .kcp, .kcw, .kcg { border-radius: 4px; padding: 1px 7px; font-weight: 700; }
+  .kcp { background: #5f00af; color: #fff; }
+  .kcw { background: #303030; color: var(--magenta); }
+  .kcg { background: #303030; color: #8a8a8a; }
+
+  .tree {
+    position: relative;
+    margin: 0; padding: 16px 20px;
+    background: #060608; border: 1px solid var(--rail); border-radius: 10px;
+    box-shadow: inset 0 0 50px -38px var(--cyan);
+    font-size: 13px; line-height: 1.8; color: color-mix(in srgb, var(--ink) 78%, var(--dim));
+    overflow-x: auto; white-space: pre;
+  }
+  .tree .cmt { color: color-mix(in srgb, var(--ink) 42%, var(--dim)); }
+  .tree .k   { color: var(--purple); }
+  .tree .s   { color: var(--brtcyan); }
+
+  /* Copy chip on each code block — muted until needed, like the rest of the chrome. */
+  .copybtn {
+    position: absolute; top: 8px; right: 8px;
+    font: inherit; font-size: 10.5px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--dim);
+    background: color-mix(in srgb, #060608 82%, transparent);
+    border: 1px solid var(--rail); border-radius: 6px;
+    padding: 3px 9px; cursor: pointer;
+    transition: color .18s, border-color .18s;
+  }
+  .copybtn:hover, .copybtn:focus-visible {
+    color: var(--cyan);
+    border-color: color-mix(in srgb, var(--cyan) 45%, var(--rail));
+    outline: none;
+  }
+  .copybtn.done, .copybtn.done:hover {
+    color: var(--ok);
+    border-color: color-mix(in srgb, var(--ok) 45%, var(--rail));
+  }
+
+  footer {
+    max-width: 720px; margin: 4.5rem auto 0; padding-top: 28px;
+    border-top: 1px solid var(--rail);
+    text-align: center; color: var(--dim); font-size: 12px;
+  }
+  footer .motto {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text; color: transparent;
+    letter-spacing: .18em; text-transform: uppercase; font-weight: 700;
+  }
+  footer a { color: var(--blue); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 560px) {
+    body { padding: 0 18px 48px; }
+    .uplink { margin-bottom: 2.5rem; letter-spacing: .12em; font-size: 11px; }
+    .law { padding: 20px; }
+    h2 { margin: 3rem 0 1.2rem; letter-spacing: .2em; }
+    .term .screen { font-size: 12px; }
+    .tree { font-size: 12px; padding: 14px; }
+  }
+
+  /* ── Power-on load — content rises in; honors reduced-motion. ── */
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { opacity: 0; animation: rise .55s ease forwards; }
+    .rise:nth-child(1){animation-delay:.04s} .rise:nth-child(2){animation-delay:.10s}
+    .rise:nth-child(3){animation-delay:.16s} .rise:nth-child(4){animation-delay:.22s}
+    @keyframes rise { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform:none; } }
+    body::after { animation: crtflicker 6s steps(60) infinite; }
+    @keyframes crtflicker { 0%,96%,100%{opacity:1} 97%{opacity:.94} 98%{opacity:.995} }
+  }
+</style>
+</head>
+<body>
+
+  <!-- UP — the page points to its index. -->
+  <nav class="uplink">
+    <a class="home" href="/">Y3K Lab</a>
+    <span class="sep">/</span>
+    <span class="here">Project System</span>
+  </nav>
+
+  <article class="wrap">
+
+    <header>
+      <p class="kicker rise">A tiny operating system for your projects</p>
+      <h1 class="rise">Project System</h1>
+      <p class="law rise">Spin up projects, shelve them, archive them, and keep
+        <strong>one tidy index</strong> of everything you're building — from the
+        terminal. Pure bash, zero daemons, <strong>Claude&nbsp;Code</strong> intake
+        built in. Yours the moment you unzip it.</p>
+    </header>
+
+    <h2 id="what"><span class="n">01</span> &nbsp;What you get</h2>
+    <p>One dashboard answers the question every side-project-haver dreads —
+      <strong>“what am I building, and where did I leave it?”</strong> Type
+      <code>proj</code> and your whole portfolio is on screen: arrow keys to move,
+      <strong>Enter</strong> to drop into a project with Claude&nbsp;Code already
+      open, <strong>m</strong> to move or delete it:</p>
+    <div class="term">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <div class="screen"><span class="ghost">❯ proj</span>
+
+<span class="name">PROJECTS</span>
+
+<span class="sec">Active  (3)</span>
+<span class="chip">░▒  1 ▒░</span>   <span class="pname">rocket-skates</span>          <span class="sep2">│</span> <span class="wrn">●</span> <span class="stxt">Phase 2 · thruster tuning next</span>
+<span class="chip">░▒  2 ▒░</span>   <span class="pname">bbs-revival</span>            <span class="sep2">│</span> <span class="ok">●</span> <span class="stxt">Live · two new door games shipping</span>
+<span class="chip">░▒  3 ▒░</span> <span class="stl">x</span> <span class="pname">zine-printer</span>           <span class="sep2">│</span> <span class="pnd">●</span> <span class="stxt">Phase 1 · blocked on toner supplier</span>
+
+<span class="sec">Inactive  (1)</span>
+<span class="chip">░▒  4 ▒░</span>   <span class="pname">seance-app</span>             <span class="sep2">│</span>   <span class="stxt">paused · resuming after the equinox</span>
+
+<span class="ok">●</span> <span class="lbl">good ·</span> <span class="wrn">●</span> <span class="lbl">actionable ·</span> <span class="pnd">●</span> <span class="lbl">pending ·</span> <span class="stl">x</span> <span class="lbl">stale</span>
+
+<span class="kcp">↑/↓</span> <span class="lbl">move</span> <span class="sep2">·</span> <span class="kcp">enter</span> <span class="lbl">open</span> <span class="sep2">·</span> <span class="kcp">m</span> <span class="lbl">move</span> <span class="sep2">·</span> <span class="kcp">#</span> <span class="lbl">jump</span> <span class="sep2">·</span> <span class="kcp">q</span> <span class="lbl">quit</span>
+<span class="kcw">n</span> <span class="lbl">new</span> <span class="sep2">·</span> <span class="kcw">i</span> <span class="lbl">import</span> <span class="sep2">·</span> <span class="kcg">r</span> <span class="lbl">refresh stale</span> <span class="sep2">·</span> <span class="kcg">a</span> <span class="lbl">archive</span></div>
+    </div>
+    <p style="margin-top:20px">Those status lines aren't something you type in and
+      forget to update — each one is an <strong>actual judgment</strong> of where the
+      project stands, made by Claude reading the project's plan, decisions, and git
+      history, then cached locally. <strong>Green → amber → cyan</strong> reads as
+      resting → your move → waiting on someone, and an <code>x</code> flags a chip
+      gone stale.</p>
+
+    <p style="margin-top:28px">Claude&nbsp;Code rides along the whole way:
+      <code>/setup-project</code> interviews you and writes a new project's docs,
+      <code>/grill</code> pressure-tests a design one decision at a time, and
+      <code>/architect</code> advises from the next window over.</p>
+
+    <p style="margin-top:28px">Underneath it all is a three-folder workspace —
+      dead-simple on purpose, so your projects outlive any tooling:</p>
+    <div class="tree" data-nocopy>~/Projects/
+├── <span class="k">Active/</span>      <span class="cmt">engaged now — building or using</span>
+├── <span class="k">Inactive/</span>    <span class="cmt">dormant but alive — paused, will resume</span>
+└── <span class="k">Archive/</span>     <span class="cmt">finished work, year-prefixed, kept to read</span></div>
+
+    <h2 id="install"><span class="n">02</span> &nbsp;Install</h2>
+
+    <h3 class="sub">The easy way</h3>
+    <p>Download <a class="inline" href="project-system.zip" download>project-system.zip</a>
+      (327&nbsp;KB — the whole system, nothing personal of the author's inside, no
+      account, no telemetry). Unzip it, open the folder, and double-click
+      <strong>“Double-Click to Install.command”</strong>. Terminal opens, the system
+      moves itself to <code>~/project-system</code>, the installer runs, and you land
+      in a ready shell.</p>
+    <p>If macOS balks (“unidentified developer”), <strong>right-click the file →
+      Open → Open</strong> — once. macOS just wants to hear you trust a script you
+      downloaded.</p>
+
+    <h3 class="sub">From the terminal</h3>
+    <p>Prefer to drive? Same result, three moves:</p>
+    <div class="tree">unzip project-system.zip -d ~
+~/project-system/install.sh
+exec zsh</div>
+    <p style="margin-top:14px">The installer checks your tools, symlinks the slash
+      commands into <code>~/.claude/commands/</code>, seeds your lexicon, creates the
+      <code>~/Projects</code> workspace, and offers — showing the exact line — to wire
+      the aliases into your <code>~/.zshrc</code>. It announces every path it touches
+      and touches nothing else. Cautious? Preview every change first, writing
+      nothing:</p>
+    <div class="tree">~/project-system/install.sh --dry-run</div>
+    <p style="margin-top:26px"><strong>Requirements:</strong> <code>git</code>
+      (required — the engine under the hood), <a class="inline"
+      href="https://claude.com/claude-code">Claude&nbsp;Code</a> (for the slash
+      commands), and a zsh-ish shell. <code>gh</code> is optional — it auto-creates
+      GitHub remotes; skip it and paste any clone URL by hand.</p>
+
+    <h2 id="firstrun"><span class="n">03</span> &nbsp;First contact</h2>
+    <p>Two doorways in — both interactive, both also reachable from the
+      dashboard's <code>n</code> and <code>i</code> keys:</p>
+    <div class="tree">newproject     <span class="cmt"># spin up a NEW project — scaffold, index, hand off to Claude</span>
+importproject  <span class="cmt"># adopt an EXISTING folder or git repo — original never touched</span></div>
+    <p style="margin-top:14px"><code>newproject</code> creates your first project in
+      <code>~/Projects/Active/</code>, drops in a starter scaffold, records it in the
+      index, and hands off to Claude&nbsp;Code to help define what the thing actually
+      is. Already have a pile of project folders? <code>importproject</code> is the
+      adoption on-ramp — point it at each one and it's copied in, indexed, and
+      committed, with the full Claude intake <em>offered</em> rather than forced.
+      Want the why behind the design? <code>CONVENTIONS.md</code> ships in the zip —
+      the system's principles, ~200 lines.</p>
+
+    <h2 id="uninstall"><span class="n">04</span> &nbsp;Uninstall</h2>
+    <p>The system lives in four announced places: the <code>~/project-system</code>
+      folder, five command symlinks, the <code>~/Projects</code> workspace, and one
+      line in <code>~/.zshrc</code>. To remove it, delete the first two and the
+      line:</p>
+    <div class="tree">rm -rf ~/project-system
+rm -f ~/.claude/commands/{setup-project,grill,architect,init-claude-md,project-status}.md
+<span class="cmt"># then delete the one project-system line from ~/.zshrc</span></div>
+    <p style="margin-top:14px"><code>~/Projects</code> — your actual work — stays.
+      It was never the system's; it's just folders and git repos, readable with or
+      without any of this. That's the point.</p>
+
+  </article>
+
+  <footer>
+    <p class="motto">Certified Y3K Ready</p>
+    <p><a href="/">← Y3K Lab</a> · © 1970–3000 Y3K Lab · Shareware — copy it, share it, distribute freely on any BBS.</p>
+  </footer>
+
+  <!-- Copy buttons for the code blocks — injected here so the markup above stays
+       plain, and no-JS visitors simply don't see a button that couldn't work.
+       Text is captured before the button joins the block, so it never copies
+       itself; textContent flattens the highlighted comments back to plain text.
+       Blocks marked data-nocopy (displays, not commands) are skipped. -->
+  <script>
+    document.querySelectorAll('.tree:not([data-nocopy])').forEach(function (tree) {
+      var text = tree.textContent.trimEnd();
+      var btn = document.createElement('button');
+      btn.className = 'copybtn';
+      btn.type = 'button';
+      btn.textContent = 'copy';
+      btn.setAttribute('aria-label', 'Copy to clipboard');
+      var reset;
+      btn.addEventListener('click', function () {
+        var write = navigator.clipboard
+          ? navigator.clipboard.writeText(text)
+          : Promise.reject();
+        write.catch(function () {
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+        }).then(function () {
+          btn.textContent = 'copied';
+          btn.classList.add('done');
+          clearTimeout(reset);
+          reset = setTimeout(function () {
+            btn.textContent = 'copy';
+            btn.classList.remove('done');
+          }, 1600);
+        });
+      });
+      tree.appendChild(btn);
+    });
+  </script>
+
+</body>
+</html>
