@@ -405,11 +405,11 @@
       open <strong>System Settings → Privacy &amp; Security</strong>, scroll down to
       <em>Security</em>, click <strong>Open Anyway</strong>, then double-click the
       installer again — once. macOS just wants to hear you trust a script you
-      downloaded. (Or sidestep the dialog entirely: run
-      <code>bash&nbsp;"Double-Click&nbsp;to&nbsp;Install.command"</code> in Terminal
-      from the unzipped folder.)</p>
+      downloaded. (Or sidestep the dialog entirely: Gatekeeper only fusses over
+      double-clicks, so the <a class="inline" href="#install-terminal">From the
+      terminal</a> route below never sees it.)</p>
 
-    <h3 class="sub">From the terminal</h3>
+    <h3 class="sub" id="install-terminal">From the terminal</h3>
     <p>Prefer to drive? Same result, three moves:</p>
     <div class="tree">unzip project-system.zip -d ~
 ~/project-system/install.sh
