@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<!--
+  A3K — Aesthetic 3000, the Y3K design language.
+  A self-contained, zero-dependency spec page, built in the same hand as the hub
+  (../index.html): same palette, floor grid, CRT scanlines, power-on motion.
+
+  This page is itself a fractal self-describing node — and a literal one: it
+  documents A3K *in* A3K. Every section practices what it describes. The palette
+  section is rendered in the palette; the wordmark section shows the real crafted
+  glyphs; the page powers on the way the language says surfaces should.
+
+  Guardrail (DECISIONS.md, y3k-lab): A3K is a name in prose / a small credit,
+  never a hero wordmark — at size it collides with the Y3K logo. So the hero here
+  is the one canonical shared asset, the palette ramp, not a giant "A3K".
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A3K — Aesthetic 3000 · the Y3K design language</title>
+<meta name="description" content="A3K (Aesthetic 3000) is the Y3K design language — a retro-futurist synthwave look every Y3K experiment wears: neon magenta→cyan gradients, double-line box-drawing wordmarks, and brief power-on motion. The palette, the temperature map, the wordmarks, and the voice, in one place.">
+<link rel="canonical" href="https://y3klab.com/a3k/">
+
+<!-- Favicon + share assets live at the site root; we're one level deep. -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="/favicon.svg">
+<link rel="mask-icon" href="/favicon.svg" color="#ff5fff">
+
+<!-- OpenGraph / Twitter — reuses the Lab share card until a bespoke one ships. -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Y3K Lab">
+<meta property="og:title" content="A3K — Aesthetic 3000, the Y3K design language">
+<meta property="og:description" content="The synthwave look every Y3K experiment wears: neon magenta→cyan gradients, double-line wordmarks, power-on motion. The palette, the temperature map, the voice — in one place.">
+<meta property="og:url" content="https://y3klab.com/a3k/">
+<meta property="og:image" content="https://y3klab.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="A3K — Aesthetic 3000, the Y3K design language">
+<meta name="twitter:description" content="The retro-futurist synthwave look every Y3K experiment wears. Palette, temperature map, wordmarks, voice.">
+<meta name="twitter:image" content="https://y3klab.com/og-image.png">
+<meta name="theme-color" content="#0a0a12">
+<style>
+  /* ── The palette: the one canonical shared asset (ANSI-256 → hex). ──
+     Mirrors ../index.html; runtime-canonical values live in Phos4's y3k.sh. */
+  :root {
+    --magenta: #ff5fff;  /* 201 — warm end */
+    --rose:    #ff5fd7;  /* 207 */
+    --pink:    #d75fd7;  /* 171 */
+    --purple:  #af5fff;  /* 135 */
+    --indigo:  #875fff;  /*  99 */
+    --blue:    #5fafff;  /*  75 */
+    --cyan:    #00d7ff;  /*  45 */
+    --brtcyan: #00ffff;  /*  51 — cool end */
+    --accent:  #00afff;  /*  39 — the live cue */
+
+    --ramp: linear-gradient(100deg,
+      var(--magenta), var(--pink), var(--purple), var(--indigo),
+      var(--blue), var(--cyan), var(--brtcyan));
+    /* The vertical ramp — magenta at top → bright-cyan at bottom (the wordmark fill). */
+    --ramp-v: linear-gradient(180deg,
+      var(--magenta), var(--pink), var(--purple), var(--indigo),
+      var(--blue), var(--cyan), var(--brtcyan));
+
+    /* Status colours (ANSI cube → hex). */
+    --ok:   #00d787;  /*  42 — green */
+    --warn: #ffd700;  /* 220 — amber */
+    --err:  #ff5f5f;  /* 203 — soft red */
+
+    --bg:    #0a0a12;
+    --panel: #12121f;
+    --ink:   #e8e8f4;
+    --dim:   #8a8aa6;
+    --rail:  #2a2a3e;
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      /* warm corner (active/advances) + cool corner (dormant/recedes) — the
+         temperature map baked into the room. */
+      radial-gradient(900px 500px at 8% -8%, color-mix(in srgb, var(--magenta) 16%, transparent), transparent 55%),
+      radial-gradient(900px 500px at 100% 108%, color-mix(in srgb, var(--cyan) 12%, transparent), transparent 55%),
+      radial-gradient(1200px 600px at 50% -10%, #1a1030 0%, transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font: 16px/1.6 ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6vh 24px 56px;
+  }
+  /* Faint synthwave floor grid — fixed layer, faded out before it reaches content. */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      repeating-linear-gradient(to right,  color-mix(in srgb, var(--cyan) 8%, transparent) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(to bottom, color-mix(in srgb, var(--magenta) 6%, transparent) 0 1px, transparent 1px 64px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 55%, #000 100%);
+            mask-image: linear-gradient(to bottom, transparent 55%, #000 100%);
+    opacity: .55;
+  }
+  /* Faint CRT scanlines — overlaid ON TOP of all content; subtractive lines preserve
+     the glows; a hairline cyan tint keeps it synthwave, not grey. pointer-events
+     are off, so links and the replay button below still take clicks. */
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none;
+    background:
+      repeating-linear-gradient(to bottom, rgba(0,0,0,.16) 0 1px, transparent 1px 4px),
+      repeating-linear-gradient(to bottom,
+        color-mix(in srgb, var(--cyan) 9%, transparent) 0 1px, transparent 1px 4px);
+    background-size: 100% 4px;
+  }
+  @media (min-resolution: 2dppx) {
+    body::after {
+      background:
+        repeating-linear-gradient(to bottom, rgba(0,0,0,.20) 0 1.5px, transparent 1.5px 5px),
+        repeating-linear-gradient(to bottom,
+          color-mix(in srgb, var(--cyan) 9%, transparent) 0 1.5px, transparent 1.5px 5px);
+      background-size: 100% 5px;
+    }
+  }
+
+  .wrap { width: 100%; max-width: 880px; }
+
+  /* ── Up-link: a fractal node points UP to its index (the hub). ── */
+  .uplink {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--dim); text-decoration: none;
+    font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+    padding: 6px 0; margin-bottom: 22px;
+    transition: color .18s;
+  }
+  .uplink:hover { color: var(--ink); }
+  .uplink .arw { color: var(--accent); transition: transform .18s; display: inline-block; }
+  .uplink:hover .arw { transform: translateX(-3px); }
+
+  /* ── Hero ── the palette IS the hero (no giant A3K wordmark — see guardrail). ── */
+  .hero { text-align: center; margin: 8px 0 4px; }
+  .eyebrow {
+    display: inline-block;
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    letter-spacing: .42em; text-transform: uppercase;
+    font-size: 12px; font-weight: 700;
+    padding-left: .42em;       /* optical: balance the trailing letter-spacing */
+  }
+  .eyebrow b { color: var(--magenta); font-weight: 700; }
+  h1 {
+    margin: 12px 0 0;
+    font-size: clamp(44px, 9.5vw, 92px);
+    font-weight: 800; letter-spacing: .02em; line-height: 1;
+    background: var(--ramp);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    /* Phosphor bloom + chromatic fringe (the wordmark treatment). */
+    filter:
+      drop-shadow(-2px 0 0 color-mix(in srgb, var(--magenta) 60%, transparent))
+      drop-shadow( 2px 0 0 color-mix(in srgb, var(--cyan)    60%, transparent))
+      drop-shadow(0 0 22px color-mix(in srgb, var(--purple) 35%, transparent));
+  }
+  .hero-sub {
+    margin: 14px 0 0; color: color-mix(in srgb, var(--ink) 72%, var(--dim));
+    font-size: 15px;
+  }
+  .hero-sub b { color: var(--ink); font-weight: 700; }
+  .tagline {
+    margin: 22px 0 0;
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    letter-spacing: .28em; text-transform: uppercase; font-size: 11.5px;
+  }
+  .tagline::before { content: "[ "; color: var(--accent); }
+  .tagline::after  { content: " ]"; color: var(--accent); }
+
+  /* The decoder — the one thing to remember: the twin pun. ── */
+  .decoder {
+    margin: 30px auto 0; width: max-content; max-width: 100%;
+    border: 1px solid var(--rail); border-radius: 12px;
+    background: rgba(255,255,255,.015);
+    padding: 16px 22px;
+    box-shadow: inset 0 0 40px -32px var(--purple);
+  }
+  .dec-row {
+    display: grid; grid-template-columns: min-content min-content auto;
+    align-items: baseline; gap: 12px;
+    font-size: clamp(16px, 4.4vw, 21px); font-weight: 800; letter-spacing: .04em;
+    text-align: left;
+  }
+  .dec-row + .dec-row { margin-top: 4px; }
+  .dec-y { color: var(--cyan); }     /* the family / brand — established, cool */
+  .dec-a { color: var(--magenta); }  /* the language — active, warm */
+  .dec-eq { color: var(--dim); font-weight: 500; }
+  .dec-exp { color: color-mix(in srgb, var(--ink) 78%, var(--dim)); font-weight: 600; }
+  .dec-exp b { color: var(--ink); font-weight: 800; }
+  .dec-exp .k {
+    color: var(--accent);
+    text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+  .dec-note {
+    margin: 12px 0 0; padding-top: 11px; border-top: 1px solid var(--rail);
+    text-align: center; color: var(--dim); font-size: 12px; letter-spacing: .04em;
+  }
+  .dec-note b { color: var(--accent); font-weight: 700; }
+
+  /* The hero ramp band — the canonical asset, full width, as the signature visual. */
+  .ramp-band {
+    margin: 34px 0 0; height: 64px; border-radius: 12px;
+    background: var(--ramp);
+    box-shadow: 0 0 60px -26px var(--purple), inset 0 0 0 1px rgba(255,255,255,.06);
+    position: relative; overflow: hidden;
+  }
+  .ramp-band::after {  /* a soft top sheen, so it reads as lit glass */
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,.18), transparent 42%);
+  }
+
+  /* ── Sections ── */
+  section { margin: 64px 0 0; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin: 0 0 20px; }
+  .sec-num {
+    font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--dim);
+    border: 1px solid var(--rail); border-radius: 6px; padding: 3px 8px;
+    flex: none;
+  }
+  .sec-title {
+    margin: 0; font-size: clamp(21px, 4.4vw, 28px); font-weight: 800; letter-spacing: .01em;
+    /* Header gradient encodes temperature (§5): a WARM slice — this is live content. */
+    background: linear-gradient(100deg, var(--magenta), var(--pink), var(--purple));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .sec-head::after {
+    content: ""; flex: 1; align-self: center; height: 1px;
+    background: linear-gradient(90deg,
+      color-mix(in srgb, var(--purple) 60%, transparent),
+      color-mix(in srgb, var(--cyan) 40%, transparent), transparent);
+    opacity: .5;
+  }
+  p { margin: 0 0 14px; color: color-mix(in srgb, var(--ink) 78%, var(--dim)); }
+  p:last-child { margin-bottom: 0; }
+  .lead { color: var(--ink); font-size: 17px; }
+  strong, b { color: var(--ink); }
+  em { color: var(--cyan); font-style: normal; }
+  a.inline { color: var(--blue); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--blue) 40%, transparent); }
+  a.inline:hover { border-bottom-color: var(--blue); }
+  .verbs { color: var(--magenta); font-weight: 700; }
+  .verbs.cool { color: var(--cyan); }
+
+  /* ── Palette swatches ── */
+  .swatches {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;
+    margin: 0 0 18px;
+  }
+  .sw {
+    border-radius: 9px; overflow: hidden; border: 1px solid var(--rail);
+    background: var(--panel);
+  }
+  .sw-chip { height: 64px; }
+  .sw-meta { padding: 8px 9px 10px; }
+  .sw-idx { font-size: 13px; font-weight: 800; color: var(--ink); letter-spacing: .02em; }
+  .sw-hex { font-size: 10.5px; color: var(--dim); letter-spacing: .02em; }
+  .sw-role { font-size: 10px; color: color-mix(in srgb, var(--ink) 55%, var(--dim)); margin-top: 3px; }
+  .band-label {
+    display: flex; align-items: center; gap: 12px;
+    margin: 22px 0 10px; color: var(--dim);
+    font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  }
+  .band-label::after {
+    content: ""; flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--rail), transparent); opacity: .8;
+  }
+  /* Greyscale mono band — a deliberately MID grey band (a visible mode boundary). */
+  .mono-band { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .mono-sw { border-radius: 7px; overflow: hidden; border: 1px solid var(--rail); }
+  .mono-chip { height: 34px; }
+  .mono-cap { font-size: 9.5px; color: var(--dim); text-align: center; padding: 4px 0 5px; }
+  /* Status colours */
+  .status-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .status {
+    display: inline-flex; align-items: center; gap: 9px;
+    border: 1px solid var(--rail); border-radius: 999px; padding: 6px 14px 6px 11px;
+    background: var(--panel); font-size: 12.5px; letter-spacing: .04em;
+  }
+  .status .dot { width: 11px; height: 11px; border-radius: 50%; flex: none; box-shadow: 0 0 10px -1px currentColor; }
+  .status .nm { color: var(--ink); font-weight: 700; text-transform: uppercase; letter-spacing: .1em; font-size: 11px; }
+  .status .hx { color: var(--dim); }
+
+  /* ── Temperature map ── */
+  .tmap {
+    height: 56px; border-radius: 10px; overflow: hidden; display: flex;
+    border: 1px solid var(--rail); margin: 0 0 14px;
+  }
+  .tmap > div { flex: 1; display: grid; place-items: center; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+  .tmap .warm { background: linear-gradient(100deg, var(--magenta), var(--purple)); color: #1a0a1a; flex: 2; }
+  .tmap .cool { background: linear-gradient(100deg, var(--blue), var(--brtcyan)); color: #04121a; flex: 1.6; }
+  .tmap .grey { background: linear-gradient(100deg, #767676, #949494); color: #111; }
+  .tlegend { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .tleg { border-left: 3px solid var(--c); padding: 2px 0 2px 12px; }
+  .tleg .h { font-weight: 800; color: var(--ink); font-size: 13px; }
+  .tleg .d { font-size: 12px; color: var(--dim); }
+
+  /* ── Wordmark glyph gallery ── */
+  .glyphs { display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)); gap: 12px; margin-bottom: 18px; }
+  .glyph { border: 1px solid var(--rail); border-radius: 10px; background: var(--panel); padding: 14px; text-align: center; }
+  .glyph pre {
+    margin: 0 0 10px; font-size: 19px; line-height: 1.05; font-weight: 700;
+    background: var(--ramp-v);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--purple) 30%, transparent));
+  }
+  .glyph .gl { font-size: 12px; color: var(--ink); font-weight: 800; }
+  .glyph .gt { font-size: 10.5px; color: var(--dim); margin-top: 2px; line-height: 1.4; }
+
+  /* ── Gradient header demo ── */
+  .ghead { display: grid; gap: 10px; margin-top: 4px; }
+  .gh {
+    font-size: 18px; font-weight: 800; letter-spacing: .04em;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .gh .tag { font-size: 11px; font-weight: 600; letter-spacing: .14em; }
+  /* background-IMAGE longhand (not the `background` shorthand, which would reset
+     background-clip back to border-box and undo the text-clip from .gh). */
+  .gh-active { background-image: linear-gradient(100deg, var(--magenta), var(--pink), var(--purple)); }
+  /* Inactive = cool slice, REVERSED so cyan lands on the first letter. */
+  .gh-inactive { background-image: linear-gradient(100deg, var(--cyan), var(--blue), var(--indigo)); }
+  .gh-archive { background: none; color: #8a8a8a; -webkit-text-fill-color: #8a8a8a; }
+
+  /* ── Chips ── */
+  .chips { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+  .chip { font-size: 12.5px; font-weight: 700; border-radius: 7px; padding: 7px 13px; letter-spacing: .03em; }
+  .chip.keycap  { background: #2a1245; color: #fff; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--purple) 35%, transparent); }
+  .chip.menuhl  { background: #2c2c38; color: #fff; }
+  .chip.doorway { background: #1a1320; color: color-mix(in srgb, var(--magenta) 80%, var(--ink)); box-shadow: inset 0 0 0 1px var(--rail); }
+  .chip.doorway.arch { color: #9a9ab0; }
+  .chip.numchip { background: transparent; color: var(--accent); letter-spacing: .18em; box-shadow: none; padding-left: 4px; }
+  .chip.numchip .frame { color: color-mix(in srgb, var(--magenta) 55%, var(--dim)); }
+  .dials { font-size: 12.5px; color: var(--dim); }
+  .dials b { color: var(--ink); }
+
+  /* ── Animation demo ── */
+  .anim-card {
+    border: 1px solid var(--rail); border-radius: 12px; background: var(--panel);
+    padding: 22px; display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .anim-stage { font-size: clamp(20px, 5vw, 30px); font-weight: 800; letter-spacing: .06em;
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .btn {
+    font: inherit; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink); cursor: pointer;
+    background: color-mix(in srgb, var(--magenta) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--magenta) 42%, var(--rail));
+    border-radius: 999px; padding: 8px 16px;
+    transition: border-color .18s, background .18s, transform .12s;
+  }
+  .btn:hover { border-color: var(--magenta); background: color-mix(in srgb, var(--magenta) 20%, transparent); }
+  .btn:active { transform: translateY(1px); }
+  .anim-note { flex-basis: 100%; margin: 4px 0 0; font-size: 12px; color: var(--dim); }
+
+  /* ── Voice ── */
+  .voice { display: grid; gap: 14px; }
+  .vrow { border: 1px solid var(--rail); border-radius: 10px; background: var(--panel); padding: 16px 18px; }
+  .vrow .vlabel { font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }
+  .vrow .vline { font-size: 16px; color: var(--ink); }
+  .vrow .vtag { color: color-mix(in srgb, var(--ink) 70%, var(--dim)); letter-spacing: .24em; text-transform: uppercase; font-size: 12px; }
+  .vrow .vtag::before { content: "[ "; color: var(--accent); }
+  .vrow .vtag::after  { content: " ]"; color: var(--accent); }
+  .vrow .vmotto { background: var(--ramp); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+
+  /* ── Doorways back out ── */
+  .doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 4px; }
+  .door {
+    border: 1px solid var(--rail); border-radius: 10px; background: var(--panel);
+    padding: 16px 18px; text-decoration: none; color: inherit;
+    display: flex; flex-direction: column; gap: 4px;
+    transition: border-color .18s, transform .18s, box-shadow .18s;
+  }
+  .door:hover { transform: translateY(-3px); border-color: var(--magenta); box-shadow: 0 12px 30px -18px var(--magenta); }
+  .door .dh { font-weight: 800; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  .door .dh .arw { color: var(--accent); transition: transform .18s; }
+  .door:hover .dh .arw { transform: translate(2px, -2px); }
+  .door .dd { font-size: 12.5px; color: var(--dim); }
+
+  footer {
+    margin-top: 72px; text-align: center; color: var(--dim);
+    font-size: 12px; max-width: 60ch;
+  }
+  footer .motto {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text; color: transparent;
+    letter-spacing: .18em; text-transform: uppercase; font-weight: 700;
+  }
+  footer a { color: var(--blue); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  footer .sub { margin-top: 8px; }
+
+  @media (max-width: 620px) {
+    .swatches { grid-template-columns: repeat(4, 1fr); }
+    .mono-band { grid-template-columns: repeat(7, 1fr); }
+    .sec-head::after { display: none; }
+  }
+  @media (max-width: 420px) {
+    .swatches { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (hover: none) { .door:hover { transform: none; } }
+
+  /* ── Power-on load ── the web analogue of A3K's "degrade off-TTY": opt-in via
+     prefers-reduced-motion. Hero + sections reveal top→bottom; the ramp band
+     wipes on left→right; the CRT idles with a barely-perceptible flicker. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero > *, section, footer { opacity: 0; animation: poweron .55s ease forwards; }
+    .hero > *:nth-child(1){animation-delay:.05s} .hero > *:nth-child(2){animation-delay:.12s}
+    .hero > *:nth-child(3){animation-delay:.19s} .hero > *:nth-child(4){animation-delay:.26s}
+    .hero > *:nth-child(5){animation-delay:.33s} .hero > *:nth-child(6){animation-delay:.40s}
+    section:nth-of-type(1){animation-delay:.34s} section:nth-of-type(2){animation-delay:.40s}
+    section:nth-of-type(3){animation-delay:.46s} section:nth-of-type(4){animation-delay:.52s}
+    section:nth-of-type(5){animation-delay:.56s} section:nth-of-type(6){animation-delay:.60s}
+    section:nth-of-type(7){animation-delay:.64s} section:nth-of-type(8){animation-delay:.68s}
+    section:nth-of-type(9){animation-delay:.72s} footer{animation-delay:.78s}
+    @keyframes poweron { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+    .ramp-band { position: relative; }
+    .ramp-band.power::before {
+      content: ""; position: absolute; inset: 0; z-index: 2; background: var(--bg);
+      animation: rampwipe .9s ease .25s forwards;
+    }
+    @keyframes rampwipe { to { transform: translateX(101%); } }
+
+    body::after { animation: crtflicker 6s steps(60) infinite; }
+    @keyframes crtflicker { 0%, 96%, 100% { opacity: 1; } 97% { opacity: .94; } 98% { opacity: .995; } }
+
+    /* The §7 replay demo — re-run the power-on on the staged wordmark. */
+    .anim-stage.replay { animation: stageboot 1.1s ease both; }
+    @keyframes stageboot {
+      0%{opacity:0} 8%{opacity:1} 11%{opacity:.2} 16%{opacity:1}
+      20%{opacity:.5} 24%{opacity:1} 30%{opacity:.78} 34%{opacity:1} 100%{opacity:1}
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="uplink" href="/"><span class="arw">↖</span> Y3K&nbsp;Lab</a>
+
+  <header class="hero">
+    <span class="eyebrow"><b>A3K</b> · Design Language</span>
+    <h1>Aesthetic 3000</h1>
+    <p class="hero-sub">The design language of <b>Y3K</b> — the retro-futurist
+      synthwave look every experiment wears.</p>
+    <p class="tagline">Built for the year 3000</p>
+
+    <div class="decoder">
+      <div class="dec-row"><span class="dec-mark dec-y">Y3K</span><span class="dec-eq">═</span><span class="dec-exp">the <b>future</b></span></div>
+      <div class="dec-row"><span class="dec-mark dec-a">A3K</span><span class="dec-eq">═</span><span class="dec-exp">the <b>look</b> it wears</span></div>
+      <p class="dec-note">that’s <b>retro-futurism</b></p>
+    </div>
+
+    <div class="ramp-band power" id="rampBand" aria-hidden="true"></div>
+  </header>
+
+  <!-- §1 — What A3K is -->
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">What A3K is</h2></div>
+    <p class="lead"><strong>A3K</strong> (<em>Aesthetic 3000</em>) is a retro-futurist
+      “year&nbsp;3000” synthwave look — neon magenta→cyan gradients, double-line
+      box-drawing wordmarks, and brief power-on animations. Retro-future computing
+      optimism, in the mold of Apple’s Liquid Glass or Google’s Material: a named
+      system, not a one-off theme.</p>
+    <p>A3K is the <strong>design language</strong>; <strong>Y3K&nbsp;Lab</strong> is
+      the umbrella incubator that houses the surfaces that wear it — a terminal-UI
+      engine, a Claude&nbsp;Code theme, a project OS, an RC team, a home. Each wears
+      it in its own format. The through-line is the language, not a monorepo.</p>
+    <p>The verbs are deliberate: a surface <span class="verbs">wears</span> A3K; an
+      engine like <strong>Phos4</strong> is <em>fluent</em> in it and
+      <span class="verbs cool">renders</span> it; <strong>built</strong> is reserved for
+      the tagline, <em>Built for the year 3000</em>.</p>
+  </section>
+
+  <!-- §2 — The palette -->
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">The palette</h2></div>
+    <p>The one <strong>canonical shared asset</strong>. Everything else — wordmarks,
+      chips, headers, doorways — is the palette bound to a surface’s own tokens. Get
+      the ramp and the temperature map right and a surface reads as Y3K; the rest is
+      binding. All values are <strong>ANSI 256-colour</strong> indices.</p>
+
+    <div class="band-label">The synthwave ramp · magenta → cyan · 7 stops</div>
+    <div class="swatches">
+      <div class="sw"><div class="sw-chip" style="background:#ff5fff"></div><div class="sw-meta"><div class="sw-idx">201</div><div class="sw-hex">#ff5fff</div><div class="sw-role">magenta · warm end</div></div></div>
+      <div class="sw"><div class="sw-chip" style="background:#d75fd7"></div><div class="sw-meta"><div class="sw-idx">171</div><div class="sw-hex">#d75fd7</div><div class="sw-role">pink</div></div></div>
+      <div class="sw"><div class="sw-chip" style="background:#af5fff"></div><div class="sw-meta"><div class="sw-idx">135</div><div class="sw-hex">#af5fff</div><div class="sw-role">purple</div></div></div>
+      <div class="sw"><div class="sw-chip" style="background:#875fff"></div><div class="sw-meta"><div class="sw-idx">99</div><div class="sw-hex">#875fff</div><div class="sw-role">indigo</div></div></div>
+      <div class="sw"><div class="sw-chip" style="background:#5fafff"></div><div class="sw-meta"><div class="sw-idx">75</div><div class="sw-hex">#5fafff</div><div class="sw-role">blue</div></div></div>
+      <div class="sw"><div class="sw-chip" style="background:#00d7ff"></div><div class="sw-meta"><div class="sw-idx">45</div><div class="sw-hex">#00d7ff</div><div class="sw-role">cyan</div></div></div>
+      <div class="sw"><div class="sw-chip" style="background:#00ffff"></div><div class="sw-meta"><div class="sw-idx">51</div><div class="sw-hex">#00ffff</div><div class="sw-role">bright cyan · cool end</div></div></div>
+    </div>
+
+    <div class="band-label">The mono band · a deliberately mid grey (a visible mode)</div>
+    <div class="mono-band">
+      <div class="mono-sw"><div class="mono-chip" style="background:#767676"></div><div class="mono-cap">243</div></div>
+      <div class="mono-sw"><div class="mono-chip" style="background:#808080"></div><div class="mono-cap">244</div></div>
+      <div class="mono-sw"><div class="mono-chip" style="background:#8a8a8a"></div><div class="mono-cap">245</div></div>
+      <div class="mono-sw"><div class="mono-chip" style="background:#949494"></div><div class="mono-cap">246</div></div>
+      <div class="mono-sw"><div class="mono-chip" style="background:#9e9e9e"></div><div class="mono-cap">247</div></div>
+      <div class="mono-sw"><div class="mono-chip" style="background:#a8a8a8"></div><div class="mono-cap">248 ·acc</div></div>
+      <div class="mono-sw"><div class="mono-chip" style="background:#b2b2b2"></div><div class="mono-cap">249</div></div>
+    </div>
+
+    <div class="band-label">Status</div>
+    <div class="status-row">
+      <span class="status"><span class="dot" style="background:#00d787;color:#00d787"></span><span class="nm">ok</span><span class="hx">42 · #00d787</span></span>
+      <span class="status"><span class="dot" style="background:#ffd700;color:#ffd700"></span><span class="nm">warn</span><span class="hx">220 · #ffd700</span></span>
+      <span class="status"><span class="dot" style="background:#ff5f5f;color:#ff5f5f"></span><span class="nm">err</span><span class="hx">203 · #ff5f5f</span></span>
+    </div>
+  </section>
+
+  <!-- §3 — The temperature map -->
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">The temperature map</h2></div>
+    <p>The identity hangs on one idea: <strong>lifecycle state = colour temperature.</strong>
+      It isn’t decoration — it <strong>enforces the hierarchy for free.</strong> Active
+      pops forward, dormant recedes, with no extra weight or size cue.</p>
+    <div class="tmap">
+      <div class="warm">warm · advances</div>
+      <div class="cool">cool · recedes</div>
+      <div class="grey">grey · archived</div>
+    </div>
+    <div class="tlegend">
+      <div class="tleg" style="--c: var(--magenta)"><div class="h">Warm — magenta→purple</div><div class="d">Active · engaged · “create” actions.</div></div>
+      <div class="tleg" style="--c: var(--cyan)"><div class="h">Cool — cyan→blue</div><div class="d">Inactive · dormant · receding.</div></div>
+      <div class="tleg" style="--c: #8a8a8a"><div class="h">Grey — the mid band</div><div class="d">Archive · done · the focused-tool mode.</div></div>
+    </div>
+  </section>
+
+  <!-- §4 — Wordmarks & glyphs -->
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">Wordmarks &amp; glyphs</h2></div>
+    <p>Wordmarks are set in a <strong>double-line box-drawing</strong> font, framed and
+      gradient-filled. There is <strong>no double-line diagonal in Unicode</strong>, so
+      the letters that need one were hand-built from the available pieces — part of the
+      brand’s story, documented so they’re reused, not reinvented.</p>
+    <div class="glyphs">
+      <div class="glyph"><pre>╦  ╦
+╚╗╔╝
+ ╚╝ </pre><div class="gl">V</div><div class="gt">arms converge to a point</div></div>
+      <div class="glyph"><pre>╦╗╦
+║╚╣
+╩ ╩</pre><div class="gl">N</div><div class="gt">stems + a ╗╚ diagonal step</div></div>
+      <div class="glyph"><pre>╦ ╦
+║║║
+╚╩╝</pre><div class="gl">W</div><div class="gt">an inverted-M</div></div>
+      <div class="glyph"><pre>╦ ╦
+╚╦╝
+ ╩ </pre><div class="gl">Y</div><div class="gt">arms drop to a single stem</div></div>
+      <div class="glyph"><pre>╔╦╗
+ ║
+╚╩╝</pre><div class="gl">I</div><div class="gt">an I-beam — distinct from T</div></div>
+    </div>
+    <p>A boxed wordmark has a louder sibling — the <strong>celebration banner</strong>
+      (giant full-block letters) for the moment a surface <em>finishes</em> something:
+      an installer’s success, a completed build. The banner shouts the name; a
+      letter-spaced bracketed caption whispers the meaning.</p>
+  </section>
+
+  <!-- §5 — Gradients -->
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">Gradients</h2></div>
+    <p>A gradient sweeps the ramp across a string. Section headers take a
+      <strong>temperature-appropriate slice</strong> — so a header sweeps yet stays in
+      its own band. (Every <span class="verbs">section title on this page</span> is a
+      warm slice; the rule, applied to itself.)</p>
+    <div class="ghead">
+      <div class="gh gh-active">Active &nbsp;<span class="tag">— warm slice, magenta→purple</span></div>
+      <div class="gh gh-inactive">Inactive &nbsp;<span class="tag">— cool slice, reversed: cyan lands first</span></div>
+      <div class="gh gh-archive">Archive &nbsp;<span class="tag">— fixed grey, no sweep</span></div>
+    </div>
+  </section>
+
+  <!-- §6 — Chips -->
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2 class="sec-title">Chips</h2></div>
+    <p>A chip is a short padded label with a background fill. <strong>Three independent
+      dials</strong> — weight, muting, hue — each carry one meaning.</p>
+    <div class="chips">
+      <span class="chip keycap">↵ Enter</span>
+      <span class="chip menuhl">selected row</span>
+      <span class="chip doorway">→ active</span>
+      <span class="chip doorway arch">→ archive</span>
+      <span class="chip numchip"><span class="frame">░▒</span> 3 <span class="frame">▒░</span></span>
+    </div>
+    <p class="dials"><b>Bright fill</b> = primary action · <b>muted fill</b> = secondary
+      doorway · <b>colour</b> = section or destination.</p>
+  </section>
+
+  <!-- §7 — Animation -->
+  <section>
+    <div class="sec-head"><span class="sec-num">07</span><h2 class="sec-title">Animation</h2></div>
+    <p>Animated moments are <strong>opt-in or one-shot, and short</strong> — a banner
+      <em>powers on</em> (rows reveal top→bottom), <em>shimmers</em> (the 16-stop ramp
+      marches down), then <em>settles</em> into the static gradient. Two rules:
+      <strong>degrade off-TTY</strong> (never animate into a pipe) and
+      <strong>stay sub-second</strong>. Animations are <strong>punctuation, not
+      entertainment.</strong></p>
+    <div class="anim-card">
+      <span class="anim-stage" id="animStage">AESTHETIC 3000</span>
+      <button class="btn" id="powerBtn" type="button">▶ Power on</button>
+      <p class="anim-note">This whole page powered on the same way when it loaded — reveal,
+        then settle. (Respects <code>prefers-reduced-motion</code>.)</p>
+    </div>
+  </section>
+
+  <!-- §8 — Voice -->
+  <section>
+    <div class="sec-head"><span class="sec-num">08</span><h2 class="sec-title">Voice</h2></div>
+    <p>The words are part of the brand too.</p>
+    <div class="voice">
+      <div class="vrow"><div class="vlabel">Tagline — a standalone stamp</div><div class="vline"><span class="vtag">Built for the year 3000</span></div></div>
+      <div class="vrow"><div class="vlabel">Motto — the sign-off, after the “Y2K Ready” stickers</div><div class="vline"><span class="vmotto">Certified Y3K Ready</span></div></div>
+    </div>
+  </section>
+
+  <!-- §9 — Binding to a surface -->
+  <section>
+    <div class="sec-head"><span class="sec-num">09</span><h2 class="sec-title">Binding to a surface</h2></div>
+    <p>The brand travels by <strong>binding the canonical palette to a surface’s own
+      token vocabulary</strong> — ANSI escapes for a terminal, theme-token JSON for an
+      editor, CSS for the web. Pick the temperature of each thing (§3); that answer
+      picks its hue. Use the ramp, not raw colours. Apply the chip-weight rule. If you
+      animate, keep it sub-second. Match the voice.</p>
+    <p>The surfaces that wear A3K — and where to find them:</p>
+    <div class="doors">
+      <a class="door" href="/"><span class="dh">Y3K&nbsp;Lab <span class="arw">→</span></span><span class="dd">The incubator — every surface that wears A3K.</span></a>
+      <a class="door" href="/blue-steel/"><span class="dh">Blue&nbsp;Steel <span class="arw">→</span></span><span class="dd">The palette on Claude&nbsp;Code — theme + status bar.</span></a>
+      <a class="door" href="/project-system/"><span class="dh">Project&nbsp;System <span class="arw">→</span></span><span class="dd">The terminal project OS the look grew up in.</span></a>
+    </div>
+  </section>
+
+  <footer>
+    <p class="motto">Certified Y3K Ready</p>
+    <p class="sub">A3K — <em>Aesthetic 3000</em> — the design language of
+      <a href="/">Y3K&nbsp;Lab</a>.</p>
+    <p class="sub">© 1970–3000 Y3K&nbsp;Lab · Shareware — copy it, share it, distribute freely on any BBS.</p>
+  </footer>
+
+</div>
+
+<script>
+  // §7 demo + hero ramp wipe: re-arm the power-on animations on demand. All gated
+  // on prefers-reduced-motion (the web analogue of A3K's "degrade off-TTY").
+  (function () {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var stage = document.getElementById('animStage');
+    var btn = document.getElementById('powerBtn');
+    if (stage && btn) {
+      btn.addEventListener('click', function () {
+        stage.classList.remove('replay');
+        void stage.offsetWidth;            // restart the animation cleanly
+        stage.classList.add('replay');
+      });
+    }
+
+    // The hero ramp wipe runs once on load via the `.power` class; strip it after
+    // so it doesn't replay on every reflow.
+    var band = document.getElementById('rampBand');
+    if (band) band.addEventListener('animationend', function () { band.classList.remove('power'); });
+  })();
+</script>
+
+</body>
+</html>
