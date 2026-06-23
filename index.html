@@ -210,6 +210,21 @@
     opacity: 1;
   }
 
+  /* The grid's gradient field — each card's --stop is set by its POSITION (not its
+     identity), so spines + subtitles always sweep magenta→cyan however the cards are
+     reordered. Reorder freely; the gradient redistributes itself. (.card.a3k keeps its
+     full-ramp spine via the rule above; this only tints its subtitle.) */
+  .grid .card:nth-child(1)  { --stop: var(--magenta); }
+  .grid .card:nth-child(2)  { --stop: color-mix(in srgb, var(--magenta), var(--pink)); }
+  .grid .card:nth-child(3)  { --stop: var(--pink); }
+  .grid .card:nth-child(4)  { --stop: var(--purple); }
+  .grid .card:nth-child(5)  { --stop: var(--indigo); }
+  .grid .card:nth-child(6)  { --stop: color-mix(in srgb, var(--indigo), var(--blue)); }
+  .grid .card:nth-child(7)  { --stop: var(--blue); }
+  .grid .card:nth-child(8)  { --stop: var(--cyan); }
+  .grid .card:nth-child(9)  { --stop: color-mix(in srgb, var(--cyan), var(--brtcyan)); }
+  .grid .card:nth-child(10) { --stop: var(--brtcyan); }
+
   .grid {
     width: 100%;
     max-width: 1040px;
@@ -399,7 +414,7 @@
 
   <div class="grid">
 
-    <a class="card a3k live" href="/a3k/" style="--stop: var(--accent);">
+    <a class="card a3k live" href="/a3k/">
       <h3>A3K <span class="sub">| Aesthetic 3000 · the Y3K design language</span></h3>
       <p>The synthwave look every experiment here wears — neon magenta→cyan
          gradients, double-line wordmarks, power-on motion. The palette, the
@@ -408,14 +423,14 @@
     </a>
 
     <!-- TODO href: Phos4 (not yet public) -->
-    <a class="card central" href="#" style="--stop: var(--magenta);">
+    <a class="card central" href="#">
       <h3>Phos<span style="color: var(--pink)">4</span> <span class="sub">| Terminal-UI Engine</span></h3>
       <p>The pure-bash, themeable terminal-UI engine that renders Y3K — and owns the
          canonical machine-readable palette values. The most central component.</p>
       <div class="meta"><span class="soon">soon</span></div>
     </a>
 
-    <a class="card live" href="/blue-steel/" style="--stop: var(--rose);">
+    <a class="card live" href="/blue-steel/">
       <h3>Blue Steel <span class="sub">| Claude Theme + Status Bar</span></h3>
       <p>A really, really, ridiculously good-looking theme (a Zoolander homage) —
          the Y3K palette on Claude Code, plus a live status bar with a gradient
@@ -423,7 +438,7 @@
       <div class="meta"><span class="play">get <span class="arw">→</span></span></div>
     </a>
 
-    <a class="card live" href="/project-system/" style="--stop: var(--pink);">
+    <a class="card live" href="/project-system/">
       <h3>Project System <span class="sub">| A Tiny Project OS</span></h3>
       <p>A tiny operating system for your projects — spin up, shelve, archive, and
          index a personal portfolio from the terminal. The original surface the
@@ -432,7 +447,7 @@
     </a>
 
     <!-- TODO href: dotfiles (includes the Ghostty terminal config) -->
-    <a class="card" href="#" style="--stop: var(--purple);">
+    <a class="card" href="#">
       <h3>[dot]files <span class="sub">| Shell &amp; Terminal</span></h3>
       <p>Shell, terminal (Ghostty), and tool configs — the palette carried across
          the everyday environment.</p>
@@ -440,7 +455,7 @@
     </a>
 
     <!-- TODO href: ABP (site/repo TBD) -->
-    <a class="card" href="#" style="--stop: var(--indigo);">
+    <a class="card" href="#">
       <h3>ABP 3D <span class="sub">| Always Be Printing</span></h3>
       <p>The 3D-print crew — filament-fed prototypes, parts, and one-off props,
          stamped with the Y3K look.</p>
@@ -448,21 +463,21 @@
     </a>
 
     <!-- TODO href: Y3K Home -->
-    <a class="card" href="#" style="--stop: var(--blue);">
+    <a class="card" href="#">
       <h3>Y3K Home <span class="sub">| Homelab of the Future</span></h3>
       <p>Home Assistant, personal infrastructure, and the admin/finances stack —
          a household running on Y3K.</p>
       <div class="meta"><span class="soon">soon</span></div>
     </a>
 
-    <a class="card live" href="https://y3krc.com" target="_blank" rel="noopener noreferrer" style="--stop: var(--cyan);">
+    <a class="card live" href="https://y3krc.com" target="_blank" rel="noopener noreferrer">
       <h3>Y3K RC <span class="sub">| Build · Race · Bash · Crawl</span></h3>
       <p>The RC car club — building, racing, bashing, and crawling (scale 4×4
          off-roading) RC cars and trucks, all in Y3K livery.</p>
       <div class="meta"><span class="play">open <span class="arw">→</span></span></div>
     </a>
 
-    <a class="card live" href="https://bolo2k.com" target="_blank" rel="noopener noreferrer" style="--stop: #00ebff;">
+    <a class="card live" href="https://bolo2k.com" target="_blank" rel="noopener noreferrer">
       <h3>Bolo2K <span class="sub">| Browser-Native Bolo</span></h3>
       <p>A faithful remake of Stuart Cheshire’s Bolo — a retro multiplayer
          tank-battle classic, first coded in 1987. Claim
@@ -471,7 +486,7 @@
     </a>
 
     <!-- TODO href: Tuesday Drockets -->
-    <a class="card" href="#" style="--stop: var(--brtcyan);">
+    <a class="card" href="#">
       <h3>Tuesday Drockets <span class="sub">| Model Rocket Squad</span></h3>
       <p>The model rocket squad — building and launching, with a name that riffs on
          “two-stage rockets.” In Y3K livery.</p>
@@ -484,7 +499,7 @@
 
   <div class="grid">
 
-    <a class="card live" href="/fractal-self-describing-nodes/" style="--stop: var(--magenta);">
+    <a class="card live" href="/fractal-self-describing-nodes/">
       <h3>Fractal Self-Describing Nodes <span class="sub">| A structural law</span></h3>
       <p>Every node describes itself, in a consistent shape, at every altitude — the
          law the whole system is built on. Every node is a fractal self.</p>
