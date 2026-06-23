@@ -203,16 +203,24 @@
   }
   .dec-note b { color: var(--accent); font-weight: 700; }
 
-  /* The hero ramp band — the canonical asset, full width, as the signature visual. */
+  /* The hero ramp band — the canonical asset, self-labelled in black: a specimen
+     of the look, naming the look. */
   .ramp-band {
-    margin: 34px 0 0; height: 64px; border-radius: 12px;
+    margin: 64px 0 0; border-radius: 12px; padding: 20px 30px;
     background: var(--ramp);
     box-shadow: 0 0 60px -26px var(--purple), inset 0 0 0 1px rgba(255,255,255,.06);
     position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
   }
   .ramp-band::after {  /* a soft top sheen, so it reads as lit glass */
-    content: ""; position: absolute; inset: 0;
+    content: ""; position: absolute; inset: 0; pointer-events: none;
     background: linear-gradient(180deg, rgba(255,255,255,.18), transparent 42%);
+  }
+  .ramp-tag {
+    position: relative; z-index: 2;
+    color: var(--bg); font-weight: 800;
+    font-size: clamp(15px, 3.6vw, 22px); letter-spacing: .1em;
+    text-transform: uppercase;
   }
 
   /* ── Sections ── */
@@ -445,17 +453,17 @@
   <header class="hero">
     <span class="eyebrow"><b>A3K</b> · Design Language</span>
     <h1>Aesthetic 3000</h1>
-    <p class="hero-sub">The design language of <b>Y3K</b> — the retro-futurist
-      synthwave look every experiment wears.</p>
+    <p class="hero-sub">The design language of <b>Y3K</b> — the look every experiment wears.</p>
     <p class="tagline">Built for the year 3000</p>
 
     <div class="decoder">
       <div class="dec-row"><span class="dec-mark dec-y">Y3K</span><span class="dec-eq">═</span><span class="dec-exp">the <b>future</b></span></div>
       <div class="dec-row"><span class="dec-mark dec-a">A3K</span><span class="dec-eq">═</span><span class="dec-exp">the <b>look</b> it wears</span></div>
-      <p class="dec-note">that’s <b>retro-futurism</b></p>
     </div>
 
-    <div class="ramp-band power" id="rampBand" aria-hidden="true"></div>
+    <div class="ramp-band power" id="rampBand">
+      <span class="ramp-tag">retro-futurist synthwave look</span>
+    </div>
   </header>
 
   <!-- §1 — What A3K is -->
@@ -464,8 +472,7 @@
     <p class="lead"><strong>A3K</strong> (<em>Aesthetic 3000</em>) is a retro-futurist
       “year&nbsp;3000” synthwave look — neon magenta→cyan gradients, double-line
       box-drawing wordmarks, and brief power-on animations. Retro-future computing
-      optimism, in the mold of Apple’s Liquid Glass or Google’s Material: a named
-      system, not a one-off theme.</p>
+      optimism — a named system in its own right, not a one-off theme.</p>
     <p>A3K is the <strong>design language</strong>; <strong>Y3K&nbsp;Lab</strong> is
       the umbrella incubator that houses the surfaces that wear it — a terminal-UI
       engine, a Claude&nbsp;Code theme, a project OS, an RC team, a home. Each wears
