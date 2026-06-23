@@ -91,7 +91,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 6vh 24px 56px;
+    padding: 0 24px 56px;
   }
   /* Faint synthwave floor grid — fixed layer, faded out before it reaches content. */
   body::before {
@@ -126,17 +126,24 @@
 
   .wrap { width: 100%; max-width: 880px; }
 
-  /* ── Up-link: a fractal node points UP to its index (the hub). ── */
+  /* ── Breadcrumb: home (the hub) / here (this page) — matches the other Y3K Lab pages. ── */
   .uplink {
-    display: inline-flex; align-items: center; gap: 8px;
-    color: var(--dim); text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+    padding: 26px 0 0; margin-bottom: 4rem;
     font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
-    padding: 6px 0; margin-bottom: 22px;
-    transition: color .18s;
+    color: var(--dim);
   }
-  .uplink:hover { color: var(--ink); }
-  .uplink .arw { color: var(--accent); transition: transform .18s; display: inline-block; }
-  .uplink:hover .arw { transform: translateX(-3px); }
+  .uplink a {
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    text-decoration: none; transition: color .18s;
+  }
+  .uplink a:hover, .uplink a:focus-visible { color: var(--cyan); outline: none; }
+  .uplink .home {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text;
+    color: transparent; font-weight: 800; letter-spacing: .06em;
+  }
+  .uplink .sep { color: var(--rail); }
+  .uplink .here { color: var(--dim); }
 
   /* ── Hero ── the palette IS the hero (no giant A3K wordmark — see guardrail). ── */
   .hero { text-align: center; margin: 8px 0 4px; }
@@ -448,7 +455,11 @@
 <body>
 <div class="wrap">
 
-  <a class="uplink" href="/"><span class="arw">↖</span> Y3K&nbsp;Lab</a>
+  <nav class="uplink">
+    <a class="home" href="/">Y3K Lab</a>
+    <span class="sep">/</span>
+    <span class="here">A3K</span>
+  </nav>
 
   <header class="hero">
     <span class="eyebrow"><b>A3K</b> · Design Language</span>
