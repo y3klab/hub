@@ -382,6 +382,32 @@
   .vrow .vtag::after  { content: " ]"; color: var(--accent); }
   .vrow .vmotto { background: var(--ramp); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
 
+  /* ── Tables ── the registry style: rails not zebra, whispered headers, one
+     ramp rule crowning the top. Colour only where it means something. */
+  .rtable-wrap {
+    border: 1px solid var(--rail); border-radius: 10px;
+    /* The ramp crown — a 2px sweep pinned to the top edge — over the panel fill. */
+    background: var(--ramp) no-repeat top / 100% 2px, var(--panel);
+    overflow-x: auto; margin: 0 0 14px;
+    box-shadow: 0 0 40px -30px var(--purple);
+  }
+  table.rtable { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 480px; }
+  .rtable th {
+    text-align: left; font-size: 10.5px; font-weight: 700;
+    letter-spacing: .2em; text-transform: uppercase; color: var(--dim);
+    padding: 15px 18px 10px; border-bottom: 1px solid var(--rail);
+  }
+  .rtable td {
+    padding: 12px 18px; color: color-mix(in srgb, var(--ink) 78%, var(--dim));
+    border-top: 1px solid color-mix(in srgb, var(--rail) 60%, transparent);
+  }
+  .rtable tbody tr:first-child td { border-top: none; }
+  .rtable tbody tr { transition: background .15s; }
+  .rtable tbody tr:hover { background: color-mix(in srgb, #2c2c38 55%, transparent); }
+  .rtable .key { color: var(--ink); font-weight: 800; letter-spacing: .02em; }
+  .rtable .tile { color: var(--accent); font-weight: 800; letter-spacing: .08em; text-align: right; width: 1%; white-space: nowrap; }
+  .rtable .note { color: var(--dim); font-size: 12.5px; }
+
   /* ── Doorways back out ── */
   .doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 4px; }
   .door {
@@ -430,7 +456,8 @@
     section:nth-of-type(3){animation-delay:.46s} section:nth-of-type(4){animation-delay:.52s}
     section:nth-of-type(5){animation-delay:.56s} section:nth-of-type(6){animation-delay:.60s}
     section:nth-of-type(7){animation-delay:.64s} section:nth-of-type(8){animation-delay:.68s}
-    section:nth-of-type(9){animation-delay:.72s} footer{animation-delay:.78s}
+    section:nth-of-type(9){animation-delay:.72s} section:nth-of-type(10){animation-delay:.76s}
+    footer{animation-delay:.82s}
     @keyframes poweron { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
     .ramp-band { position: relative; }
@@ -637,9 +664,34 @@
     </div>
   </section>
 
-  <!-- §9 — Binding to a surface -->
+  <!-- §9 — Tables -->
   <section>
-    <div class="sec-head"><span class="sec-num">09</span><h2 class="sec-title">Binding to a surface</h2></div>
+    <div class="sec-head"><span class="sec-num">09</span><h2 class="sec-title">Tables</h2></div>
+    <p>A table is how A3K states canon — the palette, the statuses, the element
+      registry are all tables. The <strong>registry style</strong> reads as an
+      <em>instrument readout</em>, not a spreadsheet: <strong>rails, not
+      zebra</strong> · headers <strong>whisper</strong> (the caption idiom) ·
+      <strong>one ramp rule</strong> crowns the top · the <strong>key
+      column</strong> carries the ink · colour only where it
+      <em>means</em> something.</p>
+    <div class="band-label">The Y3K element registry · canon, set in the canon style</div>
+    <div class="rtable-wrap">
+      <table class="rtable">
+        <thead><tr><th>Tile</th><th>Element</th><th>Symbol</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td class="tile">3000</td><td class="key">Y3K&nbsp;Lab</td><td>Lab</td><td class="note">the umbrella — the whole, not an element</td></tr>
+          <tr><td class="tile">00</td><td class="key">Y3K&nbsp;Home</td><td>Home</td><td class="note">the household — the count’s zero point</td></tr>
+          <tr><td class="tile">01</td><td class="key">Y3K&nbsp;RC</td><td>RC</td><td class="note">first of the series — pole position</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="dials"><b>Single-line rails</b> — double-line stays reserved for wordmarks ·
+      <b>accent</b> only on the cue-bearing tile numbers · hover = the menu highlight.</p>
+  </section>
+
+  <!-- §10 — Binding to a surface -->
+  <section>
+    <div class="sec-head"><span class="sec-num">10</span><h2 class="sec-title">Binding to a surface</h2></div>
     <p>The brand travels by <strong>binding the canonical palette to a surface’s own
       token vocabulary</strong> — ANSI escapes for a terminal, theme-token JSON for an
       editor, CSS for the web. Pick the temperature of each thing (§3); that answer
