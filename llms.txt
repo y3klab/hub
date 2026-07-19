@@ -1,0 +1,10 @@
+# Y3K Lab — y3klab.com
+
+> The Y3K Lab hub. Each section below links to its plain-Markdown twin;
+> the rendered version lives at the same path without the /<name>.md suffix.
+
+- [Y3K Lab — Built for the year 3000](https://y3klab.com/): Y3K Lab — a retro-futurist synthwave incubator. Every experiment wears A3K, the Y3K design language, from a terminal to a race car.
+- [A3K — Aesthetic 3000 · the Y3K design language](https://y3klab.com/a3k/): A3K (Aesthetic 3000) is the Y3K design language — a retro-futurist synthwave look every Y3K experiment wears: neon magenta→cyan gradients, double-line box-drawing wordmarks, and brief power-on motion. The palette, the temperature map, the wordmarks, and the voice, in one place.
+- [Blue Steel — a theme + status bar for Claude Code](https://y3klab.com/blue-steel/blue-steel.md): A really, really, ridiculously good-looking terminal. Blue Steel is a free theme + live status bar for Claude Code: neon gradient project name, context and rate-limit gauges, and a dark steel look.
+- [Fractal Self-Describing Nodes](https://y3klab.com/fractal-self-describing-nodes/fractal-self-describing-nodes.md): A structural law: every node describes itself, in a consistent shape, at every altitude. Self-describing, scale-invariant, whole-and-part at once. Every node is a fractal self.
+- [Project System — a tiny operating system for your projects](https://y3klab.com/project-system/project-system.md): A tiny operating system for your projects. Spin up, shelve, archive, and index a personal project portfolio from the terminal — pure bash, an arrow-key dashboard, Claude Code intake built in. Free from Y3K Lab.
