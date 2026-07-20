@@ -50,7 +50,10 @@ BLOCK = {"h1", "h2", "h3", "h4", "h5", "h6", "p", "li", "blockquote", "pre", "tr
 SKIP = {"style", "script", "svg", "nav", "footer", "head", "title", "noscript"}
 VOID = {"br", "img", "hr", "input", "meta", "link", "source"}
 # Divs whose content is a terminal/tree mockup — preserved verbatim in a fence.
-PRE_CLASSES = {"tree", "term", "screen", "glyphs", "decoder"}
+# NB: "decoder" is deliberately NOT here. It reads as art (the ═ rules) but is
+# prose carrying **emphasis** — fencing it printed literal asterisks in the twin
+# on both a3k and phos4. Fence only things that need column alignment.
+PRE_CLASSES = {"tree", "term", "screen", "glyphs"}
 # The content root, shared by every page: <article class="wrap"> on the three prose
 # pages, <div class="wrap"> on a3k. Keying on the class (not the tag) covers both.
 ROOT_CLASS = "wrap"
@@ -113,11 +116,16 @@ DROP_CLASSES = {"n", "i", "sw-idx", "kicker", "arw", "spin", "sec-num", "eyebrow
 # (span.d, inline) and on a3k (div.d, inside div.tleg) — treating it as an item
 # splits every card off from its own heading. The wrappers (item/tleg/door) are
 # the items; d is always their tail.
-ITEM_CLASSES = {"item", "vrow", "warm", "cool", "grey", "tleg", "status", "door"}
+ITEM_CLASSES = {"item", "vrow", "warm", "cool", "grey", "tleg", "status", "door",
+                "dec-row"}
 # Labelled spans that carry visual hierarchy on the page; mirror it in markdown so
 # a flat line ("Holon & holarchy whole-and-part Koestler, 1967") keeps its structure.
-STRONG_CLASSES = {"src", "h", "vlabel", "nm", "dh"}
+STRONG_CLASSES = {"src", "h", "vlabel", "nm", "dh", "dec-mark"}
 EM_CLASSES = {"tag"}
+# Band labels head a palette/demo band ("The engine at work", "The accent"). They're
+# not list items and not headings — just their own line. Without an explicit flush
+# they glue onto whatever paragraph precedes them.
+LABEL_CLASSES = {"band-label", "surfaces-label"}
 
 
 class Extractor(HTMLParser):
@@ -182,7 +190,7 @@ class Extractor(HTMLParser):
                 self.depth_drop += 1
             return
 
-        if set(cls.split()) & ITEM_CLASSES:
+        if set(cls.split()) & (ITEM_CLASSES | LABEL_CLASSES):
             self._flush()
         if not self.pre_depth:
             if set(cls.split()) & STRONG_CLASSES:
@@ -240,7 +248,9 @@ class Extractor(HTMLParser):
                 del self.stack[i]
                 break
 
-        if set(cls.split()) & ITEM_CLASSES:
+        if set(cls.split()) & LABEL_CLASSES:
+            self._flush()
+        elif set(cls.split()) & ITEM_CLASSES:
             self._flush("- ")
             self.href = None
         elif tag == "div" and (set(cls.split()) & PRE_CLASSES):

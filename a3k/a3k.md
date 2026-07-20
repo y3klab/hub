@@ -4,11 +4,9 @@ The design language of **Y3K** — the look every experiment wears.
 
 Built for the year 3000
 
-```
-      Y3K ═ the **future**
-      A3K ═ the **look** it wears
+- **Y3K** ═ the **future**
 
-```
+- **A3K** ═ the **look** it wears
 
 retro-futurist synthwave look
 

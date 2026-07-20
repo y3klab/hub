@@ -4,12 +4,11 @@ The **Y3K Lab** terminal-UI engine — pure bash, zero dependencies, fluent in A
 
 Built for the year 3000
 
-```
-      Phos4 ═ reads **phos-for** ≈ **phosphor** — the coating that makes a CRT glow
-      P₄ ═ white phosphorus — the molecule that glows on its own
-      The family resemblance is the embedded numeral: **Y3K** carries a 3 — Phos4 answers with a 4.
+- **Phos4** ═ reads **phos-for** ≈ **phosphor** — the coating that makes a CRT glow
 
-```
+- **P₄** ═ white phosphorus — the molecule that glows on its own
+
+The family resemblance is the embedded numeral: **Y3K** carries a 3 — Phos4 answers with a 4.
 
 The engine at work · a demo session · every colour below is theme data
 
