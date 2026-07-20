@@ -103,8 +103,10 @@ def table_md(block: str) -> str:
     return "\n".join(out)
 # Display-only chrome: heading numerals ("01", "i"), the eyebrow above the H1, the
 # decorative arrow on linked cards. Dropping these keeps markdown headings clean.
-DROP_CLASSES = {"n", "i", "band-label", "sw-idx", "kicker", "arw", "spin",
-                "sec-num", "eyebrow"}
+# NB: "band-label" is deliberately NOT here. It names each palette band ("The
+# synthwave ramp", "The accent", "Status") — without it the twin shows three
+# unlabelled tables in a row and a reader can't tell which is which.
+DROP_CLASSES = {"n", "i", "sw-idx", "kicker", "arw", "spin", "sec-num", "eyebrow"}
 # Card-style children that are semantically list items, whatever tag they use
 # (FSDN's "Instances" uses a mix of div.item and a.item).
 # NB: "d" is deliberately NOT here. It names a card's *description* on FSDN

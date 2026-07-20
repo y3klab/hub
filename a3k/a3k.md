@@ -28,6 +28,8 @@ it; **built** is reserved for the tagline, *Built for the year 3000*.
 
 The one **canonical shared asset**. Everything else — wordmarks, chips, headers, doorways — is the palette bound to a surface’s own tokens. Get the ramp and the temperature map right and a surface reads as Y3K; the rest is binding. All values are **ANSI 256-colour** indices.
 
+The synthwave ramp · magenta → cyan · 7 stops
+
 | ANSI | Hex | Role |
 |---:|---|---|
 | 201 | `#ff5fff` | magenta · warm end |
@@ -38,6 +40,16 @@ The one **canonical shared asset**. Everything else — wordmarks, chips, header
 | 45 | `#00d7ff` | cyan |
 | 51 | `#00ffff` | bright cyan · cool end |
 
+The accent · the single “live” cue — *not* a ramp stop
+
+| ANSI | Hex | Role |
+|---:|---|---|
+| 39 | `#00afff` | accent · glyphs, spinners, rules |
+
+**39 is the accent; 45 is a ramp stop.** Both are cyan and they are *not* interchangeable. The accent marks the one *live* thing on a screen — a glyph, a spinner, a rule. Cyan **45** is the ramp’s cool end and the right-hand **box-rail** that frames a wordmark, paired with magenta **201** on the left. Reach for 39 when something is alive; reach for 45 when something is structure.
+
+The mono band · a deliberately mid grey (a visible mode)
+
 | ANSI | Hex |
 |---:|---|
 | 243 | `#767676` |
@@ -47,6 +59,8 @@ The one **canonical shared asset**. Everything else — wordmarks, chips, header
 | 247 | `#9e9e9e` |
 | 248 ·acc | `#a8a8a8` |
 | 249 | `#b2b2b2` |
+
+Status
 
 - **ok** 42 · #00d787
 
@@ -133,6 +147,8 @@ The words are part of the brand too.
 ## Tables
 
 A table is how A3K states canon — the palette, the statuses, the element registry are all tables. The **registry style** reads as an *instrument readout*, not a spreadsheet: **rails, not zebra** · headers **whisper** (the caption idiom) · **one ramp rule** crowns the top · the **key column** carries the ink · colour only where it *means* something.
+
+The Y3K element registry · canon, set in the canon style
 
 | Tile | Element | Symbol | Note |
 |---|---|---|---|
