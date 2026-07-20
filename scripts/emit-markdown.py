@@ -40,11 +40,11 @@ SITE = "https://y3klab.com"
 # a3k/ WAS excluded on the assumption its substance is visual; that was wrong. The
 # page is mostly prose, and its swatch/mono grids and registry table lift cleanly
 # into markdown tables (see `lift` in render), so it earns a twin like the rest.
-SECTIONS = ("fractal-self-describing-nodes", "blue-steel", "project-system", "a3k")
+SECTIONS = ("fractal-self-describing-nodes", "blue-steel", "project-system", "a3k", "phos4")
 
 # Landing page + every section, for llms.txt. (title, url_path) — title is read
 # from each page's <title>, so this list only fixes order and membership.
-INDEXED = ("", "a3k", "blue-steel", "fractal-self-describing-nodes", "project-system")
+INDEXED = ("", "a3k", "blue-steel", "fractal-self-describing-nodes", "phos4", "project-system")
 
 BLOCK = {"h1", "h2", "h3", "h4", "h5", "h6", "p", "li", "blockquote", "pre", "tr"}
 SKIP = {"style", "script", "svg", "nav", "footer", "head", "title", "noscript"}

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<!--
+  Phos4 — a Y3K Lab experiment page: the pure-bash terminal-UI engine that
+  renders A3K. A self-contained, zero-dependency page built in the same hand as
+  the hub (../index.html): same palette, floor grid, CRT scanlines, power-on
+  motion.
+
+  The terminal demos are hand-made HTML/CSS, drawn to match the engine's golden
+  masters (phos4 repo, test/golden/) — the real thing is bash writing ANSI.
+  Colored runs inside the mockups use <code>, not <span>, so the markdown
+  extractor emits the box art byte-aligned (a classed span injects a trailing
+  space into the fence; code does not).
+
+  No download yet — Phos4 ships vendored inside the Project System kit today.
+  When a standalone kit ships, a "get" section (install.sh + phos4-kit.zip, in
+  the Blue Steel mold) slots in before the doorways section, and the landing
+  card's verb flips from "read" to "get".
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phos4 — the terminal-UI engine that renders A3K | Y3K Lab</title>
+<meta name="description" content="Phos4 is Y3K Lab's pure-bash, themeable terminal-UI engine — gradient-swept wordmarks, arrow-key pickers, panels, and spinners rendered from pure theme data, shipped as a single drop-in file. The engine that makes the terminal glow.">
+<link rel="canonical" href="https://y3klab.com/phos4/">
+
+<!-- Favicon + share assets live at the site root; we're one level deep. -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="/favicon.svg">
+<link rel="mask-icon" href="/favicon.svg" color="#ff5fff">
+<link rel="alternate" type="text/markdown" href="phos4.md" title="Phos4 — the terminal-UI engine that renders A3K | Y3K Lab (Markdown)">
+
+<!-- OpenGraph / Twitter — reuses the Lab share card until a bespoke one ships. -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Y3K Lab">
+<meta property="og:title" content="Phos4 — the terminal-UI engine that renders A3K">
+<meta property="og:description" content="A pure-bash, themeable terminal-UI engine — wordmarks, pickers, panels, spinners — rendered from pure theme data, shipped as one drop-in file. From Y3K Lab.">
+<meta property="og:url" content="https://y3klab.com/phos4/">
+<meta property="og:image" content="https://y3klab.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Phos4 — the terminal-UI engine that renders A3K">
+<meta name="twitter:description" content="A pure-bash, themeable terminal-UI engine — wordmarks, pickers, panels, spinners — rendered from pure theme data, shipped as one drop-in file.">
+<meta name="twitter:image" content="https://y3klab.com/og-image.png">
+<meta name="theme-color" content="#0a0a12">
+<style>
+  /* ── The palette: the one canonical shared asset (ANSI-256 → hex). ──
+     Mirrors ../index.html; runtime-canonical values live in Phos4's y3k.sh —
+     the very file this page is about. */
+  :root {
+    --magenta: #ff5fff;  /* 201 — warm end */
+    --rose:    #ff5fd7;  /* 207 */
+    --pink:    #d75fd7;  /* 171 */
+    --purple:  #af5fff;  /* 135 */
+    --indigo:  #875fff;  /*  99 */
+    --blue:    #5fafff;  /*  75 */
+    --cyan:    #00d7ff;  /*  45 */
+    --brtcyan: #00ffff;  /*  51 — cool end */
+    --accent:  #00afff;  /*  39 — the live cue */
+
+    --ramp: linear-gradient(100deg,
+      var(--magenta), var(--pink), var(--purple), var(--indigo),
+      var(--blue), var(--cyan), var(--brtcyan));
+
+    /* Status colours (ANSI cube → hex). */
+    --ok:   #00d787;  /*  42 — green */
+    --warn: #ffd700;  /* 220 — amber */
+    --err:  #ff5f5f;  /* 203 — soft red */
+
+    --bg:    #0a0a12;
+    --panel: #12121f;
+    --ink:   #e8e8f4;
+    --dim:   #8a8aa6;
+    --rail:  #2a2a3e;
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      /* warm corner (active/advances) + cool corner (dormant/recedes) — the
+         temperature map baked into the room. */
+      radial-gradient(900px 500px at 8% -8%, color-mix(in srgb, var(--magenta) 16%, transparent), transparent 55%),
+      radial-gradient(900px 500px at 100% 108%, color-mix(in srgb, var(--cyan) 12%, transparent), transparent 55%),
+      radial-gradient(1200px 600px at 50% -10%, #1a1030 0%, transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font: 16px/1.6 ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 24px 56px;
+  }
+  /* Faint synthwave floor grid — fixed layer, faded out before it reaches content. */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      repeating-linear-gradient(to right,  color-mix(in srgb, var(--cyan) 8%, transparent) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(to bottom, color-mix(in srgb, var(--magenta) 6%, transparent) 0 1px, transparent 1px 64px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 55%, #000 100%);
+            mask-image: linear-gradient(to bottom, transparent 55%, #000 100%);
+    opacity: .55;
+  }
+  /* Faint CRT scanlines — overlaid ON TOP of all content; subtractive lines preserve
+     the glows; a hairline cyan tint keeps it synthwave, not grey. pointer-events
+     are off, so links and the demo buttons below still take clicks. */
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none;
+    background:
+      repeating-linear-gradient(to bottom, rgba(0,0,0,.16) 0 1px, transparent 1px 4px),
+      repeating-linear-gradient(to bottom,
+        color-mix(in srgb, var(--cyan) 9%, transparent) 0 1px, transparent 1px 4px);
+    background-size: 100% 4px;
+  }
+  @media (min-resolution: 2dppx) {
+    body::after {
+      background:
+        repeating-linear-gradient(to bottom, rgba(0,0,0,.20) 0 1.5px, transparent 1.5px 5px),
+        repeating-linear-gradient(to bottom,
+          color-mix(in srgb, var(--cyan) 9%, transparent) 0 1.5px, transparent 1.5px 5px);
+      background-size: 100% 5px;
+    }
+  }
+
+  .wrap { width: 100%; max-width: 880px; }
+
+  /* ── Breadcrumb: home (the hub) / here (this page) — matches the other Y3K Lab pages. ── */
+  .uplink {
+    display: flex; align-items: center; gap: 10px;
+    padding: 26px 0 0; margin-bottom: 4rem;
+    font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .uplink a {
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    text-decoration: none; transition: color .18s;
+  }
+  .uplink a:hover, .uplink a:focus-visible { color: var(--cyan); outline: none; }
+  .uplink .home {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text;
+    color: transparent; font-weight: 800; letter-spacing: .06em;
+  }
+  .uplink .sep { color: var(--rail); }
+  .uplink .here { color: var(--dim); }
+
+  /* ── Hero ── */
+  .hero { text-align: center; margin: 8px 0 4px; }
+  .eyebrow {
+    display: inline-block;
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    letter-spacing: .42em; text-transform: uppercase;
+    font-size: 12px; font-weight: 700;
+    padding-left: .42em;       /* optical: balance the trailing letter-spacing */
+  }
+  .eyebrow b { color: var(--magenta); font-weight: 700; }
+  h1 {
+    margin: 12px 0 0;
+    font-size: clamp(44px, 9.5vw, 92px);
+    font-weight: 800; letter-spacing: .02em; line-height: 1;
+    background: var(--ramp);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    /* Phosphor bloom + chromatic fringe (the wordmark treatment) — on THIS page
+       the bloom is also the subject matter. */
+    filter:
+      drop-shadow(-2px 0 0 color-mix(in srgb, var(--magenta) 60%, transparent))
+      drop-shadow( 2px 0 0 color-mix(in srgb, var(--cyan)    60%, transparent))
+      drop-shadow(0 0 22px color-mix(in srgb, var(--purple) 35%, transparent));
+  }
+  .hero-sub {
+    margin: 14px 0 0; color: color-mix(in srgb, var(--ink) 72%, var(--dim));
+    font-size: 15px;
+  }
+  .hero-sub b { color: var(--ink); font-weight: 700; }
+  .tagline {
+    margin: 22px 0 0;
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    letter-spacing: .28em; text-transform: uppercase; font-size: 11.5px;
+  }
+  .tagline::before { content: "[ "; color: var(--accent); }
+  .tagline::after  { content: " ]"; color: var(--accent); }
+
+  /* The decoder — the one thing to remember: the name is a triple pun. ── */
+  .decoder {
+    margin: 30px auto 0; width: max-content; max-width: 100%;
+    border: 1px solid var(--rail); border-radius: 12px;
+    background: rgba(255,255,255,.015);
+    padding: 16px 22px;
+    box-shadow: inset 0 0 40px -32px var(--purple);
+  }
+  .dec-row {
+    display: grid; grid-template-columns: min-content min-content auto;
+    align-items: baseline; gap: 12px;
+    font-size: clamp(15px, 4vw, 19px); font-weight: 800; letter-spacing: .04em;
+    text-align: left;
+  }
+  .dec-row + .dec-row { margin-top: 4px; }
+  .dec-a { color: var(--magenta); white-space: nowrap; }
+  .dec-y { color: var(--cyan); white-space: nowrap; }
+  .dec-eq { color: var(--dim); font-weight: 500; }
+  .dec-exp { color: color-mix(in srgb, var(--ink) 78%, var(--dim)); font-weight: 600; }
+  .dec-exp b { color: var(--ink); font-weight: 800; }
+  .dec-exp .k {
+    color: var(--accent);
+    text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+  .dec-note {
+    margin: 12px 0 0; padding-top: 11px; border-top: 1px solid var(--rail);
+    text-align: center; color: var(--dim); font-size: 12px; letter-spacing: .04em;
+  }
+  .dec-note b { color: var(--accent); font-weight: 700; }
+
+  /* ── Sections ── */
+  section { margin: 64px 0 0; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin: 0 0 20px; }
+  .sec-num {
+    font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--dim);
+    border: 1px solid var(--rail); border-radius: 6px; padding: 3px 8px;
+    flex: none;
+  }
+  .sec-title {
+    margin: 0; font-size: clamp(21px, 4.4vw, 28px); font-weight: 800; letter-spacing: .01em;
+    /* Header gradient encodes temperature (A3K §5): a WARM slice — live content. */
+    background: linear-gradient(100deg, var(--magenta), var(--pink), var(--purple));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .sec-head::after {
+    content: ""; flex: 1; align-self: center; height: 1px;
+    background: linear-gradient(90deg,
+      color-mix(in srgb, var(--purple) 60%, transparent),
+      color-mix(in srgb, var(--cyan) 40%, transparent), transparent);
+    opacity: .5;
+  }
+  p { margin: 0 0 14px; color: color-mix(in srgb, var(--ink) 78%, var(--dim)); }
+  p:last-child { margin-bottom: 0; }
+  .lead { color: var(--ink); font-size: 17px; }
+  strong, b { color: var(--ink); }
+  em { color: var(--cyan); font-style: normal; }
+  a.inline { color: var(--blue); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--blue) 40%, transparent); }
+  a.inline:hover { border-bottom-color: var(--blue); }
+  .verbs { color: var(--magenta); font-weight: 700; }
+  code {
+    font-family: inherit; font-size: .92em;
+    color: var(--brtcyan);
+    background: color-mix(in srgb, var(--cyan) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--cyan) 22%, var(--rail));
+    border-radius: 5px; padding: 1px 6px;
+  }
+  .band-label {
+    display: flex; align-items: center; gap: 12px;
+    margin: 22px 0 10px; color: var(--dim);
+    font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  }
+  .band-label::after {
+    content: ""; flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--rail), transparent); opacity: .8;
+  }
+  .hero .band-label { margin-top: 56px; text-align: left; }
+  .dials { font-size: 12.5px; color: var(--dim); }
+  .dials b { color: var(--ink); }
+  .hero .dials { margin-top: 14px; }
+
+  /* ── The terminal mockups — window chrome from the Blue Steel page, screen
+     colours driven by CSS variables so PS_MONO can swap them, exactly the way
+     the engine swaps a theme's values. ── */
+  .term {
+    margin: 12px 0 0; text-align: left;
+    background: #060608; border: 1px solid var(--rail); border-radius: 10px;
+    box-shadow: inset 0 0 50px -38px var(--cyan), 0 0 60px -30px var(--purple);
+    overflow: hidden;
+  }
+  .term .bar {
+    display: flex; gap: 6px; padding: 10px 12px;
+    border-bottom: 1px solid var(--rail);
+  }
+  .term .bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--rail); }
+  .term .screen {
+    padding: 16px 18px; font-size: 13px; line-height: 1.75;
+    overflow-x: auto; white-space: pre;
+  }
+  /* Demo palette — the y3k theme's values (ANSI 256 → hex). The .mono override
+     below IS the PS_MONO band: same markup, different data. */
+  .term.p4 {
+    --d-ramp: linear-gradient(90deg, #ff5fff, #d75fd7, #af5fff, #875fff, #5fafff, #00d7ff, #00ffff);
+    --d-ok:  #00d787;   /*  42 */
+    --d-wr:  #ffd700;   /* 220 */
+    --d-er:  #ff5f5f;   /* 203 */
+    --d-ac:  #00afff;   /*  39 — the accent, the one live cue */
+    --d-rl:  #ff5fff;   /* 201 — left rail, the ramp's warm end */
+    --d-rr:  #00d7ff;   /*  45 — right rail, the ramp's cool end */
+  }
+  .term.p4.mono {
+    --d-ramp: linear-gradient(90deg, #767676, #808080, #8a8a8a, #949494, #9e9e9e, #a8a8a8, #b2b2b2);
+    --d-ok:  #a8a8a8;   /* 248 */
+    --d-wr:  #8a8a8a;   /* 245 */
+    --d-er:  #a8a8a8;   /* 248 — bold carries the alarm instead (below) */
+    --d-ac:  #a8a8a8;   /* 248 */
+    --d-rl:  #767676;   /* 243 */
+    --d-rr:  #b2b2b2;   /* 249 */
+  }
+  /* Inside a mockup, code is paint, not chrome — strip the inline-code styling. */
+  .term code, .tree code {
+    background: none; border: 0; padding: 0; border-radius: 0;
+    font-family: inherit; font-size: inherit; color: inherit;
+  }
+  .p4 .g {
+    background: var(--d-ramp);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    font-weight: 800;
+  }
+  .p4 .rl { color: var(--d-rl); font-weight: 800; }
+  .p4 .rr { color: var(--d-rr); font-weight: 800; }
+  .p4 .ok { color: var(--d-ok); }
+  .p4 .wr { color: var(--d-wr); }
+  .p4 .er { color: var(--d-er); }
+  .p4.mono .er { font-weight: 800; }   /* PS_MONO: errors keep a bold prefix */
+  .p4 .ac { color: var(--d-ac); }
+  .p4 .b  { color: var(--ink); font-weight: 700; }
+  .p4 .d  { color: color-mix(in srgb, var(--ink) 42%, transparent); }
+  .p4 .gh { color: color-mix(in srgb, var(--ink) 30%, transparent); }
+  .p4 .hl { background: #444444; color: #fff; border-radius: 2px; }  /* 238 chip */
+  /* Box art rows sit on adjacent terminal cells — tighten the leading so the
+     glyphs connect vertically the way they do on a real screen. */
+  .p4 .art { line-height: 1.18; }
+  /* The celebrate shimmer — the anim ramp flowing across a short sign-off. */
+  .p4 .shm {
+    background: linear-gradient(90deg,
+      #ff5fff, #af5fff, #5fafff, #00ffff, #5fafff, #af5fff, #ff5fff) 0 0 / 300% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    font-weight: 800;
+  }
+  .p4.mono .shm {
+    background-image: linear-gradient(90deg,
+      #767676, #949494, #b2b2b2, #949494, #767676);
+  }
+  .p4ctl { margin: 14px 0 0; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    font: inherit; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink); cursor: pointer;
+    background: color-mix(in srgb, var(--magenta) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--magenta) 42%, var(--rail));
+    border-radius: 999px; padding: 8px 16px;
+    transition: border-color .18s, background .18s, transform .12s;
+  }
+  .btn:hover { border-color: var(--magenta); background: color-mix(in srgb, var(--magenta) 20%, transparent); }
+  .btn:active { transform: translateY(1px); }
+
+  /* ── Tables ── the A3K registry style: rails not zebra, whispered headers,
+     one ramp rule crowning the top. */
+  .rtable-wrap {
+    border: 1px solid var(--rail); border-radius: 10px;
+    background: var(--ramp) no-repeat top / 100% 2px, var(--panel);
+    overflow-x: auto; margin: 0 0 14px;
+    box-shadow: 0 0 40px -30px var(--purple);
+  }
+  table.rtable { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 480px; }
+  .rtable th {
+    text-align: left; font-size: 10.5px; font-weight: 700;
+    letter-spacing: .2em; text-transform: uppercase; color: var(--dim);
+    padding: 15px 18px 10px; border-bottom: 1px solid var(--rail);
+  }
+  .rtable td {
+    padding: 12px 18px; color: color-mix(in srgb, var(--ink) 78%, var(--dim));
+    border-top: 1px solid color-mix(in srgb, var(--rail) 60%, transparent);
+  }
+  .rtable tbody tr:first-child td { border-top: none; }
+  .rtable tbody tr { transition: background .15s; }
+  .rtable tbody tr:hover { background: color-mix(in srgb, #2c2c38 55%, transparent); }
+  .rtable .key { color: var(--ink); font-weight: 800; letter-spacing: .02em; white-space: nowrap; }
+  .rtable .note { color: color-mix(in srgb, var(--ink) 62%, var(--dim)); font-size: 12.5px; }
+
+  /* ── The correctness rules — the voice-row idiom from the A3K page. ── */
+  .voice { display: grid; gap: 14px; }
+  .vrow { border: 1px solid var(--rail); border-radius: 10px; background: var(--panel); padding: 16px 18px; }
+  .vrow .vlabel { font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }
+  .vrow .vlabel::before { content: "▸ "; color: var(--accent); letter-spacing: 0; }
+  .vrow .vline { font-size: 14px; color: color-mix(in srgb, var(--ink) 82%, var(--dim)); }
+
+  /* ── File-tree / quick-start blocks — the Blue Steel .tree idiom. ── */
+  .tree {
+    margin: 0; padding: 16px 20px;
+    background: #060608; border: 1px solid var(--rail); border-radius: 10px;
+    box-shadow: inset 0 0 50px -38px var(--cyan);
+    font-size: 13px; line-height: 1.8; color: color-mix(in srgb, var(--ink) 78%, var(--dim));
+    overflow-x: auto; white-space: pre;
+  }
+  .tree .cmt { color: color-mix(in srgb, var(--ink) 42%, var(--dim)); }
+  .tree .k   { color: var(--purple); }
+  .tree .s   { color: var(--brtcyan); }
+
+  /* ── Doorways back out ── */
+  .doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 4px; }
+  .door {
+    border: 1px solid var(--rail); border-radius: 10px; background: var(--panel);
+    padding: 16px 18px; text-decoration: none; color: inherit;
+    display: flex; flex-direction: column; gap: 4px;
+    transition: border-color .18s, transform .18s, box-shadow .18s;
+  }
+  .door:hover { transform: translateY(-3px); border-color: var(--magenta); box-shadow: 0 12px 30px -18px var(--magenta); }
+  .door .dh { font-weight: 800; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  .door .dh .arw { color: var(--accent); transition: transform .18s; }
+  .door:hover .dh .arw { transform: translate(2px, -2px); }
+  .door .dd { font-size: 12.5px; color: var(--dim); }
+
+  footer {
+    margin: 72px auto 0; text-align: center; color: var(--dim);
+    font-size: 12px; max-width: 60ch;
+  }
+  footer .motto {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text; color: transparent;
+    letter-spacing: .18em; text-transform: uppercase; font-weight: 700;
+  }
+  footer a { color: var(--blue); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  footer .sub { margin-top: 8px; }
+
+  @media (max-width: 620px) {
+    .sec-head::after { display: none; }
+    .term .screen { font-size: 11.5px; }
+    .tree { font-size: 12px; padding: 14px; }
+  }
+  @media (hover: none) { .door:hover { transform: none; } }
+
+  /* ── Power-on load ── the web analogue of the engine's own rule: opt-in via
+     prefers-reduced-motion. Hero + sections reveal top→bottom; the banner in
+     the demo terminal reveals row-by-row (the engine's power-on, in CSS); the
+     CRT idles with a barely-perceptible flicker. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero > *, section, footer { opacity: 0; animation: poweron .55s ease forwards; }
+    .hero > *:nth-child(1){animation-delay:.05s} .hero > *:nth-child(2){animation-delay:.12s}
+    .hero > *:nth-child(3){animation-delay:.19s} .hero > *:nth-child(4){animation-delay:.26s}
+    .hero > *:nth-child(5){animation-delay:.33s} .hero > *:nth-child(6){animation-delay:.40s}
+    .hero > *:nth-child(7){animation-delay:.46s} .hero > *:nth-child(8){animation-delay:.52s}
+    .hero > *:nth-child(9){animation-delay:.56s}
+    section:nth-of-type(1){animation-delay:.40s} section:nth-of-type(2){animation-delay:.46s}
+    section:nth-of-type(3){animation-delay:.52s} section:nth-of-type(4){animation-delay:.58s}
+    section:nth-of-type(5){animation-delay:.62s} section:nth-of-type(6){animation-delay:.66s}
+    section:nth-of-type(7){animation-delay:.70s}
+    footer{animation-delay:.78s}
+    @keyframes poweron { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+    body::after { animation: crtflicker 6s steps(60) infinite; }
+    @keyframes crtflicker { 0%, 96%, 100% { opacity: 1; } 97% { opacity: .94; } 98% { opacity: .995; } }
+
+    /* The banner's power-on: rows reveal top→bottom, then settle — the CSS
+       translation of _phos4_animate_banner's reveal beat. Re-armed by the
+       ▶ button (JS adds/removes .power). */
+    .p4.power .row { opacity: 0; animation: p4boot .34s ease forwards; }
+    .p4.power .r1 { animation-delay: .04s } .p4.power .r2 { animation-delay: .10s }
+    .p4.power .r3 { animation-delay: .16s } .p4.power .r4 { animation-delay: .22s }
+    .p4.power .r5 { animation-delay: .28s }
+    @keyframes p4boot { 0% { opacity: 0; } 55% { opacity: .35; } 100% { opacity: 1; } }
+
+    .p4 .shm { animation: shimmer 2.6s linear infinite; }
+    @keyframes shimmer { to { background-position: -300% 0; } }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="uplink">
+    <a class="home" href="/">Y3K Lab</a>
+    <span class="sep">/</span>
+    <span class="here">Phos4</span>
+  </nav>
+
+  <header class="hero">
+    <span class="eyebrow"><b>Phos4</b> · Terminal-UI Engine</span>
+    <h1>Phos4</h1>
+    <p class="hero-sub">The <b>Y3K Lab</b> terminal-UI engine — pure bash, zero
+      dependencies, fluent in A3K.</p>
+    <p class="tagline">Built for the year 3000</p>
+
+    <div class="decoder">
+      <div class="dec-row"><span class="dec-mark dec-a">Phos4</span><span class="dec-eq">═</span><span class="dec-exp">reads <b>phos-for</b> ≈ <b>phosphor</b> — the coating that makes a CRT <span class="k">glow</span></span></div>
+      <div class="dec-row"><span class="dec-mark dec-y">P₄</span><span class="dec-eq">═</span><span class="dec-exp">white phosphorus — the molecule that <span class="k">glows on its own</span></span></div>
+      <div class="dec-note">The family resemblance is the embedded numeral: <b>Y3K</b> carries a 3 — Phos4 answers with a 4.</div>
+    </div>
+
+    <div class="band-label">The engine at work · a demo session · every colour below is theme data</div>
+    <div class="term p4" id="p4term">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <div class="screen"><code class="gh">❯ PHOS4_THEME=y3k PHOS4_ANIMATE=1 ./demo.sh</code>
+
+<div class="art"><code class="row r1">  <code class="g">╔═════════════════════════════════╗</code></code>
+<code class="row r2">  <code class="rl">║</code> <code class="g">╔═╗ ╦═╗ ╔═╗  ╦  ╔═╗ ╔═╗ ╔╦╗ ╔═╗</code> <code class="rr">║</code></code>
+<code class="row r3">  <code class="rl">║</code> <code class="g">╠═╝ ╠╦╝ ║ ║  ║  ╠═  ║    ║  ╚═╗</code> <code class="rr">║</code></code>
+<code class="row r4">  <code class="rl">║</code> <code class="g">╩   ╩╚═ ╚═╝ ╚╝  ╚═╝ ╚═╝  ╩  ╚═╝</code> <code class="rr">║</code></code>
+<code class="row r5">  <code class="g">╚═════════════════════════════════╝</code></code></div>
+  <code class="ok">✓</code> phos4_step_ok — the good news
+  <code class="wr">⚠</code> phos4_step_warn — the heads-up
+  <code class="er">✗</code> phos4_step_err — the bad news
+  <code class="d">·</code> phos4_step_info — the aside
+
+  <code class="d">─────────────────────────────────────────────────────</code>
+  <code class="b">phos4_choose — pick one</code>
+  <code class="d">─────────────────────────────────────────────────────</code>
+
+  <code class="ac">❯</code> <code class="hl"> 1 </code>  <code class="b">banner                </code><code class="d">the wordmark, boxed and swept</code>
+    <code class="d"> 2 </code>  picker                <code class="d">this very menu</code>
+    <code class="d"> 3 </code>  panel                 <code class="d">the completion box</code>
+
+  <code class="d">↑/↓ navigate · enter to select · type number to jump · esc to cancel</code></div>
+    </div>
+    <p class="dials">Hand-made in HTML/CSS from the engine's golden masters — the
+      real thing is bash writing ANSI. The wordmark is the <b>y3k</b> theme's
+      default; <b>▶</b> replays its power-on, and <b>PS_MONO=1</b> re-renders the
+      same markup from the grey band — a theme swap, live.</p>
+  </header>
+
+  <!-- §1 — What Phos4 is -->
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">What Phos4 is</h2></div>
+    <p class="lead"><strong>Phos4</strong> is a pure-bash, themeable
+      <em>terminal-UI engine</em> — gradient-swept wordmarks, arrow-key pickers,
+      panels, spinners, progress — shipped as a single file any CLI script can
+      <code>source</code>. No curses, no Python, no npm — bash 3.2 and ANSI
+      escapes, nothing else.</p>
+    <p>It exists because the look outgrew its birthplace. <strong>A3K</strong> —
+      the Y3K design language — took shape inside the Project System, entangled
+      across three scripts; the installer even carried its own duplicate copies of
+      the animations. Good enough to reuse, too tangled to travel. Phos4 is the
+      extraction: the <strong>engine</strong> (mechanics) pulled clean of the
+      <strong>look</strong> (data), so the machinery is shared once and the look
+      is swappable per consumer.</p>
+    <p>The verbs stay disciplined: a surface <span class="verbs">wears</span> A3K;
+      Phos4 is <em>fluent</em> in it and <span class="verbs">renders</span> it. An
+      engine never <em>builds</em> the look — “built” stays reserved for the
+      tagline, <em>Built for the year 3000</em>.</p>
+  </section>
+
+  <!-- §2 — Engine vs. theme -->
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Engine vs. theme</h2></div>
+    <p>The architecture is one clean cleave, three roles. The
+      <strong>engine</strong> owns the mechanics — how a gradient sweeps a ramp
+      across characters, how a wordmark gets boxed in rails, how a picker repaints
+      in place. A <strong>theme</strong> is <em>pure data</em> — colour indices,
+      gradient stops, rail glyphs, literal wordmark rows —
+      <strong>no rendering code in a theme, ever</strong>; the contract is locked.
+      And the <strong>consumer</strong> — the script that sourced the file — owns
+      choreography: what happens, in what order, is its business. How it looks is
+      not.</p>
+    <div class="band-label">The whole theme contract · six functions of pure data</div>
+    <div class="rtable-wrap">
+      <table class="rtable">
+        <thead><tr><th>Theme function</th><th>Supplies</th></tr></thead>
+        <tbody>
+          <tr><td class="key">y3k_palette</td><td class="note">the colour indices — accent, ok / warn / err, rails, highlight</td></tr>
+          <tr><td class="key">y3k_ramp</td><td class="note">the gradient stops — 201 171 135 99 75 45 51, magenta → cyan</td></tr>
+          <tr><td class="key">y3k_anim_ramp</td><td class="note">the longer 16-stop loop the power-on animation flows through</td></tr>
+          <tr><td class="key">y3k_wm_width</td><td class="note">the wordmark row width every row is padded to (31)</td></tr>
+          <tr><td class="key">y3k_rail</td><td class="note">the box rails — top, bottom, side; every glyph is theme data</td></tr>
+          <tr><td class="key">y3k_wordmark</td><td class="note">literal glyph-rows for each wordmark key</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>That table <em>is</em> the theme side of the seam — swap the prefix and
+      you’ve named a new theme; the engine dispatches through
+      <code>PHOS4_THEME</code> and never knows the difference. The seam is proven,
+      not promised: a second theme — a different brand with its own logo language,
+      flat colour, single-line box — renders through the same engine with
+      <strong>zero engine changes</strong>. The one gap it exposed (a hardcoded
+      <code>║</code> side glyph) was closed by promoting that glyph to theme data;
+      the pure-data contract held, no escape hatch.</p>
+    <p>Even greyscale is data: <code>PS_MONO=1</code> swaps the ramp for a
+      mid-grey band and the engine renders on, colour-blind — that’s the toggle
+      under the demo above.</p>
+  </section>
+
+  <!-- §3 — The primitives -->
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">The primitives</h2></div>
+    <p>The API is small, and all of it is namespaced: source one file, get every
+      <code>phos4_*</code> call. Prompts answer the bash way — through environment
+      variables and exit status, never parsed stdout — and <code>ESC</code> always
+      means no.</p>
+    <div class="rtable-wrap">
+      <table class="rtable">
+        <thead><tr><th>Call</th><th>Renders</th></tr></thead>
+        <tbody>
+          <tr><td class="key">phos4_render_banner</td><td class="note">the rail-boxed, gradient-swept wordmark — with a sub-second power-on entrance when <code>PHOS4_ANIMATE=1</code></td></tr>
+          <tr><td class="key">phos4_render_splash</td><td class="note">rail-less splash art — install banners, mascots, shapes that aren’t a boxed wordmark</td></tr>
+          <tr><td class="key">phos4_gradient_text</td><td class="note">the theme ramp swept per-character across any string</td></tr>
+          <tr><td class="key">phos4_choose · confirm · input</td><td class="note">the arrow-key picker, the Yes/No toggle, the line prompt</td></tr>
+          <tr><td class="key">phos4_step_ok · warn · err · info</td><td class="note">the ✓ ⚠ ✗ · status lines</td></tr>
+          <tr><td class="key">phos4_header · rule · panel</td><td class="note">section chrome and the bordered completion box</td></tr>
+          <tr><td class="key">phos4_spin · loadbar</td><td class="note">a spinner (⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏) that wraps a command; the self-clearing fill bar</td></tr>
+          <tr><td class="key">phos4_celebrate · celebrate_banner</td><td class="note">the shimmer sign-off; giant block letters for the moment a surface <em>finishes</em> something</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- §4 — The correctness rules -->
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">The correctness rules</h2></div>
+    <p>Half of Phos4’s value is invisible: the accumulated rules that keep a
+      pure-bash renderer from corrupting a terminal. They live as comments at
+      their site in the engine — no external doc to consult — and every one of
+      them was paid for.</p>
+    <div class="voice">
+      <div class="vrow"><div class="vlabel">Rule 1 — TTY-gate every visual</div><div class="vline">Off a terminal the style strings are empty, and the same <code>printf</code> emits plain text. Pipe it, log it, test it — the escapes simply aren’t there. The engine never animates into a pipe.</div></div>
+      <div class="vrow"><div class="vlabel">Rule 2 — Guard the locale</div><div class="vline">Box glyphs are multibyte. <code>${#s}</code> has to count characters, not bytes, or the per-character gradient miscounts and the box tears.</div></div>
+      <div class="vrow"><div class="vlabel">Rule 3 — Box borders are literals</div><div class="vline">Never loop-build a multibyte <code>═</code> — concatenation corrupts in the C locale. Every rail ships as a hand-typed literal string.</div></div>
+      <div class="vrow"><div class="vlabel">Rule 4 — len on its own line</div><div class="vline">A combined <code>local s="$1" len=${#s}</code> measures <code>s</code> before it’s assigned — length zero, and the gradient silently vanishes. The engine’s signature bug, immortalized as a rule.</div></div>
+      <div class="vrow"><div class="vlabel">Rule 5 — Leave no dirty terminal</div><div class="vline">Anything that hides the cursor restores it under a <code>trap</code> — on every exit path, Ctrl-C included. The terminal is handed back the way it was found.</div></div>
+    </div>
+  </section>
+
+  <!-- §5 — Proven pixel-identical -->
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">Proven pixel-identical</h2></div>
+    <p>Extraction invites drift: rewrite the machinery and the look shifts a
+      shade. Phos4’s acceptance bar refused that — <strong>byte-identical</strong>
+      output, enforced by a golden master: renders captured from the original
+      source before extraction, and every engine render since diffed against
+      them, raw ANSI and all.</p>
+    <div class="term p4">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <div class="screen"><code class="gh">❯ ./test/parity.sh</code>
+
+  <code class="ac">◆</code> <code class="b">Parity</code> <code class="d">──────────────────────────────────────────</code>
+  <code class="d">the built engine vs the frozen golden master</code>
+
+  <code class="ok">✓</code> banner-default — byte-identical
+  <code class="ok">✓</code> choose-nav — byte-identical
+  <code class="ok">✓</code> celebrate — byte-identical
+  <code class="d">·</code> 24 more captures — every one green
+
+<div class="art">  <code class="d">╭───────────────────────────────────────────────────────╮</code>
+  <code class="d">│                                                       │</code>
+  <code class="d">│</code>  <code class="ok">✓</code>  <code class="b">Parity green</code>                                      <code class="d">│</code>
+  <code class="d">│</code>     27 of 27 captures byte-identical                  <code class="d">│</code>
+  <code class="d">│                                                       │</code>
+  <code class="d">╰───────────────────────────────────────────────────────╯</code></div>
+  <code class="shm">Certified Y3K Ready</code></div>
+    </div>
+    <p style="margin-top:20px">Twenty-seven captures — banners, pickers, panels,
+      both themes, colour and mono — all green. Vendoring the engine back into the
+      Project System deleted <strong>~960 lines</strong> of duplicated look from
+      its first consumer, and that consumer’s release script re-copies the built
+      engine every time it runs — a stale copy can’t ship.</p>
+  </section>
+
+  <!-- §6 — One file, every theme -->
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2 class="sec-title">One file, every theme</h2></div>
+    <p><strong>Authored split, shipped single.</strong> Source is an engine plus
+      one file per theme; the build is a concatenation — this is bash, and the
+      build step is a <code>cat</code> with opinions:</p>
+    <div class="tree">src/engine.sh       <code class="cmt">the mechanics — rendering + the correctness rules</code>
+src/themes/y3k.sh   <code class="cmt">the default theme: A3K as pure data (the canonical values)</code>
+build.sh            <code class="cmt">engine + themes → one file</code>
+dist/phos4.sh       <code class="cmt">what consumers vendor — every theme aboard</code>
+test/               <code class="cmt">the golden-output parity harness</code></div>
+    <p style="margin-top:20px">Consumers copy <code>dist/phos4.sh</code> into
+      their own repo and <code>source</code> it. Zero dependencies, nothing to
+      install, no version to negotiate — the file that ships is the whole
+      engine:</p>
+    <div class="tree"><code class="cmt"># in any bash script</code>
+source phos4.sh                          <code class="cmt"># every phos4_* call, every theme</code>
+
+phos4_render_banner default              <code class="cmt"># the boxed, gradient-swept wordmark</code>
+phos4_step_ok <code class="s">"did the thing"</code>
+phos4_choose <code class="s">"Pick one"</code> <code class="s">"Alpha|first"</code> <code class="s">"Beta|second"</code>
+echo <code class="s">"$PHOS4_CHOSEN_TITLE"</code>               <code class="cmt"># prompts answer via environment</code></div>
+    <p style="margin-top:20px">Three environment variables drive everything:
+      <code>PHOS4_THEME</code> picks the theme (default <code>y3k</code> — the
+      A3K look), <code>PHOS4_ANIMATE=1</code> opts into the power-on entrance,
+      and <code>PS_MONO=1</code> goes greyscale.</p>
+  </section>
+
+  <!-- FUTURE: a "get" section (install.sh + phos4-kit.zip, Blue Steel-style)
+       slots in here as §07 when Phos4 ships standalone; the doorways below
+       become §08, and the landing card's verb flips from "read" to "get". -->
+
+  <!-- §7 — Where it lives -->
+  <section>
+    <div class="sec-head"><span class="sec-num">07</span><h2 class="sec-title">Where it lives</h2></div>
+    <p>Phos4 has no public repo and no standalone download — yet. Today it ships
+      the way it was always meant to: <strong>vendored inside a consumer</strong>.
+      The <a class="inline" href="/project-system/">Project System kit</a> carries
+      it as <code>bin/phos4.sh</code>, rendering the dashboard, the lifecycle
+      scripts, and the installer. A standalone kit in the
+      <a class="inline" href="/blue-steel/">Blue Steel</a> mold is planned — and
+      until something actually ships, this page stays a read.</p>
+    <div class="doors">
+      <a class="door" href="/a3k/"><span class="dh">A3K <span class="arw">→</span></span><span class="dd">The design language Phos4 renders — palette, temperature map, voice.</span></a>
+      <a class="door" href="/project-system/"><span class="dh">Project&nbsp;System <span class="arw">→</span></span><span class="dd">The first consumer — Phos4 rides inside the free download.</span></a>
+      <a class="door" href="/"><span class="dh">Y3K&nbsp;Lab <span class="arw">→</span></span><span class="dd">The incubator — every surface that wears A3K.</span></a>
+    </div>
+  </section>
+
+  <footer>
+    <p class="motto">Certified Y3K Ready</p>
+    <p class="sub">Phos4 — the engine that makes the terminal glow — a
+      <a href="/">Y3K&nbsp;Lab</a> experiment.</p>
+    <p class="sub"><a href="phos4.md" title="This page as plain Markdown — ideal for pasting to an AI assistant">View as Markdown</a> · © 1970–3000 Y3K · Shareware — copy it, share it, distribute freely on any BBS.</p>
+  </footer>
+
+</div>
+
+<script>
+  // Demo controls — injected here so the markup stays plain, no-JS visitors
+  // never see a dead button, and the markdown extractor never meets them.
+  // ▶ replays the banner power-on (gated on prefers-reduced-motion, the web
+  // analogue of the engine's TTY-gate); PS_MONO toggles the grey band — a data
+  // swap, not motion, so it works for everyone.
+  (function () {
+    var term = document.getElementById('p4term');
+    if (!term) return;
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var ctl = document.createElement('div');
+    ctl.className = 'p4ctl';
+
+    if (!reduce) {
+      var rep = document.createElement('button');
+      rep.type = 'button'; rep.className = 'btn';
+      rep.textContent = '▶ Replay power-on';
+      rep.addEventListener('click', function () {
+        term.classList.remove('power');
+        void term.offsetWidth;            // restart the animation cleanly
+        term.classList.add('power');
+      });
+      ctl.appendChild(rep);
+      term.classList.add('power');        // the one-shot entrance on load
+    }
+
+    var mono = document.createElement('button');
+    mono.type = 'button'; mono.className = 'btn';
+    mono.textContent = 'PS_MONO=1';
+    mono.setAttribute('aria-pressed', 'false');
+    mono.addEventListener('click', function () {
+      var on = term.classList.toggle('mono');
+      mono.textContent = on ? 'PS_MONO=""' : 'PS_MONO=1';
+      mono.setAttribute('aria-pressed', String(on));
+    });
+    ctl.appendChild(mono);
+
+    term.insertAdjacentElement('afterend', ctl);
+  })();
+</script>
+
+</body>
+</html>
