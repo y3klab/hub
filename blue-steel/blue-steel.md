@@ -7,17 +7,16 @@ A really, really, **ridiculously good-looking** terminal. A free theme + live st
 The whole look, in one frame: the steel-blue block behind everything *you* type — your words never lost in the scroll — the live spinner, and the status bar pinned beneath it all, answering the question every multi-window session asks — **“which project is this?”** — with your project name in the synthwave magenta→cyan gradient of A3K, the Y3K Lab design language:
 
 ```
-        
-          ❯ claude 
+
+          ❯ claude
           ❯  make this terminal *ridiculously good-looking* and put a blue-steel color behind everything I type so my words will stand apart from yours at a glance
-          
+
 ●  I'll put every word you type on the
             blue-steel block and leave mine on bare steel — one glance and you'll always
             know who said what, even 10,000 lines deep in the scrollback buffer.
-          
-        
-        [  your-project  ]   context  ▄42%  |  5h limit  85%  |  7d limit  60%   |  session  4h20m   |  Fable 5  
-      
+
+        [  your-project  ]   context  ▄42%  |  5h limit  85%  |  7d limit  60%   |  session  4h20m   |  Fable 5
+
 ```
 
 The percentage gauges — context-window usage and your five-hour and seven-day rate limits — colour themselves **green → amber → red** as they fill, so the colour *is* the warning. Session time and the active model ride along. Each gauge appears only once it has a value — and in a narrow terminal the bar sheds its quietest gauges first rather than overflow. (The demo above does the same: resize this window and watch.)
@@ -59,10 +58,10 @@ Merge this into `~/.claude/settings.json` (create the file if it doesn't exist):
 {
   "statusLine" : {
     "type" : "command" ,
-    "command" : "~/.claude/statusline.sh" 
+    "command" : "~/.claude/statusline.sh"
   },
   "tui" : "fullscreen" ,
-  "theme" : "custom:blue-steel" 
+  "theme" : "custom:blue-steel"
 }
 ```
 

@@ -7,23 +7,23 @@ Spin up projects, shelve them, archive them, and keep **one tidy index** of ever
 One dashboard answers the question every side-project-haver dreads — **“what am I building, and where did I leave it?”** Type `proj` and your whole portfolio is on screen: arrow keys to move, **Enter** to drop into a project with Claude Code already open, **m** to move or delete it:
 
 ```
-❯ proj 
+❯ proj
 
   ╔═════════════════════════════════╗
   ║ ╔═╗ ╦═╗ ╔═╗  ╦  ╔═╗ ╔═╗ ╔╦╗ ╔═╗ ║
   ║ ╠═╝ ╠╦╝ ║ ║  ║  ╠═  ║    ║  ╚═╗ ║
   ║ ╩   ╩╚═ ╚═╝ ╚╝  ╚═╝ ╚═╝  ╩  ╚═╝ ║
-  ╚═════════════════════════════════╝ 
+  ╚═════════════════════════════════╝
 
-Active   (3) 
-░▒   1  ▒░    rocket-skates           │  ●  Phase 2  ·  thruster tuning next 
-░▒   2  ▒░    bbs-revival             │  ●  Live  ·  two new door games shipping 
-░▒   3  ▒░  x  zine-printer            │  ●  Phase 1  ·  blocked on toner supplier 
+Active   (3)
+░▒   1  ▒░    rocket-skates           │  ●  Phase 2  ·  thruster tuning next
+░▒   2  ▒░    bbs-revival             │  ●  Live  ·  two new door games shipping
+░▒   3  ▒░  x  zine-printer            │  ●  Phase 1  ·  blocked on toner supplier
 
-●  good ·  ●  actionable ·  ●  pending ·  x  stale 
+●  good ·  ●  actionable ·  ●  pending ·  x  stale
 
-↑/↓  move  ·  enter  open  ·  m  move  ·  1-3  jump  ·  q  quit 
-n  new  ·  i  import  ·  r  refresh stale  ·  a  archive 
+↑/↓  move  ·  enter  open  ·  m  move  ·  1-3  jump  ·  q  quit
+n  new  ·  i  import  ·  r  refresh stale  ·  a  archive
 ```
 
 Those status lines aren't something you type in and forget to update — each one is an **actual judgment** of where the project stands, made by Claude reading the project's plan, decisions, and git history, then cached locally. **Green → amber → cyan** reads as resting → your move → waiting on someone, and an `x` flags a chip gone stale.
@@ -34,9 +34,9 @@ Underneath it all is a three-folder workspace — dead-simple on purpose, so you
 
 ```
 ~/Projects/
-├── Active/       engaged now — building or using 
-├── Inactive/     dormant but alive — paused, will resume 
-└── Archive/      finished work, year-prefixed, kept to read 
+├── Active/       engaged now — building or using
+├── Inactive/     dormant but alive — paused, will resume
+└── Archive/      finished work, year-prefixed, kept to read
 ```
 
 ## Install
@@ -70,8 +70,8 @@ The installer checks your tools, symlinks the slash commands into `~/.claude/com
 Two doorways in — both interactive, both also reachable from the dashboard's `n` and `i` keys:
 
 ```
-newproject     # spin up a NEW project — scaffold, index, hand off to Claude 
-importproject  # adopt an EXISTING folder or git repo — original never touched 
+newproject     # spin up a NEW project — scaffold, index, hand off to Claude
+importproject  # adopt an EXISTING folder or git repo — original never touched
 ```
 
 `newproject` creates your first project in `~/Projects/Active/`, drops in a starter scaffold, records it in the index, and hands off to Claude Code to help define what the thing actually is. Already have a pile of project folders? `importproject` is the adoption on-ramp — point it at each one and it's copied in, indexed, and committed, with the full Claude intake *offered* rather than forced. Want the why behind the design? `CONVENTIONS.md` ships in the zip — the system's principles, ~200 lines.
@@ -83,7 +83,7 @@ The system lives in four announced places: the `~/project-system` folder, five c
 ```
 rm -rf ~/project-system
 rm -f ~/.claude/commands/{setup-project,grill,architect,init-claude-md,project-status}.md
-# then delete the one project-system line from ~/.zshrc 
+# then delete the one project-system line from ~/.zshrc
 ```
 
 `~/Projects` — your actual work — stays. It was never the system's; it's just folders and git repos, readable with or without any of this. That's the point.

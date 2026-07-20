@@ -27,13 +27,13 @@ Each node is self-contained *and* a member of the node above and an index to the
 The law isn't a metaphor — a single rule of construction makes it concrete: a container's overview is **named after the container**, in the shape that level uses. That co-location **structurally enforces it against orphaning and drift** — the description can't separate from the thing it describes — while completeness and accuracy stay a *discipline*. The same law, one level down, forever.
 
 ```
-# a self-naming index file at every altitude 
-portfolio/ 
-├─ INDEX.md             ← the portfolio describes itself 
-└─ project/ 
-   ├─ project.md        ← the project describes itself 
-   └─ tool/ 
-      └─ tool.md       ← the tool describes itself 
+# a self-naming index file at every altitude
+portfolio/
+├─ INDEX.md             ← the portfolio describes itself
+└─ project/
+   ├─ project.md        ← the project describes itself
+   └─ tool/
+      └─ tool.md       ← the tool describes itself
 ```
 
 **Don't create a node that can't describe itself.** Any new container — a project, a sub-tool, a module, a grouping — gets a self-named overview in its level's shape, pointing up to its index and down to its children. That single discipline is the whole law, applied.
@@ -57,11 +57,11 @@ Why enforce this, instead of keeping a good index by hand? Because the law buys 
 Say you add a Traxxas Maxx to the [Garage](https://garage.y3krc.com). The law decides the shape before you do:
 
 ```
-fleet/ 
-├─ INDEX.md              ← lists every vehicle 
-└─ traxxas-maxx/         ← the new node, named for the slug 
-   ├─ traxxas-maxx.md    ← names itself; describes the vehicle 
-   └─ hero.png            ← a role-named asset 
+fleet/
+├─ INDEX.md              ← lists every vehicle
+└─ traxxas-maxx/         ← the new node, named for the slug
+   ├─ traxxas-maxx.md    ← names itself; describes the vehicle
+   └─ hero.png            ← a role-named asset
 ```
 
 The folder is named for the vehicle; inside it, a file named for the folder describes it — the self-naming move. Navigation now works in both directions *for free*: from the fleet index you step **down** into the vehicle; from the vehicle you step **up** to the index and across to its siblings. Nobody wired those links — the shape did.
