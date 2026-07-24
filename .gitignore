@@ -1,2 +1,8 @@
 .DS_Store
 .claude/
+
+# monarchwaystations/ is a nested, independent repo (y3klab/monarchwaystations) - its
+# own remote and its own subdomain (monarchwaystations.y3klab.com), deployed separately.
+# Ignore it so it never enters this hub's history; kept visible (not a dot-hidden cache)
+# because it's real hand-authored content served on its own.
+monarchwaystations/
