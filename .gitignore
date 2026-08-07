@@ -6,3 +6,7 @@
 # Ignore it so it never enters this hub's history; kept visible (not a dot-hidden cache)
 # because it's real hand-authored content served on its own.
 monarchwaystations/
+
+# solarstrategy/ — same pattern: nested independent repo (y3klab/solarstrategy),
+# deploying to solarstrategy.y3klab.com via Cloudflare Pages.
+solarstrategy/
