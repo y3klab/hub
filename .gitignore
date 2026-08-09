@@ -1,10 +1,13 @@
 .DS_Store
 .claude/
 
-# monarchwaystations/ is a nested, independent repo (y3klab/monarchwaystations) - its
-# own remote and its own subdomain (monarchwaystations.y3klab.com), deployed separately.
-# Ignore it so it never enters this hub's history; kept visible (not a dot-hidden cache)
+# monarchmap/ is a nested, independent repo (y3klab/monarchmap) - its own remote
+# and its own subdomain (monarchmap.y3klab.com), deployed separately. Ignore it so
+# it never enters this hub's history; kept visible (not a dot-hidden cache)
 # because it's real hand-authored content served on its own.
+monarchmap/
+# tombstone: the directory's pre-2026-08-08 name - kept ignored in case a stale
+# session or tool recreates the old path
 monarchwaystations/
 
 # solarstrategy/ — same pattern: nested independent repo (y3klab/solarstrategy),
