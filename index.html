@@ -143,7 +143,8 @@
 
   /* ══════════════════ THE LAW — FSDN, solo full-width hero ══════════════════ */
   /* A3K left the band for Brand Family; FSDN now stands alone, spanning the whole
-     content column as a deliberate hero — text left, the self-similar tree right. */
+     content column as a deliberate hero — text left, the self-similar tree right.
+     (A3K moved on again 2026-08-13, to the Toolkit — full brand treatment retained.) */
   .law.hero {
     width:100%; max-width:1040px; margin-top:20px;
     display:grid; grid-template-columns:1.08fr .92fr; gap:10px 48px; align-items:center;
@@ -310,7 +311,7 @@
      AND hover — the origin every other logo powers toward — plus the site's own chromatic
      split (magenta-left / cyan-right, echoing the H1 hero). Hover only intensifies the bloom
      (like RC). Nothing to reveal, nothing to look broken. */
-  .a3k-logo { height:48px; transition:filter .4s ease;
+  .a3k-logo { height:80px; transition:filter .4s ease;   /* the SOURCE stands as tall as the family it feeds - 48px read small next to the 80px band */
     filter:drop-shadow(-1.5px 0 0 color-mix(in srgb, var(--magenta) 62%, transparent))
            drop-shadow( 1.5px 0 0 color-mix(in srgb, var(--cyan) 62%, transparent))
            drop-shadow(0 0 9px color-mix(in srgb, var(--purple) 30%, transparent)); }
@@ -445,16 +446,6 @@
       <div class="meta"><span class="play">open <span class="arw">→</span></span></div>
     </a>
 
-    <!-- A3K — the design LANGUAGE the whole family wears, joined here as the 7th member
-         and the always-lit source of the ramp (see the always-lit logo note in the CSS). -->
-    <a class="card brand a3k-brand live" href="/a3k/" style="--stop:var(--magenta)">
-      <div class="logo-well"><svg class="brandsvg a3k-logo" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 64"><defs><linearGradient id="a3kRamp" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5fff"/><stop offset=".17" stop-color="#d75fd7"/><stop offset=".33" stop-color="#af5fff"/><stop offset=".5" stop-color="#875fff"/><stop offset=".66" stop-color="#5fafff"/><stop offset=".83" stop-color="#00d7ff"/><stop offset="1" stop-color="#00ffff"/></linearGradient></defs><rect x="41" y="4" width="98" height="2.4" rx="1.2"/><rect x="41" y="9" width="98" height="2.4" rx="1.2"/><text x="90" y="45" text-anchor="middle" font-family="ui-monospace,'SF Mono','JetBrains Mono',Menlo,Consolas,monospace" font-size="39" font-weight="800" letter-spacing="3.5">A3K</text><rect x="41" y="53" width="98" height="2.4" rx="1.2"/><rect x="41" y="58" width="98" height="2.4" rx="1.2"/></svg></div>
-      <h3>A3K <span class="sub">| Aesthetic 3000</span></h3>
-      <p>The design language every experiment wears — a neon magenta→cyan ramp, double-line
-         wordmarks, and brief power-on motion. The family's always-lit source of colour.</p>
-      <div class="meta"><span class="play">read <span class="arw">→</span></span></div>
-    </a>
-
   </div>
 
   <!-- ══════════════ GUIDES (hand-curated spotlight) ══════════════ -->
@@ -527,6 +518,16 @@
       <h3>Phos<span style="color:var(--pink)">4</span> <span class="sub">| Terminal-UI Engine</span></h3>
       <p>The pure-bash, themeable terminal-UI engine that renders Y3K — and owns the
          canonical machine-readable palette. The most central component.</p>
+      <div class="meta"><span class="play">read <span class="arw">→</span></span></div>
+    </a>
+    <!-- A3K — the design LANGUAGE the whole family wears, moved down from Brand
+         Family 2026-08-13 with its full brand-card treatment intact (logo well,
+         always-lit ramp, 80px mark) so a straight cut-and-paste can move it back. -->
+    <a class="card brand a3k-brand live" href="/a3k/" style="--stop:var(--magenta)">
+      <div class="logo-well"><svg class="brandsvg a3k-logo" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 64"><defs><linearGradient id="a3kRamp" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5fff"/><stop offset=".17" stop-color="#d75fd7"/><stop offset=".33" stop-color="#af5fff"/><stop offset=".5" stop-color="#875fff"/><stop offset=".66" stop-color="#5fafff"/><stop offset=".83" stop-color="#00d7ff"/><stop offset="1" stop-color="#00ffff"/></linearGradient></defs><rect x="41" y="4" width="98" height="2.4" rx="1.2"/><rect x="41" y="9" width="98" height="2.4" rx="1.2"/><text x="90" y="45" text-anchor="middle" font-family="ui-monospace,'SF Mono','JetBrains Mono',Menlo,Consolas,monospace" font-size="39" font-weight="800" letter-spacing="3.5">A3K</text><rect x="41" y="53" width="98" height="2.4" rx="1.2"/><rect x="41" y="58" width="98" height="2.4" rx="1.2"/></svg></div>
+      <h3>A3K <span class="sub">| Aesthetic 3000</span></h3>
+      <p>The design language every experiment wears — a neon magenta→cyan ramp, double-line
+         wordmarks, and brief power-on motion. The family's always-lit source of colour.</p>
       <div class="meta"><span class="play">read <span class="arw">→</span></span></div>
     </a>
     <a class="card" href="#" style="--stop:var(--cyan)">
