@@ -252,6 +252,10 @@
     border-bottom:1px solid color-mix(in srgb, var(--rail) 70%, transparent); padding-bottom:14px;
   }
   .brandsvg { height:52px; width:auto; max-width:88%; display:block; }
+  /* Toolkit cards carry no logos — the law of the section. A3K's mark stays in the
+     markup (so a cut-and-paste back to Brand Family relights it) but only the brand
+     grid shows logo wells. */
+  .grid:not(.brand) .logo-well { display:none; }
   /* Bolo2K tank+wordmark lockup — the "BOLO 2K" pixel wordmark above the tank, in TRUE colour
      at rest: green "BOLO", orange "2K", military-olive tank. The rules below override the SVG's
      ramp defs so the resting state is the real brand colour (A3K alone keeps the ramp). */
