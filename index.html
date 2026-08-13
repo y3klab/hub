@@ -274,7 +274,7 @@
    /* Y3K Home mono vector — TRUE cyan at rest (overrides the SVG ramp defs); hover intensifies the glow */
    .home-logo path { fill:url(#homeRamp); }
    .home-logo .home-stop { stop-color:#18bcf2; }
-   .home-logo { filter:drop-shadow(0 0 0 transparent); transition:filter .4s ease; }
+   .home-logo { height:80px; filter:drop-shadow(0 0 0 transparent); transition:filter .4s ease; }   /* in family with the tank and the rocket; the bare 52px default read small */
    .card.brand:hover .home-logo, .card.brand:focus-visible .home-logo { filter:drop-shadow(0 0 14px color-mix(in srgb, var(--cyan) 45%, transparent)); }
   /* RC mono vector — always wears the A3K ramp; hover just intensifies the glow */
   .rc-logo path { fill:url(#rcRamp); }
