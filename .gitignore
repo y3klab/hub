@@ -1,5 +1,10 @@
 .DS_Store
 .claude/
+# project-system working files stay out of this PUBLIC repo (y3k-brand rule).
+# They were untracked by discipline until 2026-08-13; ignoring them makes the
+# rule true by construction instead of by remembering.
+CLAUDE.md
+.system/
 
 # monarchmap/ is a nested, independent repo (y3klab/monarchmap) - its own remote
 # and its own subdomain (monarchmap.y3klab.com), deployed separately. Ignore it so
