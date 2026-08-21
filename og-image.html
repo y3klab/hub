@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <!--
-  Y3K — social / OpenGraph share card. Body is EXACTLY 1200×630px.
+  Y3K - social / OpenGraph share card. Body is EXACTLY 1200×630px.
   Render to og-image.png with headless Chrome at 1200×630 (deviceScaleFactor 2
-  for a crisp 2400×1260 source is fine — the frame stays 1200×630). No deps.
+  for a crisp 2400×1260 source is fine - the frame stays 1200×630). No deps.
 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Y3K Lab — share card</title>
+<title>Y3K Lab - share card</title>
 <style>
   :root {
     --magenta:#ff5fff; --rose:#ff5fd7; --pink:#d75fd7; --purple:#af5fff;
@@ -33,7 +33,7 @@
     justify-content: center;
   }
 
-  /* A faint synthwave grid floor for depth — recedes into the dark. */
+  /* A faint synthwave grid floor for depth - recedes into the dark. */
   .floor {
     position: absolute; left: 0; right: 0; bottom: 0; height: 230px;
     background-image:
@@ -47,7 +47,7 @@
     opacity: .5;
   }
 
-  /* The ramp bar across the very top — the palette, the canonical asset. */
+  /* The ramp bar across the very top - the palette, the canonical asset. */
   .topramp { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--ramp); }
 
   .stage { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
@@ -60,7 +60,7 @@
     background: rgba(255,255,255,.015);
     box-shadow: 0 0 160px -34px var(--purple), inset 0 0 70px -40px var(--magenta);
   }
-  /* Y3K Lab periodic element tile — corner of the wordmark, scaled for the card */
+  /* Y3K Lab periodic element tile - corner of the wordmark, scaled for the card */
   .el-tile {
     position: absolute; top: -40px; right: -40px;
     width: 128px; height: 144px;
@@ -124,7 +124,7 @@
     <div class="tagline">Built for the year 3000</div>
   </div>
 
-  <div class="label left">Y3K Lab — Incubator</div>
+  <div class="label left">Y3K Lab - Incubator</div>
   <div class="label right"><span class="motto">Certified Y3K Ready</span></div>
 </body>
 </html>

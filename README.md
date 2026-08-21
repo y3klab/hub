@@ -1,4 +1,4 @@
-# Y3K Lab — Hub
+# Y3K Lab - Hub
 
 The published landing page for **Y3K Lab** → https://y3klab.com
 

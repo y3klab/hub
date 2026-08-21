@@ -17,7 +17,7 @@
   <rect x="2.6" y="2.6" width="26.8" height="26.8" rx="5.4"
         fill="none" stroke="url(#ramp)" stroke-opacity=".55" stroke-width="1.1"/>
 
-  <!-- The Y mark — bold, gradient-filled, legible at 16px (IDENTITY §4: arms
+  <!-- The Y mark - bold, gradient-filled, legible at 16px (IDENTITY §4: arms
        drop to a single stem). Short arms + a long centered stem so it reads as
        a Y, not a chevron, when shrunk. -->
   <path d="M9 9 L16 16.5 L23 9 M16 16 L16 24"

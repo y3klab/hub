@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""emit-markdown — give every hub section a machine-readable twin.
+"""emit-markdown - give every hub section a machine-readable twin.
 
 The hub is hand-authored HTML by design: each page's markup IS the craft (bespoke
 inline CSS, scanlines, power-on motion), so markdown can't be the source without
-flattening five distinct page designs into one template. This runs the other way —
+flattening five distinct page designs into one template. This runs the other way -
 HTML stays canonical and hand-written; this only DERIVES an additional artifact:
 
     <section>/index.html   →   <section>/<section>.md      (front-matter-free prose)
@@ -13,7 +13,7 @@ That is why this is not the "build step or framework" the hub's conventions rule
 out: nothing sits between author and output, and no page is generated from a
 template. Deleting this script would cost the .md twins and nothing else.
 
-Naming follows the node law — a file that represents its container takes the
+Naming follows the node law - a file that represents its container takes the
 container's name (fractal-self-describing-nodes/fractal-self-describing-nodes.md),
 which is the very rule the FSDN page documents.
 
@@ -36,22 +36,22 @@ ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://y3klab.com"
 
 # Sections with an extractable content root (every page uses class="wrap"). The
-# landing page is a card grid — llms.txt IS its machine-readable twin, so no .md.
+# landing page is a card grid - llms.txt IS its machine-readable twin, so no .md.
 # a3k/ WAS excluded on the assumption its substance is visual; that was wrong. The
 # page is mostly prose, and its swatch/mono grids and registry table lift cleanly
 # into markdown tables (see `lift` in render), so it earns a twin like the rest.
 SECTIONS = ("fractal-self-describing-nodes", "blue-steel", "project-system", "a3k", "phos4")
 
-# Landing page + every section, for llms.txt. (title, url_path) — title is read
+# Landing page + every section, for llms.txt. (title, url_path) - title is read
 # from each page's <title>, so this list only fixes order and membership.
 INDEXED = ("", "a3k", "blue-steel", "fractal-self-describing-nodes", "phos4", "project-system")
 
 BLOCK = {"h1", "h2", "h3", "h4", "h5", "h6", "p", "li", "blockquote", "pre", "tr"}
 SKIP = {"style", "script", "svg", "nav", "footer", "head", "title", "noscript"}
 VOID = {"br", "img", "hr", "input", "meta", "link", "source"}
-# Divs whose content is a terminal/tree mockup — preserved verbatim in a fence.
+# Divs whose content is a terminal/tree mockup - preserved verbatim in a fence.
 # NB: "decoder" is deliberately NOT here. It reads as art (the ═ rules) but is
-# prose carrying **emphasis** — fencing it printed literal asterisks in the twin
+# prose carrying **emphasis** - fencing it printed literal asterisks in the twin
 # on both a3k and phos4. Fence only things that need column alignment.
 PRE_CLASSES = {"tree", "term", "screen", "glyphs"}
 # The content root, shared by every page: <article class="wrap"> on the three prose
@@ -79,7 +79,7 @@ def close_div(src: str, start: int) -> int:
 
     A depth counter, not a closing-tag pattern: the grids nest to different depths
     (mono-band is one level shallower than swatches), and a fixed `</div></div>…`
-    regex silently matches the wrong span — which is exactly how the mono-band lift
+    regex silently matches the wrong span - which is exactly how the mono-band lift
     failed the first time."""
     depth, i = 0, start
     for m in re.finditer(r"<(/?)div\b[^>]*>", src[start:]):
@@ -91,7 +91,7 @@ def close_div(src: str, start: int) -> int:
 
 
 def table_md(block: str) -> str:
-    """A real <table> — keep it a table instead of flattening it to a run-on."""
+    """A real <table> - keep it a table instead of flattening it to a run-on."""
     rows = []
     for rm in TABLE_ROW_RE.finditer(block):
         cells = [_text(c) for _, c in CELL_RE.findall(rm.group(1))]
@@ -107,13 +107,13 @@ def table_md(block: str) -> str:
 # Display-only chrome: heading numerals ("01", "i"), the eyebrow above the H1, the
 # decorative arrow on linked cards. Dropping these keeps markdown headings clean.
 # NB: "band-label" is deliberately NOT here. It names each palette band ("The
-# synthwave ramp", "The accent", "Status") — without it the twin shows three
+# synthwave ramp", "The accent", "Status") - without it the twin shows three
 # unlabelled tables in a row and a reader can't tell which is which.
 DROP_CLASSES = {"n", "i", "sw-idx", "kicker", "arw", "spin", "sec-num", "eyebrow"}
 # Card-style children that are semantically list items, whatever tag they use
 # (FSDN's "Instances" uses a mix of div.item and a.item).
 # NB: "d" is deliberately NOT here. It names a card's *description* on FSDN
-# (span.d, inline) and on a3k (div.d, inside div.tleg) — treating it as an item
+# (span.d, inline) and on a3k (div.d, inside div.tleg) - treating it as an item
 # splits every card off from its own heading. The wrappers (item/tleg/door) are
 # the items; d is always their tail.
 ITEM_CLASSES = {"item", "vrow", "warm", "cool", "grey", "tleg", "status", "door",
@@ -123,7 +123,7 @@ ITEM_CLASSES = {"item", "vrow", "warm", "cool", "grey", "tleg", "status", "door"
 STRONG_CLASSES = {"src", "h", "vlabel", "nm", "dh", "dec-mark"}
 EM_CLASSES = {"tag"}
 # Band labels head a palette/demo band ("The engine at work", "The accent"). They're
-# not list items and not headings — just their own line. Without an explicit flush
+# not list items and not headings - just their own line. Without an explicit flush
 # they glue onto whatever paragraph precedes them.
 LABEL_CLASSES = {"band-label", "surfaces-label"}
 
@@ -150,7 +150,7 @@ class Extractor(HTMLParser):
         text = "".join(self.buf)
         self.buf.clear()
         if self.pre_depth:
-            # Never emit an empty fence — decorative sub-divs inside a terminal
+            # Never emit an empty fence - decorative sub-divs inside a terminal
             # mockup would otherwise leave ``` ``` pairs wrapping whitespace.
             if re.search(r"[A-Za-z0-9]", text):
                 # Trailing spaces are invisible on the page but noise in a fence.
@@ -206,7 +206,7 @@ class Extractor(HTMLParser):
             self._flush()
             self.list_depth += 1
         elif tag in BLOCK:
-            # Inside a mockup, block boundaries are layout, not structure — flushing
+            # Inside a mockup, block boundaries are layout, not structure - flushing
             # on them would shatter one terminal into a dozen fences.
             if not self.pre_depth:
                 self._flush()
@@ -304,8 +304,8 @@ class Extractor(HTMLParser):
 def page_title(html: str) -> str:
     m = re.search(r"<title>(.*?)</title>", html, re.S)
     t = re.sub(r"\s+", " ", m.group(1)).strip() if m else "(untitled)"
-    # Drop the site suffix — llms.txt is already headed "Y3K Lab". Anchored to the
-    # END so the landing page's "Y3K Lab — Built for the year 3000" is untouched.
+    # Drop the site suffix - llms.txt is already headed "Y3K Lab". Anchored to the
+    # END so the landing page's "Y3K Lab - Built for the year 3000" is untouched.
     return re.sub(r"\s*[|—-]\s*Y3K Lab$", "", t)
 
 
@@ -315,7 +315,7 @@ def page_description(html: str) -> str:
 
 
 def swatch_table(block: str) -> str:
-    """A swatch grid is a table wearing presentational divs — lift it back."""
+    """A swatch grid is a table wearing presentational divs - lift it back."""
     rows = SWATCH_RE.findall(block)
     if rows:
         out = ["| ANSI | Hex | Role |", "|---:|---|---|"]
@@ -360,14 +360,14 @@ def render(section: str) -> str:
     for n, t in enumerate(tables):
         body = body.replace(f"@@SWATCH{n}@@", t)
     if "@@SWATCH" in body:
-        raise SystemExit(f"{section}: a swatch placeholder survived — table lift broke")
+        raise SystemExit(f"{section}: a swatch placeholder survived - table lift broke")
     src = f"{SITE}/{section}/"
-    return f"{body}\n\n---\n\nSource: [{src}]({src}) — Y3K Lab\n"
+    return f"{body}\n\n---\n\nSource: [{src}]({src}) - Y3K Lab\n"
 
 
 def render_llms() -> str:
     lines = [
-        "# Y3K Lab — y3klab.com",
+        "# Y3K Lab - y3klab.com",
         "",
         "> The Y3K Lab hub. Each section below links to its plain-Markdown twin;",
         "> the rendered version lives at the same path without the /<name>.md suffix.",
@@ -402,7 +402,7 @@ def main(argv) -> int:
         if stale:
             print("STALE (re-run without --check): " + ", ".join(stale), file=sys.stderr)
             return 1
-        print("current — every twin matches its page.")
+        print("current - every twin matches its page.")
         return 0
     dest.write_text(new, encoding="utf-8")
     print(f"  llms.txt  ({len(new.splitlines())} lines)")

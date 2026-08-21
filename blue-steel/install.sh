@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
-# Blue Steel — a theme + status bar for Claude Code. One-command installer.
+# Blue Steel - a theme + status bar for Claude Code. One-command installer.
 #   https://y3klab.com/blue-steel/
 #
 # Transparent by design: announces every path it touches, backs up your
 # settings.json before changing it, and touches nothing else. To undo, see
-# "Uninstall" on the page above — or run this with --uninstall
+# "Uninstall" on the page above - or run this with --uninstall
 # (curl … | bash -s -- --uninstall): it removes exactly what install added,
 # the two files and the three settings keys.
 #
@@ -42,7 +42,7 @@ fi
 # ── The sign-off banner: BLUE over STEEL, swept top-to-bottom through the same
 # ramp, revealed row by row on a TTY (plain rows when piped). Install-end only.
 # Vendored from Phos4 (the Y3K Lab terminal-UI engine): the canonical
-# implementation is phos4_celebrate_banner in phos4/src/engine.sh — this
+# implementation is phos4_celebrate_banner in phos4/src/engine.sh - this
 # installer arrives via curl on machines with nothing installed, so it carries
 # its own copy. Sync from the engine when the font or sweep changes.
 banner() {
@@ -72,7 +72,7 @@ banner() {
   done
 }
 
-# --uninstall: remove exactly what install added — the two files and the
+# --uninstall: remove exactly what install added - the two files and the
 # three settings keys.
 if [ "${1:-}" = "--uninstall" ]; then
   header "uninstalling"
@@ -87,11 +87,11 @@ if [ "${1:-}" = "--uninstall" ]; then
     mv "$tmp" "$settings"
     say "  ${WRN}~${RST} $settings (statusLine/tui/theme keys removed)"
   elif [ -f "$settings" ]; then
-    say "  ${WRN}!${RST} jq isn't available — remove the \"statusLine\", \"tui\", and"
+    say "  ${WRN}!${RST} jq isn't available - remove the \"statusLine\", \"tui\", and"
     say "    \"theme\" keys from $settings yourself."
   fi
   say ""
-  say "Done. Restart Claude Code — you're back to stock."
+  say "Done. Restart Claude Code - you're back to stock."
   exit 0
 fi
 
@@ -142,7 +142,7 @@ fi
 say ""
 banner
 say ""
-# The caption: A3K's tagline idiom — accent brackets, dim letter-spaced caps.
+# The caption: A3K's tagline idiom - accent brackets, dim letter-spaced caps.
 say "${ACC}[ ${RST}${DIM}S U C C E S S F U L L Y   I N S T A L L E D${RST} ${ACC}]${RST}"
 say ""
 # Instant proof: render the just-installed bar itself with a sample session

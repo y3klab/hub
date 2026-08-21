@@ -15,6 +15,6 @@ monarchmap/
 # session or tool recreates the old path
 monarchwaystations/
 
-# solarstrategy/ — same pattern: nested independent repo (y3klab/solarstrategy),
+# solarstrategy/ - same pattern: nested independent repo (y3klab/solarstrategy),
 # deploying to solarstrategy.y3klab.com via Cloudflare Pages.
 solarstrategy/

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Claude Code statusLine — answers "which project is this session in?" with the
+# Claude Code statusLine - answers "which project is this session in?" with the
 # project name swept in the A3K magenta→cyan gradient, framed in gradient-tipped
 # brackets, plus session gauges: context-window %, the 5-hour and 7-day rate-limit
 # % (Claude Max), session elapsed time, and the active model (e.g. "Opus 4.8"), in
@@ -10,7 +10,7 @@
 #
 # Parsing uses jq (the statusLine JSON repeats `used_percentage` under context /
 # five_hour / seven_day, which sed can't disambiguate cleanly). Without jq it
-# degrades to just the project name. Kept fast (one jq call) — Claude re-runs this
+# degrades to just the project name. Kept fast (one jq call) - Claude re-runs this
 # on every render.
 #
 # Wired via Claude Code's settings.json ("statusLine" key), pointing at wherever
@@ -36,7 +36,7 @@ _pctcol() {  # percent → A3K status colour (green <60 · amber <85 · red ≥8
   elif (( p < 85 )); then printf '\033[38;5;220m'
   else                    printf '\033[38;5;203m'; fi
 }
-_meter1() {  # percent → one eighths-block char (▁..█) — a 1-col "how full" cue
+_meter1() {  # percent → one eighths-block char (▁..█) - a 1-col "how full" cue
   local p=${1%%.*} blocks=(▁ ▂ ▃ ▄ ▅ ▆ ▇ █) i
   i=$(( p * 8 / 100 )); (( i > 7 )) && i=7; (( i < 0 )) && i=0
   printf '%s' "${blocks[i]}"
@@ -45,7 +45,7 @@ _meter1() {  # percent → one eighths-block char (▁..█) — a 1-col "how fu
 # ── parse the statusLine JSON (jq when available; else cwd-only via sed) ───────
 cwd=""; dur_ms=""; ctx=""; rl5=""; rl7=""; model=""
 if command -v jq >/dev/null 2>&1; then
-  # Absent fields become the literal string "null", never "" — bash `read` with a
+  # Absent fields become the literal string "null", never "" - bash `read` with a
   # tab IFS collapses adjacent tabs, so an empty TSV field would shift every later
   # field left. The per-gauge `!= null` checks below skip the sentinel.
   IFS=$'\t' read -r cwd dur_ms ctx rl5 rl7 model < <(printf '%s' "$input" | jq -r \
@@ -76,7 +76,7 @@ esac
 
 # ── gauges: " · <dur> · ctx N% · 5h N%", each present-only. $1=1 colour, 0 plain ─
 gauges() {  # $1=1 colour, 0 plain. A uniform ` | ` seam (grey 238) joins the gauges
-            # to each other — but not to the bracketed name: the brackets already set
+            # to each other - but not to the bracketed name: the brackets already set
             # identity apart, so a divider there would do that job twice.
             # Gauge values sit at 243 so they out-rank the separators. The model is
             # shown bare (its name self-labels); duration wears a "session" label.
@@ -111,7 +111,7 @@ gauges() {  # $1=1 colour, 0 plain. A uniform ` | ` seam (grey 238) joins the ga
 # ── width guard: trim the lowest-signal gauges if the line would overflow the
 # terminal ($COLUMNS, exported by Claude). Drop duration first, then the model, then
 # the 7-day limit (slower-moving than the 5-hour), then the 5-hour; the bracketed
-# name + context are the irreducible core. (Measured on the plain text — ANSI codes
+# name + context are the irreducible core. (Measured on the plain text - ANSI codes
 # are zero-width, so plain length == rendered width.)
 cols=${COLUMNS:-9999}; [[ $cols =~ ^[0-9]+$ ]] || cols=9999
 guard_line="[ $label ]$(gauges 0)"

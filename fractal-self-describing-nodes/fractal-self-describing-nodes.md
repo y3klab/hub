@@ -98,4 +98,4 @@ Every node is a fractal self.
 
 ---
 
-Source: [https://y3klab.com/fractal-self-describing-nodes/](https://y3klab.com/fractal-self-describing-nodes/) — Y3K Lab
+Source: [https://y3klab.com/fractal-self-describing-nodes/](https://y3klab.com/fractal-self-describing-nodes/) - Y3K Lab
