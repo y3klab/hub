@@ -6,7 +6,7 @@
 
 A **node** is any unit of organization - the whole portfolio, a project, a sub-tool, a single catalog entry. The word is deliberate: a node is inherently *part of a graph*. It is never just an item; it is a thing that sits among other things and knows its place among them.
 
-The law says that whatever the node, and whatever its size, it carries its own identity in the same recognizable shape - and it does so all the way up and all the way down.
+The law - **FSDN**, for short - says that whatever the node, and whatever its size, it carries its own identity in the same recognizable shape - and it does so all the way up and all the way down.
 
 ## Three properties
 
@@ -27,22 +27,24 @@ Each node is self-contained *and* a member of the node above and an index to the
 The law isn't a metaphor - a single rule of construction makes it concrete: a container's overview is **named after the container**, in the shape that level uses. That co-location **structurally enforces it against orphaning and drift** - the description can't separate from the thing it describes - while completeness and accuracy stay a *discipline*. The same law, one level down, forever.
 
 ```
-# a self-naming index file at every altitude
+# a self-naming overview at every altitude
 portfolio/
-├─ INDEX.md             ← the portfolio describes itself
+├─ portfolio.md         ← the portfolio describes itself
 └─ project/
    ├─ project.md        ← the project describes itself
    └─ tool/
-      └─ tool.md       ← the tool describes itself
+      └─ tool.md        ← the tool describes itself
 ```
 
-**Don't create a node that can't describe itself.** Any new container - a project, a sub-tool, a module, a grouping - gets a self-named overview in its level's shape, pointing up to its index and down to its children. That single discipline is the whole law, applied.
+**Don't create a node that can't describe itself.** Any new container - a project, a sub-tool, a module, a grouping - gets a self-named overview in its level's shape, pointing up to its index and down to its children. That single discipline is the whole of FSDN, applied.
+
+**Only containers get the overview.** A leaf - a lone file with nothing beneath it - describes itself in-band, in its own header or metadata, and only points up: its place in the tree is its up-pointer. Not every file needs a sidecar; every container does.
 
 **The mechanism is medium-specific.** The law is the *behavior* - self-describe, point up and down - not the file type. Folders a human opens to understand the structure get a `folder/folder.md`. *Code* packages already self-describe in their own idiom - a package docstring, a README - so they satisfy the law without a parallel `.md` that would only shadow the code's own description. The test: *would a human navigate here to understand the system?* If yes, it's an organizational node and earns the overview.
 
 ## Why it matters
 
-Why enforce this, instead of keeping a good index by hand? Because the law buys properties a maintained map can't:
+Why enforce FSDN, instead of keeping a good index by hand? Because the law buys properties a maintained map can't:
 
 **The description can't drift from the thing.** The overview lives inside what it describes and is named after it, so the two move together - rename, relocate, or delete a node and its description travels with it. There is no separate map to forget to update, so there is no stale map.
 
@@ -54,23 +56,30 @@ Why enforce this, instead of keeping a good index by hand? Because the law buys 
 
 ## A worked example
 
-Say you add a Traxxas Maxx to the [Garage](https://garage.y3krc.com). The law decides the shape before you do:
+Say you get back from Yosemite with a phone full of photos. The law decides the shape before you do:
 
 ```
-fleet/
-├─ INDEX.md              ← lists every vehicle
-└─ traxxas-maxx/         ← the new node, named for the slug
-   ├─ traxxas-maxx.md    ← names itself; describes the vehicle
-   └─ hero.png            ← a role-named asset
+photos/
+├─ photos.md            ← describes the collection
+└─ 2024/
+   ├─ 2024.md           ← describes the year; lists its trips
+   ├─ birthday/
+   │  └─ birthday.md
+   └─ yosemite/         ← the new node, named for the trip
+      ├─ yosemite.md    ← names itself: who, when, where
+      ├─ half-dome.jpg  ← leaves: each names its subject;
+      └─ campfire.jpg      the file itself carries the rest
 ```
 
-The folder is named for the vehicle; inside it, a file named for the folder describes it - the self-naming move. Navigation now works in both directions *for free*: from the fleet index you step **down** into the vehicle; from the vehicle you step **up** to the index and across to its siblings. Nobody wired those links - the shape did.
+The folder is named for the trip; inside it, a file named for the folder describes it - the self-naming move. The photos beside it are leaves: each is named for what it shows, and the file itself carries the rest - the date, the place, the camera - the digital back of the print. Navigation now works in both directions *for free*: from the year you step **down** into the trip; from the trip you step **up** to the year and across to the birthday. Nobody wired those links - the shape did.
 
-Skip the rule and you get a folder of assets with no `traxxas-maxx.md`: a node that can't describe itself. It might still be listed in `INDEX.md` - but that listing is now hand-maintained, and the day it isn't, the index lies and the folder is a dead-end. The law can't force you to create the node - that's the discipline it asks for. What it *guarantees* is the other half: follow it and the node names and describes itself, so there's no separate listing to fall out of sync - the description can't drift from the thing.
+Skip the rule and you get what everyone already owns: a folder of `IMG_4821.jpg` through `IMG_4990.jpg` with nothing beside them - a node that can't describe itself. Who is this? Where was it? Ten years on, the only way to know is to find someone who was there. It might still be listed in `2024.md` - but that listing is now hand-maintained, and the day it isn't, the index lies and the folder is a dead-end.
+
+The shoebox of prints makes the distinction physical. What's written on the back of a photo - *Yosemite, July 2024, Mom and Sam* - travels with it forever; it can't get separated from the thing it describes. The index card taped inside the lid is the separate map: true the day it's written, wrong the day someone reshuffles the boxes. The law can't force you to write on the back - that's the discipline FSDN asks for. What it *guarantees* is the other half: write it there, and it can never drift from the thing.
 
 ## Instances
 
-The law is already load-bearing across the lab - the node pointing **down**. Each of these describes itself and indexes the nodes beneath it:
+FSDN is already load-bearing across the lab - the node pointing **down**. Each of these describes itself and indexes the nodes beneath it:
 
 - **The self-identifying filesystem** - a folder's overview is named after the folder, at every level. The Project System runs on this.
 

@@ -13,7 +13,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fractal Self-Describing Nodes [FSDN] - Y3K Lab</title>
-<meta name="description" content="A structural law: every node describes itself, in a consistent shape, at every altitude. Self-describing, scale-invariant, whole-and-part at once. Every node is a fractal self.">
+<meta name="description" content="Fractal Self-Describing Nodes (FSDN) - a structural law: every node describes itself, in a consistent shape, at every altitude. Self-describing, scale-invariant, whole-and-part at once. Every node is a fractal self.">
 <link rel="canonical" href="https://y3klab.com/fractal-self-describing-nodes/">
 
 <!-- Favicon + share assets live at the site root; we're one level deep. -->
@@ -220,6 +220,11 @@
   .tree .self { color: var(--brtcyan); }
   .tree .dir  { color: var(--purple); }
   .tree .cmt  { color: color-mix(in srgb, var(--ink) 42%, var(--dim)); }
+  /* Inside the tree, code is paint, not chrome - strip the inline-code styling. */
+  .tree code {
+    background: none; border: 0; padding: 0; border-radius: 0;
+    font-family: inherit; font-size: inherit; color: inherit;
+  }
 
   /* ── Instances - the node points DOWN to its children. ── */
   .down { display: grid; gap: 12px; }
@@ -330,7 +335,7 @@
       project, a sub-tool, a single catalog entry. The word is deliberate: a node is
       inherently <em>part of a graph</em>. It is never just an item; it is a thing that
       sits among other things and knows its place among them.</p>
-    <p>The law says that whatever the node, and whatever its size, it carries its own
+    <p>The law - <strong>FSDN</strong>, for short - says that whatever the node, and whatever its size, it carries its own
       identity in the same recognizable shape - and it does so all the way up and all
       the way down.</p>
 
@@ -364,17 +369,21 @@
       orphaning and drift</strong> - the description can't separate from the thing it
       describes - while completeness and accuracy stay a <em>discipline</em>. The same
       law, one level down, forever.</p>
-    <div class="tree"><span class="cmt"># a self-naming index file at every altitude</span>
-<span class="dir">portfolio/</span>
-├─ <span class="self">INDEX.md</span>            <span class="cmt">← the portfolio describes itself</span>
-└─ <span class="dir">project/</span>
-   ├─ <span class="self">project.md</span>       <span class="cmt">← the project describes itself</span>
-   └─ <span class="dir">tool/</span>
-      └─ <span class="self">tool.md</span>      <span class="cmt">← the tool describes itself</span></div>
+    <div class="tree"><code class="cmt"># a self-naming overview at every altitude</code>
+<code class="dir">portfolio/</code>
+├─ <code class="self">portfolio.md</code>         <code class="cmt">← the portfolio describes itself</code>
+└─ <code class="dir">project/</code>
+   ├─ <code class="self">project.md</code>        <code class="cmt">← the project describes itself</code>
+   └─ <code class="dir">tool/</code>
+      └─ <code class="self">tool.md</code>        <code class="cmt">← the tool describes itself</code></div>
     <p style="margin-top:20px"><strong>Don't create a node that can't describe itself.</strong>
       Any new container - a project, a sub-tool, a module, a grouping - gets a
       self-named overview in its level's shape, pointing up to its index and down to
-      its children. That single discipline is the whole law, applied.</p>
+      its children. That single discipline is the whole of FSDN, applied.</p>
+    <p><strong>Only containers get the overview.</strong> A leaf - a lone file with
+      nothing beneath it - describes itself in-band, in its own header or metadata, and
+      only points up: its place in the tree is its up-pointer. Not every file needs a
+      sidecar; every container does.</p>
     <p><strong>The mechanism is medium-specific.</strong> The law is the
       <em>behavior</em> - self-describe, point up and down - not the file type. Folders a
       human opens to understand the structure get a <code>folder/folder.md</code>.
@@ -385,7 +394,7 @@
       earns the overview.</p>
 
     <h2 id="why"><span class="n">04</span> &nbsp;Why it matters</h2>
-    <p>Why enforce this, instead of keeping a good index by hand? Because the law buys
+    <p>Why enforce FSDN, instead of keeping a good index by hand? Because the law buys
       properties a maintained map can't:</p>
     <p><strong>The description can't drift from the thing.</strong> The overview lives
       inside what it describes and is named after it, so the two move together - rename,
@@ -404,29 +413,41 @@
       bespoke instructions per level. Self-similarity is an API.</p>
 
     <h2 id="example"><span class="n">05</span> &nbsp;A worked example</h2>
-    <p>Say you add a Traxxas Maxx to the <a class="inline" href="https://garage.y3krc.com"
-      target="_blank" rel="noopener noreferrer">Garage</a>. The law decides the shape
-      before you do:</p>
-    <div class="tree"><span class="dir">fleet/</span>
-├─ <span class="self">INDEX.md</span>             <span class="cmt">← lists every vehicle</span>
-└─ <span class="dir">traxxas-maxx/</span>        <span class="cmt">← the new node, named for the slug</span>
-   ├─ <span class="self">traxxas-maxx.md</span>   <span class="cmt">← names itself; describes the vehicle</span>
-   └─ hero.png            <span class="cmt">← a role-named asset</span></div>
-    <p style="margin-top:20px">The folder is named for the vehicle; inside it, a file
-      named for the folder describes it - the self-naming move. Navigation now works in
-      both directions <em>for free</em>: from the fleet index you step <strong>down</strong>
-      into the vehicle; from the vehicle you step <strong>up</strong> to the index and
-      across to its siblings. Nobody wired those links - the shape did.</p>
-    <p>Skip the rule and you get a folder of assets with no <code>traxxas-maxx.md</code>:
-      a node that can't describe itself. It might still be listed in <code>INDEX.md</code>
-      - but that listing is now hand-maintained, and the day it isn't, the index lies and
-      the folder is a dead-end. The law can't force you to create the node - that's the
-      discipline it asks for. What it <em>guarantees</em> is the other half: follow it and
-      the node names and describes itself, so there's no separate listing to fall out of
-      sync - the description can't drift from the thing.</p>
+    <p>Say you get back from Yosemite with a phone full of photos. The law decides the
+      shape before you do:</p>
+    <div class="tree"><code class="dir">photos/</code>
+├─ <code class="self">photos.md</code>            <code class="cmt">← describes the collection</code>
+└─ <code class="dir">2024/</code>
+   ├─ <code class="self">2024.md</code>           <code class="cmt">← describes the year; lists its trips</code>
+   ├─ <code class="dir">birthday/</code>
+   │  └─ <code class="self">birthday.md</code>
+   └─ <code class="dir">yosemite/</code>         <code class="cmt">← the new node, named for the trip</code>
+      ├─ <code class="self">yosemite.md</code>    <code class="cmt">← names itself: who, when, where</code>
+      ├─ half-dome.jpg  <code class="cmt">← leaves: each names its subject;</code>
+      └─ campfire.jpg   <code class="cmt">   the file itself carries the rest</code></div>
+    <p style="margin-top:20px">The folder is named for the trip; inside it, a file
+      named for the folder describes it - the self-naming move. The photos beside it are
+      leaves: each is named for what it shows, and the file itself carries the rest - the
+      date, the place, the camera - the digital back of the print. Navigation now works
+      in both directions <em>for free</em>: from the year you step <strong>down</strong>
+      into the trip; from the trip you step <strong>up</strong> to the year and across to
+      the birthday. Nobody wired those links - the shape did.</p>
+    <p>Skip the rule and you get what everyone already owns: a folder of
+      <code>IMG_4821.jpg</code> through <code>IMG_4990.jpg</code> with nothing beside
+      them - a node that can't describe itself. Who is this? Where was it? Ten years on,
+      the only way to know is to find someone who was there. It might still be listed in
+      <code>2024.md</code> - but that listing is now hand-maintained, and the day it
+      isn't, the index lies and the folder is a dead-end.</p>
+    <p>The shoebox of prints makes the distinction physical. What's written on the back
+      of a photo - <em>Yosemite, July 2024, Mom and Sam</em> - travels with it forever; it
+      can't get separated from the thing it describes. The index card taped inside the
+      lid is the separate map: true the day it's written, wrong the day someone
+      reshuffles the boxes. The law can't force you to write on the back - that's the
+      discipline FSDN asks for. What it <em>guarantees</em> is the other half: write it
+      there, and it can never drift from the thing.</p>
 
     <h2 id="instances"><span class="n">06</span> &nbsp;Instances</h2>
-    <p>The law is already load-bearing across the lab - the node pointing <strong>down</strong>.
+    <p>FSDN is already load-bearing across the lab - the node pointing <strong>down</strong>.
       Each of these describes itself and indexes the nodes beneath it:</p>
     <div class="down">
       <div class="item" style="--stop: var(--magenta);">
