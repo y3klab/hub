@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  Fractal Self-Describing Nodes — a Y3K Lab concept page.
+  Fractal Self-Describing Nodes - a Y3K Lab concept page.
   A self-contained, zero-dependency reference, built in the same hand as the hub
   (../index.html): same palette, floor grid, CRT scanlines, power-on motion.
 
@@ -12,7 +12,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fractal Self-Describing Nodes — Y3K Lab</title>
+<title>Fractal Self-Describing Nodes [FSDN] - Y3K Lab</title>
 <meta name="description" content="A structural law: every node describes itself, in a consistent shape, at every altitude. Self-describing, scale-invariant, whole-and-part at once. Every node is a fractal self.">
 <link rel="canonical" href="https://y3klab.com/fractal-self-describing-nodes/">
 
@@ -20,18 +20,18 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="alternate icon" href="/favicon.svg">
 <link rel="mask-icon" href="/favicon.svg" color="#ff5fff">
-<link rel="alternate" type="text/markdown" href="fractal-self-describing-nodes.md" title="Fractal Self-Describing Nodes — Y3K Lab (Markdown)">
+<link rel="alternate" type="text/markdown" href="fractal-self-describing-nodes.md" title="Fractal Self-Describing Nodes - Y3K Lab (Markdown)">
 
-<!-- OpenGraph / Twitter — reuses the Lab share card until a bespoke one ships. -->
+<!-- OpenGraph / Twitter - reuses the Lab share card until a bespoke one ships. -->
 <meta property="og:type" content="article">
-<meta property="og:title" content="Fractal Self-Describing Nodes">
+<meta property="og:title" content="Fractal Self-Describing Nodes [FSDN]">
 <meta property="og:description" content="Every node describes itself, in a consistent shape, at every altitude. A structural law from Y3K Lab. Every node is a fractal self.">
 <meta property="og:url" content="https://y3klab.com/fractal-self-describing-nodes/">
 <meta property="og:image" content="https://y3klab.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Fractal Self-Describing Nodes">
+<meta name="twitter:title" content="Fractal Self-Describing Nodes [FSDN]">
 <meta name="twitter:description" content="Every node describes itself, in a consistent shape, at every altitude. Every node is a fractal self.">
 <meta name="twitter:image" content="https://y3klab.com/og-image.png">
 <meta name="theme-color" content="#0a0a12">
@@ -39,15 +39,15 @@
   /* ── The palette: the one canonical shared asset (ANSI-256 → hex). ──
      Mirrors ../index.html; runtime-canonical values live in Phos4's y3k.sh. */
   :root {
-    --magenta: #ff5fff;  /* 201 — warm end */
+    --magenta: #ff5fff;  /* 201 - warm end */
     --rose:    #ff5fd7;  /* 207 */
     --pink:    #d75fd7;  /* 171 */
     --purple:  #af5fff;  /* 135 */
     --indigo:  #875fff;  /*  99 */
     --blue:    #5fafff;  /*  75 */
     --cyan:    #00d7ff;  /*  45 */
-    --brtcyan: #00ffff;  /*  51 — cool end */
-    --accent:  #00afff;  /*  39 — the live cue */
+    --brtcyan: #00ffff;  /*  51 - cool end */
+    --accent:  #00afff;  /*  39 - the live cue */
 
     --ramp: linear-gradient(100deg,
       var(--magenta), var(--pink), var(--purple), var(--indigo),
@@ -74,7 +74,7 @@
     min-height: 100vh;
     padding: 0 24px 64px;
   }
-  /* Faint synthwave floor grid — fixed, faded near the top so reading stays calm. */
+  /* Faint synthwave floor grid - fixed, faded near the top so reading stays calm. */
   body::before {
     content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
     background:
@@ -84,7 +84,7 @@
             mask-image: linear-gradient(to bottom, transparent 45%, #000 100%);
     opacity: .5;
   }
-  /* Faint CRT scanlines — overlaid on top so the page sits "behind the glass". */
+  /* Faint CRT scanlines - overlaid on top so the page sits "behind the glass". */
   body::after {
     content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none;
     background:
@@ -159,7 +159,7 @@
   }
   .law strong { color: var(--cyan); }
 
-  /* ── Section headers — dim uppercase with a gradient rule (hub idiom). ── */
+  /* ── Section headers - dim uppercase with a gradient rule (hub idiom). ── */
   h2 {
     width: 100%; margin: 5rem 0 1.4rem;
     color: var(--dim); font-size: 13px; font-weight: 700;
@@ -189,7 +189,7 @@
     border-radius: 5px; padding: 1px 6px;
   }
 
-  /* ── The three properties — reuse the hub card, spine stepping the ramp. ── */
+  /* ── The three properties - reuse the hub card, spine stepping the ramp. ── */
   .props { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
   .prop {
     position: relative; padding: 18px 18px 18px 22px; overflow: hidden;
@@ -209,7 +209,7 @@
   .prop h3 .i { color: var(--stop, var(--accent)); font-size: 12px; font-weight: 800; letter-spacing: .1em; }
   .prop p { margin: 0; font-size: 13.5px; line-height: 1.55; color: color-mix(in srgb, var(--ink) 64%, var(--dim)); }
 
-  /* ── The mechanism — a code-ish block showing the self-naming index file. ── */
+  /* ── The mechanism - a code-ish block showing the self-naming index file. ── */
   .tree {
     margin: 4px 0 0; padding: 20px 22px;
     background: #060608; border: 1px solid var(--rail); border-radius: 10px;
@@ -221,7 +221,7 @@
   .tree .dir  { color: var(--purple); }
   .tree .cmt  { color: color-mix(in srgb, var(--ink) 42%, var(--dim)); }
 
-  /* ── Instances — the node points DOWN to its children. ── */
+  /* ── Instances - the node points DOWN to its children. ── */
   .down { display: grid; gap: 12px; }
   .down .item {
     display: block; text-decoration: none; color: inherit;
@@ -242,7 +242,7 @@
   .down .item .d { color: color-mix(in srgb, var(--ink) 60%, var(--dim)); font-size: 13px; }
   .down .item .arw { float: right; color: var(--stop, var(--accent)); }
 
-  /* ── Lineage — the constituent ideas, as a clear list. ── */
+  /* ── Lineage - the constituent ideas, as a clear list. ── */
   .lineage { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 16px; }
   .lineage li { position: relative; padding-left: 20px; }
   .lineage li::before {
@@ -259,7 +259,7 @@
     color: color-mix(in srgb, var(--ink) 74%, var(--dim)); font-size: 14.5px;
   }
 
-  /* ── The meta close — the page declares its own node-hood. ── */
+  /* ── The meta close - the page declares its own node-hood. ── */
   .meta-close {
     margin: 5rem 0 0; padding: 28px;
     border: 1px solid color-mix(in srgb, var(--cyan) 26%, var(--rail));
@@ -296,7 +296,7 @@
     .meta-close { padding: 22px; }
   }
 
-  /* ── Power-on load — content rises in; honors reduced-motion (§ degrade-off-TTY). ── */
+  /* ── Power-on load - content rises in; honors reduced-motion (§ degrade-off-TTY). ── */
   @media (prefers-reduced-motion: no-preference) {
     .rise { opacity: 0; animation: rise .55s ease forwards; }
     .rise:nth-child(1){animation-delay:.04s} .rise:nth-child(2){animation-delay:.10s}
@@ -309,7 +309,7 @@
 </head>
 <body>
 
-  <!-- UP — the node points to its index. -->
+  <!-- UP - the node points to its index. -->
   <nav class="uplink">
     <a class="home" href="/">Y3K Lab</a>
     <span class="sep">/</span>
@@ -326,43 +326,43 @@
     </header>
 
     <h2 id="node"><span class="n">01</span> &nbsp;What a node is</h2>
-    <p>A <strong>node</strong> is any unit of organization — the whole portfolio, a
+    <p>A <strong>node</strong> is any unit of organization - the whole portfolio, a
       project, a sub-tool, a single catalog entry. The word is deliberate: a node is
       inherently <em>part of a graph</em>. It is never just an item; it is a thing that
       sits among other things and knows its place among them.</p>
     <p>The law says that whatever the node, and whatever its size, it carries its own
-      identity in the same recognizable shape — and it does so all the way up and all
+      identity in the same recognizable shape - and it does so all the way up and all
       the way down.</p>
 
     <h2 id="properties"><span class="n">02</span> &nbsp;Three properties</h2>
     <div class="props">
       <div class="prop" style="--stop: var(--magenta);">
         <h3><span class="i">i</span> Self-describing</h3>
-        <p>Each node carries its own overview in a consistent, templated shape — the
+        <p>Each node carries its own overview in a consistent, templated shape - the
           portfolio's index, a project's overview, a tool's doc. The same
           “describe&nbsp;yourself” move at every level.</p>
       </div>
       <div class="prop" style="--stop: var(--purple);">
         <h3><span class="i">ii</span> Scale-invariant</h3>
         <p>That move repeats at <em>every</em> altitude. Zoom in or out and you always
-          land on a node that explains itself. Self-similar, like a fractal — hence the
+          land on a node that explains itself. Self-similar, like a fractal - hence the
           name.</p>
       </div>
       <div class="prop" style="--stop: var(--cyan);">
         <h3><span class="i">iii</span> Whole <em>and</em> part</h3>
         <p>Each node is self-contained <em>and</em> a member of the node above and an
           index to the nodes below. It's <strong>built to point up</strong> and
-          <strong>down</strong> — both a map and a thing-on-a-map — so navigation
+          <strong>down</strong> - both a map and a thing-on-a-map - so navigation
           needn't dead-end.</p>
       </div>
     </div>
 
     <h2 id="mechanism"><span class="n">03</span> &nbsp;The mechanism</h2>
-    <p>The law isn't a metaphor — a single rule of construction makes it concrete: a
+    <p>The law isn't a metaphor - a single rule of construction makes it concrete: a
       container's overview is <strong>named after the container</strong>, in the shape
       that level uses. That co-location <strong>structurally enforces it against
-      orphaning and drift</strong> — the description can't separate from the thing it
-      describes — while completeness and accuracy stay a <em>discipline</em>. The same
+      orphaning and drift</strong> - the description can't separate from the thing it
+      describes - while completeness and accuracy stay a <em>discipline</em>. The same
       law, one level down, forever.</p>
     <div class="tree"><span class="cmt"># a self-naming index file at every altitude</span>
 <span class="dir">portfolio/</span>
@@ -372,14 +372,14 @@
    └─ <span class="dir">tool/</span>
       └─ <span class="self">tool.md</span>      <span class="cmt">← the tool describes itself</span></div>
     <p style="margin-top:20px"><strong>Don't create a node that can't describe itself.</strong>
-      Any new container — a project, a sub-tool, a module, a grouping — gets a
+      Any new container - a project, a sub-tool, a module, a grouping - gets a
       self-named overview in its level's shape, pointing up to its index and down to
       its children. That single discipline is the whole law, applied.</p>
     <p><strong>The mechanism is medium-specific.</strong> The law is the
-      <em>behavior</em> — self-describe, point up and down — not the file type. Folders a
+      <em>behavior</em> - self-describe, point up and down - not the file type. Folders a
       human opens to understand the structure get a <code>folder/folder.md</code>.
-      <em>Code</em> packages already self-describe in their own idiom — a package
-      docstring, a README — so they satisfy the law without a parallel <code>.md</code>
+      <em>Code</em> packages already self-describe in their own idiom - a package
+      docstring, a README - so they satisfy the law without a parallel <code>.md</code>
       that would only shadow the code's own description. The test: <em>would a human
       navigate here to understand the system?</em> If yes, it's an organizational node and
       earns the overview.</p>
@@ -388,19 +388,19 @@
     <p>Why enforce this, instead of keeping a good index by hand? Because the law buys
       properties a maintained map can't:</p>
     <p><strong>The description can't drift from the thing.</strong> The overview lives
-      inside what it describes and is named after it, so the two move together — rename,
+      inside what it describes and is named after it, so the two move together - rename,
       relocate, or delete a node and its description travels with it. There is no separate
       map to forget to update, so there is no stale map.</p>
-    <p><strong>Navigation doesn't dead-end.</strong> Land at any altitude — a deep leaf, a
-      mid-level folder, the root — and you can always read where you are, step up to its
+    <p><strong>Navigation doesn't dead-end.</strong> Land at any altitude - a deep leaf, a
+      mid-level folder, the root - and you can always read where you are, step up to its
       context, or step down into its parts. Wayfinding and handoff stop depending on a
       guide who already knows the layout.</p>
     <p><strong>It scales without a center.</strong> No master document has to know
       everything; each node knows only itself and its neighbors. Add a thousand nodes and
-      nothing has to be rewired — the rule carries the structure, not a registry that
+      nothing has to be rewired - the rule carries the structure, not a registry that
       grows more brittle the larger it gets.</p>
     <p><strong>It's traversable by machines, not just people.</strong> A predictable shape
-      at every altitude means a tool — or an AI agent — can walk the structure with no
+      at every altitude means a tool - or an AI agent - can walk the structure with no
       bespoke instructions per level. Self-similarity is an API.</p>
 
     <h2 id="example"><span class="n">05</span> &nbsp;A worked example</h2>
@@ -413,56 +413,56 @@
    ├─ <span class="self">traxxas-maxx.md</span>   <span class="cmt">← names itself; describes the vehicle</span>
    └─ hero.png            <span class="cmt">← a role-named asset</span></div>
     <p style="margin-top:20px">The folder is named for the vehicle; inside it, a file
-      named for the folder describes it — the self-naming move. Navigation now works in
+      named for the folder describes it - the self-naming move. Navigation now works in
       both directions <em>for free</em>: from the fleet index you step <strong>down</strong>
       into the vehicle; from the vehicle you step <strong>up</strong> to the index and
-      across to its siblings. Nobody wired those links — the shape did.</p>
+      across to its siblings. Nobody wired those links - the shape did.</p>
     <p>Skip the rule and you get a folder of assets with no <code>traxxas-maxx.md</code>:
       a node that can't describe itself. It might still be listed in <code>INDEX.md</code>
-      — but that listing is now hand-maintained, and the day it isn't, the index lies and
-      the folder is a dead-end. The law can't force you to create the node — that's the
+      - but that listing is now hand-maintained, and the day it isn't, the index lies and
+      the folder is a dead-end. The law can't force you to create the node - that's the
       discipline it asks for. What it <em>guarantees</em> is the other half: follow it and
       the node names and describes itself, so there's no separate listing to fall out of
-      sync — the description can't drift from the thing.</p>
+      sync - the description can't drift from the thing.</p>
 
     <h2 id="instances"><span class="n">06</span> &nbsp;Instances</h2>
-    <p>The law is already load-bearing across the lab — the node pointing <strong>down</strong>.
+    <p>The law is already load-bearing across the lab - the node pointing <strong>down</strong>.
       Each of these describes itself and indexes the nodes beneath it:</p>
     <div class="down">
       <div class="item" style="--stop: var(--magenta);">
         <b>The self-identifying filesystem</b> &nbsp;
-        <span class="d">— a folder's overview is named after the folder, at every level. The Project System runs on this.</span>
+        <span class="d">- a folder's overview is named after the folder, at every level. The Project System runs on this.</span>
       </div>
       <div class="item" style="--stop: var(--purple);">
         <b>A folder-per-tool catalog</b> &nbsp;
-        <span class="d">— <code>stack/&lt;tool&gt;/&lt;tool&gt;.md</code>, each entry a self-describing node under a master index.</span>
+        <span class="d">- <code>stack/&lt;tool&gt;/&lt;tool&gt;.md</code>, each entry a self-describing node under a master index.</span>
       </div>
       <a class="item" href="https://garage.y3krc.com" target="_blank" rel="noopener noreferrer" style="--stop: var(--cyan);">
         <span class="arw">→</span>
         <b>The Y3K RC Garage</b> &nbsp;
-        <span class="d">— a fleet catalog where every vehicle is a node: <code>fleet/&lt;slug&gt;/&lt;slug&gt;.md</code> plus role-named assets.</span>
+        <span class="d">- a fleet catalog where every vehicle is a node: <code>fleet/&lt;slug&gt;/&lt;slug&gt;.md</code> plus role-named assets.</span>
       </a>
       <div class="item" style="--stop: var(--blue);">
         <b>An ecosystem map</b> &nbsp;
-        <span class="d">— a self-describing node for an entire multi-project ecosystem, indexing platforms, tools, and catalogs alike.</span>
+        <span class="d">- a self-describing node for an entire multi-project ecosystem, indexing platforms, tools, and catalogs alike.</span>
       </div>
     </div>
 
     <h2 id="lineage"><span class="n">07</span> &nbsp;Lineage</h2>
     <p>This is a deliberate synthesis, not a coinage from nothing. What's genuinely new
-      is none of the pieces below but their <strong>fusion — and the insistence on
+      is none of the pieces below but their <strong>fusion - and the insistence on
       enforcing it</strong>: the synthesis becomes a rule of construction rather than a
-      description added after the fact — a self-naming index file at every altitude, so a
+      description added after the fact - a self-naming index file at every altitude, so a
       structure can never drift from the thing that explains it. The ideas it fuses:</p>
     <ul class="lineage">
       <li>
         <span class="src">Holon &amp; holarchy</span><span class="tag">whole-and-part</span>
-        <span class="gloss">Koestler, 1967 — a thing that is simultaneously a whole and a
+        <span class="gloss">Koestler, 1967 - a thing that is simultaneously a whole and a
           part. The closest single-named ancestor.</span>
       </li>
       <li>
         <span class="src">The Composite pattern</span><span class="tag">in code</span>
-        <span class="gloss">Gang of Four — treat an individual object and a composition of
+        <span class="gloss">Gang of Four - treat an individual object and a composition of
           objects uniformly. The same idea, stated for software.</span>
       </li>
       <li>
@@ -472,15 +472,15 @@
       </li>
       <li>
         <span class="src">Self-similarity</span><span class="tag">fractal</span>
-        <span class="gloss">Mandelbrot — the part resembles the whole, at every scale.</span>
+        <span class="gloss">Mandelbrot - the part resembles the whole, at every scale.</span>
       </li>
     </ul>
 
     <!-- The payoff: the page declares its own node-hood. -->
     <div class="meta-close">
       <p>This page is itself a fractal self-describing node. It names itself, it points
-        <strong>up</strong> to its index — <a class="inline" href="/">the Y3K&nbsp;Lab
-        hub</a> — and <strong>down</strong> to <a class="inline" href="#instances">its
+        <strong>up</strong> to its index - <a class="inline" href="/">the Y3K&nbsp;Lab
+        hub</a> - and <strong>down</strong> to <a class="inline" href="#instances">its
         instances</a>. It practices what it documents.</p>
       <span class="echo">Every node is a fractal self.</span>
     </div>
@@ -489,7 +489,7 @@
 
   <footer>
     <p class="motto">Certified Y3K Ready</p>
-    <p><a href="/">← Y3K Lab</a> · <a href="fractal-self-describing-nodes.md" title="This page as plain Markdown — ideal for pasting to an AI assistant">View as Markdown</a> · © 1970–3000 Y3K · Shareware — copy it, share it, distribute freely on any BBS.</p>
+    <p><a href="/">← Y3K Lab</a> · <a href="fractal-self-describing-nodes.md" title="This page as plain Markdown - ideal for pasting to an AI assistant">View as Markdown</a> · © 1970-3000 Y3K · Shareware - copy it, share it, distribute freely on any BBS.</p>
   </footer>
 
 </body>
