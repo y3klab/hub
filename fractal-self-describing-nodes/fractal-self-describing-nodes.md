@@ -50,17 +50,9 @@ describe(node):
 
 **What the rule asks of you.** Every container gets a self-named overview - don't create a node that can't describe itself - but only containers, and only when there is something to say: a leaf describes itself in-band, in its own header, and a grouping folder whose contents are self-evident can go without. The law governs the name, not the file type - a code package already describes itself through its docstring or README and needs no parallel `.md`. The test: *would a human navigate here to understand the system?* If yes, it earns the overview. A parent may still curate a list of what's below it; nothing may depend on that list.
 
-## What it buys
+## Why it matters
 
-Why enforce FSDN, instead of keeping a good index by hand? Because the law buys properties a maintained map can't:
-
-**The description can't drift from the thing.** The overview lives inside what it describes and is named after it, so the two move together - rename, relocate, or delete a node and its description travels with it. There is no separate map to forget to update, so there is no stale map.
-
-**Navigation doesn't dead-end.** Land at any depth - a deep leaf, a mid-level folder, the root - and you can always read where you are, step up to its context, or step down into its parts. Wayfinding and handoff stop depending on a guide who already knows the layout.
-
-**It scales without a center.** No master document has to know everything; each node knows only itself and its neighbors. Add a thousand nodes and nothing has to be rewired - the rule carries the structure, not a registry that grows more brittle the larger it gets.
-
-**It's traversable by machines, not just people.** The same rule at every depth means a tool - or an AI agent - can walk the structure with no bespoke instructions for any of it. Self-similarity is an API.
+Why enforce FSDN instead of keeping a good index by hand? Because the law buys what a maintained map can't. **The description can't drift from the thing**: it lives inside what it describes and carries its name, so rename, move, or delete a node and its description travels with it. **Navigation doesn't dead-end**: land at any depth and you can read where you are, step up to its context, or down into its parts, with no guide who already knows the layout. **It scales without a center**: no master document has to know everything, so add a thousand nodes and nothing is rewired. And **it's traversable by machines** as well as people: one rule at every depth means a tool - or an AI agent - can walk the whole structure with no instructions for any of it. Self-similarity is an API.
 
 ## A worked example
 
