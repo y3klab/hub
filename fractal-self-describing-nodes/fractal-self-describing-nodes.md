@@ -36,6 +36,18 @@ portfolio/
       └─ tool.md        ← the tool describes itself
 ```
 
+Written as code, the rule is one function that calls itself - the way a fractal tree is drawn:
+
+```
+# the generator, as a rewrite rule:  node → node.md  node*
+describe(node):
+    node/node.md              ← the node describes itself
+    for child in node:        ← and so does everything beneath it,
+        describe(child)          by the same rule
+```
+
+**Notice what's missing.** A fractal tree drawn by code is `draw(branch, depth - 1)`: its branches don't exist until the rule invents them, so the rule has to carry its own stopping point. Here there is no depth parameter. The recursion stops where the data stops - at a node with no children - which is why the law can say *at every depth* without naming one.
+
 **Don't create a node that can't describe itself.** Any new container - a project, a sub-tool, a module, a grouping - gets a self-named overview in its level's shape. It points up to its parent; what lies beneath it is found by the same rule, not by a list it keeps. That single discipline is the whole of FSDN, applied.
 
 **Only containers get the overview - and they earn it.** A leaf - a lone file with nothing beneath it - describes itself in-band, in its own header or metadata, and only points up: its place in the tree is its up-pointer. A container earns an overview when it has something to say that the shape doesn't already; a grouping folder whose contents are self-evident can go without. What the law governs is the *name*: wherever an overview exists, it is named after its container.
