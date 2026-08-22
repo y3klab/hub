@@ -1,6 +1,6 @@
 # Fractal Self-Describing Nodes
 
-**Every node describes itself**, in a consistent shape, **at every altitude** - so there is no index to keep. **The shape is the index.**
+**Every node describes itself**, by the same rule, **at every depth** - so there is no index to keep. **The structure is the index.**
 
 ## What a node is
 
@@ -16,7 +16,7 @@ Each node carries its own overview in a consistent, templated shape - the portfo
 
 ### Scale-invariant
 
-That move repeats at *every* altitude. Zoom in or out and you always land on a node that explains itself. Self-similar, like a fractal - hence the name.
+That move repeats at *every* depth. Zoom in or out and you always land on a node that explains itself. Self-similar, like a fractal - hence the name.
 
 ### Whole *and* part
 
@@ -27,7 +27,7 @@ Each node is self-contained *and* a member of the node above - and everything be
 The law isn't a metaphor - a single rule of construction makes it concrete: a container's overview is **named after the container**, in the shape that level uses. That co-location **structurally enforces it against orphaning and drift** - the description can't separate from the thing it describes - while completeness and accuracy stay a *discipline*. The same law, one level down, forever.
 
 ```
-# a self-naming overview at every altitude
+# a self-naming overview at every depth
 portfolio/
 ├─ portfolio.md         ← the portfolio describes itself
 └─ project/
@@ -50,11 +50,11 @@ Why enforce FSDN, instead of keeping a good index by hand? Because the law buys 
 
 **The description can't drift from the thing.** The overview lives inside what it describes and is named after it, so the two move together - rename, relocate, or delete a node and its description travels with it. There is no separate map to forget to update, so there is no stale map.
 
-**Navigation doesn't dead-end.** Land at any altitude - a deep leaf, a mid-level folder, the root - and you can always read where you are, step up to its context, or step down into its parts. Wayfinding and handoff stop depending on a guide who already knows the layout.
+**Navigation doesn't dead-end.** Land at any depth - a deep leaf, a mid-level folder, the root - and you can always read where you are, step up to its context, or step down into its parts. Wayfinding and handoff stop depending on a guide who already knows the layout.
 
 **It scales without a center.** No master document has to know everything; each node knows only itself and its neighbors. Add a thousand nodes and nothing has to be rewired - the rule carries the structure, not a registry that grows more brittle the larger it gets.
 
-**It's traversable by machines, not just people.** A predictable shape at every altitude means a tool - or an AI agent - can walk the structure with no bespoke instructions per level. Self-similarity is an API.
+**It's traversable by machines, not just people.** The same rule at every depth means a tool - or an AI agent - can walk the structure with no bespoke instructions for any of it. Self-similarity is an API.
 
 ## A worked example
 
@@ -93,7 +93,7 @@ FSDN is already load-bearing across the lab - the node pointing **down**. Each o
 
 ## Lineage
 
-This is a deliberate synthesis, not a coinage from nothing. What's genuinely new is none of the pieces below but their **fusion - and the insistence on enforcing it**: the synthesis becomes a rule of construction rather than a description added after the fact - a self-naming overview at every altitude, so a structure can never drift from the thing that explains it. The ideas it fuses:
+This is a deliberate synthesis, not a coinage from nothing. What's genuinely new is none of the pieces below but their **fusion - and the insistence on enforcing it**: the synthesis becomes a rule of construction rather than a description added after the fact - a self-naming overview at every depth, so a structure can never drift from the thing that explains it. The ideas it fuses:
 
 - **Holon & holarchy** *whole-and-part* Koestler, 1967 - a thing that is simultaneously a whole and a part. The closest single-named ancestor.
 
@@ -101,7 +101,7 @@ This is a deliberate synthesis, not a coinage from nothing. What's genuinely new
 
 - **HATEOAS · Zettelkasten · Maps of Content** *up/down links* Hypermedia that carries its own links; atomic notes, each self-contained yet an index to others. The “no dead-ends” property.
 
-- **Self-similarity** *fractal* Mandelbrot - the part resembles the whole, at every scale.
+- **Self-similarity** *fractal* Mandelbrot - one generator, applied at every depth; the part resembles the whole, at every scale.
 
 This page is itself a fractal self-describing node. It names itself, it points **up** to its parent - [the Y3K Lab hub](https://y3klab.com/) - and **down** to [its instances](#instances). It practices what it documents.
 

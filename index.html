@@ -155,7 +155,7 @@
   .law.hero .say { font-size:14.5px; line-height:1.62; max-width:48ch; }
   .law.hero .demo { margin:0; }
   .law.hero .meta { justify-content:flex-start; padding-top:20px; }
-  /* the tree, enlarged for the hero - each altitude a clear, self-similar box */
+  /* the tree, enlarged for the hero - each depth a clear, self-similar box */
   .law.hero .nodes { font-size:12.5px; }
   .law.hero .node { padding:12px 14px; border-radius:9px; }
   .law.hero .node + .node, .law.hero .node.depth2 { margin-top:11px; }
@@ -205,7 +205,7 @@
   .play .arw { display:inline-block; transition:transform .18s; }
   .law:hover .play .arw { transform:translate(2px,-2px); }
 
-  /* FSDN node diagram - nested self-similar boxes (a node describes itself at every altitude) */
+  /* FSDN node diagram - nested self-similar boxes (a node describes itself at every depth) */
   .nodes { display:flex; flex-direction:column; gap:0; font-size:11px; }
   .node {
     border:1px solid color-mix(in srgb, var(--cyan) 26%, var(--rail)); border-radius:8px;
@@ -483,13 +483,13 @@
   <!-- ══════════════ THE LAW - FSDN, solo full-width hero ══════════════ -->
   <div class="col surfaces-label">The Law</div>
   <p class="col section-note">The structural constitution every Y3K surface obeys - <b>how everything
-     is organized</b>: a node describes itself, in the same shape, at every altitude.</p>
+     is organized</b>: a node describes itself, by the same rule, at every depth.</p>
   <a class="law fsdn hero" href="/fractal-self-describing-nodes/">
     <div class="law-body">
       <div class="eyebrow"><span class="n">LAW</span> · Structure</div>
       <h3>Fractal Self-Describing Nodes</h3>
-      <p class="say">Every node describes itself, in a consistent shape, at <b>every altitude</b> -
-        so there is no index to keep: <b>the shape is the index</b>. A folder's primary document
+      <p class="say">Every node describes itself, by the same rule, at <b>every depth</b> -
+        so there is no index to keep: <b>the structure is the index</b>. A folder's primary document
         carries the folder's name; every file that represents its container takes the container's
         name, never a generic one.</p>
       <div class="meta"><span class="play cool">read <span class="arw">→</span></span></div>
