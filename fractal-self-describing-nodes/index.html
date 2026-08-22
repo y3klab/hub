@@ -447,39 +447,39 @@
       instructions for any of it. Self-similarity is an API.</p>
 
     <h2 id="example"><span class="n">04</span> &nbsp;A worked example</h2>
-    <p>Say you add an apple pie to the Y3K Cookbook. The law decides the shape before
-      you do:</p>
+    <p>Say you add pho to the Y3K Cookbook. The law decides the shape before you do:</p>
     <div class="tree"><code class="dir">y3k-cookbook/</code>
 ├─ <code class="self">y3k-cookbook.md</code>        <code class="cmt">← whose kitchen, the chapters, how to read a card</code>
-└─ <code class="dir">desserts/</code>
-   ├─ <code class="self">desserts.md</code>         <code class="cmt">← what counts as dessert; pastry and sugar basics</code>
-   ├─ <code class="dir">lemon-tart/</code>
-   │  └─ <code class="self">lemon-tart.md</code>    <code class="cmt">← ingredients, steps, provenance, related recipes</code>
-   └─ <code class="dir">apple-pie/</code>
-      ├─ <code class="self">apple-pie.md</code>     <code class="cmt">← ingredients, steps, provenance; crust + filling</code>
-      ├─ hero.jpg         <code class="cmt">← the finished pie</code>
-      ├─ <code class="dir">crust/</code>
-      │  └─ <code class="self">crust.md</code>      <code class="cmt">← ingredients, steps; a recipe inside the recipe</code>
-      └─ <code class="dir">filling/</code>
-         └─ <code class="self">filling.md</code>    <code class="cmt">← ingredients, steps</code></div>
+└─ <code class="dir">soups/</code>
+   ├─ <code class="self">soups.md</code>            <code class="cmt">← what counts as soup; stock and simmer basics</code>
+   ├─ <code class="dir">ramen/</code>
+   │  └─ <code class="self">ramen.md</code>         <code class="cmt">← ingredients, steps, provenance, related recipes</code>
+   └─ <code class="dir">pho/</code>
+      ├─ <code class="self">pho.md</code>           <code class="cmt">← ingredients, steps, provenance; broth + garnish</code>
+      ├─ hero.jpg         <code class="cmt">← the finished bowl</code>
+      ├─ <code class="dir">broth/</code>
+      │  └─ <code class="self">broth.md</code>      <code class="cmt">← ingredients, steps; a recipe inside the recipe</code>
+      └─ <code class="dir">garnish/</code>
+         └─ <code class="self">garnish.md</code>    <code class="cmt">← the herb plate: basil, sprouts, lime, chili</code></div>
     <p style="margin-top:20px">Four depths, one rule, four different documents. The
       book's overview is front matter. The chapter's is an opener - what counts as a
-      dessert in this kitchen, and the pastry and sugar basics every recipe below it
-      assumes. The dish's is a recipe card. The crust's is a recipe card too, because a
-      crust is a recipe. Nobody would confuse them, and nobody wrote a template for each:
-      the same rule, applied to whatever was in front of it, produced all four.</p>
-    <p><strong>A recipe of recipes.</strong> The pie is a crust and a filling, and each of
-      those is a recipe in its own right - so the node's children are the same kind of
-      thing as the node. <code>describe(apple-pie)</code> calls
-      <code>describe(crust)</code>. That is the fractal claim, run one turn further than
-      the generator above shows.</p>
+      soup in this kitchen, and the stock and simmer basics every recipe below it
+      assumes. The dish's is a recipe card. The broth's is a recipe card too, because a
+      broth is a recipe. Nobody would confuse them, and nobody wrote a template for
+      each: the same rule, applied to whatever was in front of it, produced all four.</p>
+    <p><strong>A recipe of recipes.</strong> Pho is a broth and a garnish plate over
+      noodles, and the broth is a recipe in its own right - charred onion and ginger,
+      bones, star anise, a day's simmer - so the node's children are the same kind of
+      thing as the node. <code>describe(pho)</code> calls <code>describe(broth)</code>.
+      That is the fractal claim, run one turn further than the generator above
+      shows.</p>
     <p>Navigation works in every direction <em>for free</em>: from the chapter you step
-      <strong>down</strong> into the pie; from the pie, <strong>up</strong> to the chapter
-      and across to the lemon tart; from the crust, up to the pie it belongs to. Nobody
-      wired those links - the shape did.</p>
+      <strong>down</strong> into the pho; from the pho, <strong>up</strong> to the chapter
+      and across to the ramen; from the broth, up to the bowl it belongs to. Nobody wired
+      those links - the shape did.</p>
     <p><strong>The book's two indexes write themselves.</strong> The table of contents is
       <code>ls</code> - no author types one; it is generated from the chapters at layout,
-      page numbers and all. The index at the back - <em>apples, 112, 140</em> - is
+      page numbers and all. The index at the back - <em>star anise, 88, 140</em> - is
       generated from the recipe cards by the indexer, never written first. Every cookbook
       you own already computes both from its structure.</p>
     <p>Skip the rule and you get the folder everyone has: <code>hero.jpg</code>, and
@@ -488,8 +488,7 @@
       provenance line, missing: the one fact a photo can't give back.</p>
     <p>The law can't make you write the card - that's the discipline it asks for. What it
       <em>guarantees</em> is the other half: a card written there can never drift to
-      another dish. <code>apple-pie/apple-pie.md</code> cannot describe the lemon
-      tart.</p>
+      another dish. <code>pho/pho.md</code> cannot describe the ramen.</p>
 
     <h2 id="instances"><span class="n">05</span> &nbsp;Instances</h2>
     <p>FSDN is already load-bearing across the lab - the node pointing <strong>down</strong>.

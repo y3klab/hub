@@ -74,35 +74,35 @@ Why enforce FSDN, instead of keeping a good index by hand? Because the law buys 
 
 ## A worked example
 
-Say you add an apple pie to the Y3K Cookbook. The law decides the shape before you do:
+Say you add pho to the Y3K Cookbook. The law decides the shape before you do:
 
 ```
 y3k-cookbook/
 ├─ y3k-cookbook.md        ← whose kitchen, the chapters, how to read a card
-└─ desserts/
-   ├─ desserts.md         ← what counts as dessert; pastry and sugar basics
-   ├─ lemon-tart/
-   │  └─ lemon-tart.md    ← ingredients, steps, provenance, related recipes
-   └─ apple-pie/
-      ├─ apple-pie.md     ← ingredients, steps, provenance; crust + filling
-      ├─ hero.jpg         ← the finished pie
-      ├─ crust/
-      │  └─ crust.md      ← ingredients, steps; a recipe inside the recipe
-      └─ filling/
-         └─ filling.md    ← ingredients, steps
+└─ soups/
+   ├─ soups.md            ← what counts as soup; stock and simmer basics
+   ├─ ramen/
+   │  └─ ramen.md         ← ingredients, steps, provenance, related recipes
+   └─ pho/
+      ├─ pho.md           ← ingredients, steps, provenance; broth + garnish
+      ├─ hero.jpg         ← the finished bowl
+      ├─ broth/
+      │  └─ broth.md      ← ingredients, steps; a recipe inside the recipe
+      └─ garnish/
+         └─ garnish.md    ← the herb plate: basil, sprouts, lime, chili
 ```
 
-Four depths, one rule, four different documents. The book's overview is front matter. The chapter's is an opener - what counts as a dessert in this kitchen, and the pastry and sugar basics every recipe below it assumes. The dish's is a recipe card. The crust's is a recipe card too, because a crust is a recipe. Nobody would confuse them, and nobody wrote a template for each: the same rule, applied to whatever was in front of it, produced all four.
+Four depths, one rule, four different documents. The book's overview is front matter. The chapter's is an opener - what counts as a soup in this kitchen, and the stock and simmer basics every recipe below it assumes. The dish's is a recipe card. The broth's is a recipe card too, because a broth is a recipe. Nobody would confuse them, and nobody wrote a template for each: the same rule, applied to whatever was in front of it, produced all four.
 
-**A recipe of recipes.** The pie is a crust and a filling, and each of those is a recipe in its own right - so the node's children are the same kind of thing as the node. `describe(apple-pie)` calls `describe(crust)`. That is the fractal claim, run one turn further than the generator above shows.
+**A recipe of recipes.** Pho is a broth and a garnish plate over noodles, and the broth is a recipe in its own right - charred onion and ginger, bones, star anise, a day's simmer - so the node's children are the same kind of thing as the node. `describe(pho)` calls `describe(broth)`. That is the fractal claim, run one turn further than the generator above shows.
 
-Navigation works in every direction *for free*: from the chapter you step **down** into the pie; from the pie, **up** to the chapter and across to the lemon tart; from the crust, up to the pie it belongs to. Nobody wired those links - the shape did.
+Navigation works in every direction *for free*: from the chapter you step **down** into the pho; from the pho, **up** to the chapter and across to the ramen; from the broth, up to the bowl it belongs to. Nobody wired those links - the shape did.
 
-**The book's two indexes write themselves.** The table of contents is `ls` - no author types one; it is generated from the chapters at layout, page numbers and all. The index at the back - *apples, 112, 140* - is generated from the recipe cards by the indexer, never written first. Every cookbook you own already computes both from its structure.
+**The book's two indexes write themselves.** The table of contents is `ls` - no author types one; it is generated from the chapters at layout, page numbers and all. The index at the back - *star anise, 88, 140* - is generated from the recipe cards by the indexer, never written first. Every cookbook you own already computes both from its structure.
 
 Skip the rule and you get the folder everyone has: `hero.jpg`, and nothing beside it. You can see what it was. You can't make it again - the only way is to ask whoever did, and the day they're gone, so is the dish. That is the provenance line, missing: the one fact a photo can't give back.
 
-The law can't make you write the card - that's the discipline it asks for. What it *guarantees* is the other half: a card written there can never drift to another dish. `apple-pie/apple-pie.md` cannot describe the lemon tart.
+The law can't make you write the card - that's the discipline it asks for. What it *guarantees* is the other half: a card written there can never drift to another dish. `pho/pho.md` cannot describe the ramen.
 
 ## Instances
 
