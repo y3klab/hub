@@ -78,19 +78,19 @@ y3k-cookbook/
    ├─ ramen/
    │  └─ ramen.md          ← ingredients, steps, provenance, related recipes
    └─ pho/
-      ├─ pho.md            ← ingredients, steps, provenance; broth + garnish
+      ├─ pho.md            ← ingredients, steps, provenance; broth + rau sống
       ├─ hero.jpg          ← the finished bowl
       ├─ assembly.jpg      ← the bowl being built
       ├─ broth/
       │  ├─ broth.md       ← ingredients, steps; a recipe inside the recipe
       │  └─ simmering.jpg  ← the pot at hour six
-      └─ garnish/
-         └─ garnish.md     ← the herb plate: basil, sprouts, lime, chili
+      └─ rau-song/
+         └─ rau-song.md    ← đĩa rau sống: Thai basil, sprouts, lime, chili
 ```
 
 Four depths, one rule, four different documents. The book's overview is front matter. The chapter's is an opener - what counts as a soup in this kitchen, and the stock and simmer basics every recipe below it assumes. The dish's is a recipe card. The broth's is a recipe card too, because a broth is a recipe. Nobody would confuse them, and nobody wrote a template for each: the same rule, applied to whatever was in front of it, produced all four.
 
-**A recipe of recipes.** Pho is a broth and a garnish plate over noodles, and the broth is a recipe in its own right - charred onion and ginger, bones, star anise, a day's simmer - so the node's children are the same kind of thing as the node. `describe(pho)` calls `describe(broth)`. That is the fractal claim, run one turn further than the generator above shows.
+**A recipe of recipes.** Pho is a broth over noodles and a plate of rau sống - the fresh herbs, sprouts, lime and chili the diner adds, not a garnish but half the dish - and the broth is a recipe in its own right: charred onion and ginger, bones, star anise, a day's simmer. So the node's children are the same kind of thing as the node. `describe(pho)` calls `describe(broth)`. That is the fractal claim, run one turn further than the generator above shows.
 
 **Named for what the path doesn't say.** Three photos, and none is named for the dish, because the folder already is. Inside a node, a file that isn't the overview is named for its role or its subject - `hero.jpg`, `assembly.jpg` - and a photo of the broth lives with the broth, as `broth/simmering.jpg`, because an asset belongs to the node it depicts. The day the hero shot leaves the folder for a flat `images/` directory it becomes `pho-hero.jpg`: the path stopped saying *pho*, so the name has to.
 
