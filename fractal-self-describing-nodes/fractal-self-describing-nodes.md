@@ -24,7 +24,7 @@ What lies below any node is computed - `ls` - never written. A parent's overview
 
 ## The mechanism
 
-The law isn't a metaphor - a single rule of construction makes it concrete: a container's overview is **named after the container**, in the shape that level uses. That co-location **structurally enforces it against orphaning and drift** - the description can't separate from the thing it describes - while completeness and accuracy stay a *discipline*. The same law, one level down, forever.
+A single rule of construction makes the law concrete: a container's overview is **named after the container**. Because the description lives inside the thing and carries its name, it can't separate from it - that co-location is what the law **structurally enforces**; completeness and accuracy stay a *discipline*.
 
 ```
 # a self-naming overview at every depth
@@ -46,13 +46,9 @@ describe(node):
         describe(child)          by the same rule
 ```
 
-**Notice what's missing.** A fractal tree drawn by code is `draw(branch, depth - 1)`: its branches don't exist until the rule invents them, so the rule has to carry its own stopping point. Here there is no depth parameter. The recursion stops where the data stops - at a node with no children - which is why the law can say *at every depth* without naming one.
+**There is no depth parameter.** A fractal tree drawn by code is `draw(branch, depth - 1)`: its branches don't exist until the rule invents them, so the rule has to carry its own stopping point. This one stops where the data stops - at a node with no children - which is why the law can say *at every depth* without naming one.
 
-**Don't create a node that can't describe itself.** Any new container - a project, a sub-tool, a module, a grouping - gets a self-named overview in its level's shape. It points up to its parent; what lies beneath it is found by the same rule, not by a list it keeps - it may curate one, an order or a *start here*, but nothing depends on that list being complete. That single discipline is the whole of FSDN, applied.
-
-**Only containers get the overview - and they earn it.** A leaf - a lone file with nothing beneath it - describes itself in-band, in its own header or metadata, and only points up: its place in the tree is its up-pointer. A container earns an overview when it has something to say that the shape doesn't already; a grouping folder whose contents are self-evident can go without. What the law governs is the *name*: wherever an overview exists, it is named after its container.
-
-**The mechanism is medium-specific.** The law is the *behavior* - self-describe, point up and down - not the file type. Folders a human opens to understand the structure get a `folder/folder.md`. *Code* packages already self-describe in their own idiom - a package docstring, a README - so they satisfy the law without a parallel `.md` that would only shadow the code's own description. The test: *would a human navigate here to understand the system?* If yes, it's an organizational node and earns the overview.
+**What the rule asks of you.** Every container gets a self-named overview - don't create a node that can't describe itself - but only containers, and only when there is something to say: a leaf describes itself in-band, in its own header, and a grouping folder whose contents are self-evident can go without. The law governs the name, not the file type - a code package already describes itself through its docstring or README and needs no parallel `.md`. The test: *would a human navigate here to understand the system?* If yes, it earns the overview. A parent may still curate a list of what's below it; nothing may depend on that list.
 
 ## What it buys
 
