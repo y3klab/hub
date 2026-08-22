@@ -446,14 +446,14 @@
    │  └─ <code class="dir">broth/</code>
    │     └─ <code class="self">broth.md</code>       <code class="cmt">← ingredients, steps; a day's boil of pork bones</code>
    └─ <code class="dir">pho/</code>
-      ├─ <code class="self">pho.md</code>            <code class="cmt">← ingredients, steps, provenance; broth + rau sống</code>
+      ├─ <code class="self">pho.md</code>            <code class="cmt">← ingredients, steps, provenance; broth + herbs</code>
       ├─ hero.jpg          <code class="cmt">← the finished bowl</code>
       ├─ assembly.jpg      <code class="cmt">← the bowl being built</code>
       ├─ <code class="dir">broth/</code>
       │  ├─ <code class="self">broth.md</code>       <code class="cmt">← ingredients, steps; a recipe inside the recipe</code>
       │  └─ simmering.jpg  <code class="cmt">← the pot at hour six</code>
-      └─ <code class="dir">rau-song/</code>
-         └─ <code class="self">rau-song.md</code>    <code class="cmt">← đĩa rau sống: Thai basil, sprouts, lime, chili</code></div>
+      └─ <code class="dir">herbs/</code>
+         └─ <code class="self">herbs.md</code>       <code class="cmt">← rau sống: Thai basil, sprouts, lime, chili</code></div>
     <p style="margin-top:20px">Four depths, one rule, four different documents. The
       book's overview is front matter. The chapter's is an opener - what counts as a
       soup in this kitchen, and the stock and simmer basics every recipe below it
@@ -461,8 +461,8 @@
       broth is a recipe. Nobody would confuse them, and nobody wrote a template for
       each: the same rule, applied to whatever was in front of it, produced all four.</p>
     <p><strong>A recipe of recipes.</strong> Pho is a broth over noodles and a plate of
-      rau sống - the fresh herbs, sprouts, lime and chili the diner adds, not a garnish
-      but half the dish - and the broth is a recipe in its own right: charred onion and
+      herbs - <em>rau sống</em>: the basil, sprouts, lime and chili the diner adds, not a
+      garnish but half the dish - and the broth is a recipe in its own right: charred onion and
       ginger, bones, star anise, a day's simmer. So the node's children are the same
       kind of thing as the node. <code>describe(pho)</code> calls <code>describe(broth)</code>.
       That is the fractal claim, run one turn further than the generator above
