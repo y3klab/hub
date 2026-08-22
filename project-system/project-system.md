@@ -1,10 +1,10 @@
 # Project System
 
-Spin up projects, shelve them, archive them, and keep **one tidy index** of everything you're building - from the terminal. Pure bash, zero daemons, **Claude Code** intake built in. Yours the moment you unzip it.
+Spin up projects, shelve them, archive them, and always know what you're building - from the terminal, with **no master list to keep**: the workspace *is* the list. Pure bash, zero daemons, **Claude Code** intake built in. Yours the moment you unzip it.
 
 ## What you get
 
-One dashboard answers the question every side-project-haver dreads - **“what am I building, and where did I leave it?”** Type `proj` and your whole portfolio is on screen: arrow keys to move, **Enter** to drop into a project with Claude Code already open, **m** to move or delete it:
+One dashboard answers the question every side-project-haver dreads - **“what am I building, and where did I leave it?”** Type `proj` and your whole portfolio is on screen - read straight off the disk, so a folder in the workspace is a project, with nothing to register and no list that can go stale. Arrow keys to move, **Enter** to drop into a project with Claude Code already open, **m** to move or delete it:
 
 ```
 ❯ proj
@@ -70,11 +70,11 @@ The installer checks your tools, symlinks the slash commands into `~/.claude/com
 Two doorways in - both interactive, both also reachable from the dashboard's `n` and `i` keys:
 
 ```
-newproject     # spin up a NEW project - scaffold, index, hand off to Claude
+newproject     # spin up a NEW project - scaffold, hand off to Claude
 importproject  # adopt an EXISTING folder or git repo - original never touched
 ```
 
-`newproject` creates your first project in `~/Projects/Active/`, drops in a starter scaffold, records it in the index, and hands off to Claude Code to help define what the thing actually is. Already have a pile of project folders? `importproject` is the adoption on-ramp - point it at each one and it's copied in, indexed, and committed, with the full Claude intake *offered* rather than forced. Want the why behind the design? `CONVENTIONS.md` ships in the zip - the system's principles, ~200 lines.
+`newproject` creates your first project in `~/Projects/Active/`, drops in a starter scaffold, and hands off to Claude Code to help define what the thing actually is. Already have a pile of project folders? `importproject` is the adoption on-ramp - point it at each one and it's copied in, with the full Claude intake *offered* rather than forced. Either way the project exists the moment its folder does - there is no register step, because there is no list. Want the why behind the design? `CONVENTIONS.md` ships in the zip - the system's principles, ~850 lines.
 
 ## Uninstall
 
@@ -86,7 +86,7 @@ rm -f ~/.claude/commands/{setup-project,grill,architect,init-claude-md,project-s
 # then delete the one project-system line from ~/.zshrc
 ```
 
-`~/Projects` - your actual work - stays. It was never the system's; it's just folders and git repos, readable with or without any of this. That's the point.
+`~/Projects` - your actual work - stays. It was never the system's; it's just folders and git repos, plus one `projects.md` that describes the workspace in plain text, all readable with or without any of this. That's the point.
 
 ---
 

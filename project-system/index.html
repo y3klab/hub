@@ -13,7 +13,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Project System - a tiny operating system for your projects | Y3K Lab</title>
-<meta name="description" content="A tiny operating system for your projects. Spin up, shelve, archive, and index a personal project portfolio from the terminal - pure bash, an arrow-key dashboard, Claude Code intake built in. Free from Y3K Lab.">
+<meta name="description" content="A tiny operating system for your projects. Spin up, shelve, and archive a personal project portfolio from the terminal - no master list to keep, the workspace is the list. Pure bash, an arrow-key dashboard, Claude Code intake built in. Free from Y3K Lab.">
 <link rel="canonical" href="https://y3klab.com/project-system/">
 
 <!-- Favicon + share assets live at the site root; we're one level deep. -->
@@ -25,14 +25,14 @@
 <!-- OpenGraph / Twitter - reuses the Lab share card until a bespoke one ships. -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Project System - a tiny operating system for your projects">
-<meta property="og:description" content="Spin up, shelve, archive, and index a personal project portfolio from the terminal - pure bash, an arrow-key dashboard, Claude Code intake built in. Free from Y3K Lab.">
+<meta property="og:description" content="Spin up, shelve, and archive a personal project portfolio from the terminal - no master list to keep, the workspace is the list. Pure bash, an arrow-key dashboard, Claude Code intake built in. Free from Y3K Lab.">
 <meta property="og:url" content="https://y3klab.com/project-system/">
 <meta property="og:image" content="https://y3klab.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Project System - a tiny operating system for your projects">
-<meta name="twitter:description" content="Spin up, shelve, archive, and index a personal project portfolio from the terminal - pure bash, an arrow-key dashboard, Claude Code intake built in. Free from Y3K Lab.">
+<meta name="twitter:description" content="Spin up, shelve, and archive a personal project portfolio from the terminal - no master list to keep, the workspace is the list. Pure bash, an arrow-key dashboard, Claude Code intake built in. Free from Y3K Lab.">
 <meta name="twitter:image" content="https://y3klab.com/og-image.png">
 <meta name="theme-color" content="#0a0a12">
 <style>
@@ -111,7 +111,7 @@
 
   .wrap { max-width: 720px; margin: 0 auto; }
 
-  /* ── Up-link: the page points UP to its index (the hub). ── */
+  /* ── Up-link: the page points UP to its parent (the hub). ── */
   .uplink {
     display: flex; align-items: center; gap: 10px;
     padding: 26px 0 0; margin-bottom: 4rem;
@@ -329,7 +329,7 @@
 </head>
 <body>
 
-  <!-- UP - the page points to its index. -->
+  <!-- UP - the page points to its parent. -->
   <nav class="uplink">
     <a class="home" href="/">Y3K Lab</a>
     <span class="sep">/</span>
@@ -341,16 +341,19 @@
     <header>
       <p class="kicker rise">A tiny operating system for your projects</p>
       <h1 class="rise">Project System</h1>
-      <p class="law rise">Spin up projects, shelve them, archive them, and keep
-        <strong>one tidy index</strong> of everything you're building - from the
-        terminal. Pure bash, zero daemons, <strong>Claude&nbsp;Code</strong> intake
-        built in. Yours the moment you unzip it.</p>
+      <p class="law rise">Spin up projects, shelve them, archive them, and always
+        know what you're building - from the terminal, with <strong>no master list
+        to keep</strong>: the workspace <em>is</em> the list. Pure bash, zero daemons,
+        <strong>Claude&nbsp;Code</strong> intake built in. Yours the moment you
+        unzip it.</p>
     </header>
 
     <h2 id="what"><span class="n">01</span> &nbsp;What you get</h2>
     <p>One dashboard answers the question every side-project-haver dreads -
       <strong>“what am I building, and where did I leave it?”</strong> Type
-      <code>proj</code> and your whole portfolio is on screen: arrow keys to move,
+      <code>proj</code> and your whole portfolio is on screen - read straight off the
+      disk, so a folder in the workspace is a project, with nothing to register and
+      no list that can go stale. Arrow keys to move,
       <strong>Enter</strong> to drop into a project with Claude&nbsp;Code already
       open, <strong>m</strong> to move or delete it:</p>
     <div class="term">
@@ -431,16 +434,17 @@ exec zsh</div>
     <h2 id="firstrun"><span class="n">03</span> &nbsp;First contact</h2>
     <p>Two doorways in - both interactive, both also reachable from the
       dashboard's <code>n</code> and <code>i</code> keys:</p>
-    <div class="tree">newproject     <span class="cmt"># spin up a NEW project - scaffold, index, hand off to Claude</span>
+    <div class="tree">newproject     <span class="cmt"># spin up a NEW project - scaffold, hand off to Claude</span>
 importproject  <span class="cmt"># adopt an EXISTING folder or git repo - original never touched</span></div>
     <p style="margin-top:14px"><code>newproject</code> creates your first project in
-      <code>~/Projects/Active/</code>, drops in a starter scaffold, records it in the
-      index, and hands off to Claude&nbsp;Code to help define what the thing actually
-      is. Already have a pile of project folders? <code>importproject</code> is the
-      adoption on-ramp - point it at each one and it's copied in, indexed, and
-      committed, with the full Claude intake <em>offered</em> rather than forced.
-      Want the why behind the design? <code>CONVENTIONS.md</code> ships in the zip -
-      the system's principles, ~200 lines.</p>
+      <code>~/Projects/Active/</code>, drops in a starter scaffold, and hands off to
+      Claude&nbsp;Code to help define what the thing actually is. Already have a pile
+      of project folders? <code>importproject</code> is the adoption on-ramp - point
+      it at each one and it's copied in, with the full Claude intake <em>offered</em>
+      rather than forced. Either way the project exists the moment its folder does -
+      there is no register step, because there is no list. Want the why behind the
+      design? <code>CONVENTIONS.md</code> ships in the zip - the system's principles,
+      ~850 lines.</p>
 
     <h2 id="uninstall"><span class="n">04</span> &nbsp;Uninstall</h2>
     <p>The system lives in four announced places: the <code>~/project-system</code>
@@ -451,8 +455,9 @@ importproject  <span class="cmt"># adopt an EXISTING folder or git repo - origin
 rm -f ~/.claude/commands/{setup-project,grill,architect,init-claude-md,project-status}.md
 <span class="cmt"># then delete the one project-system line from ~/.zshrc</span></div>
     <p style="margin-top:14px"><code>~/Projects</code> - your actual work - stays.
-      It was never the system's; it's just folders and git repos, readable with or
-      without any of this. That's the point.</p>
+      It was never the system's; it's just folders and git repos, plus one
+      <code>projects.md</code> that describes the workspace in plain text, all
+      readable with or without any of this. That's the point.</p>
 
   </article>
 
