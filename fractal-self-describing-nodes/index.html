@@ -382,10 +382,13 @@
       self-named overview in its level's shape. It points up to its parent; what lies
       beneath it is found by the same rule, not by a list it keeps. That single
       discipline is the whole of FSDN, applied.</p>
-    <p><strong>Only containers get the overview.</strong> A leaf - a lone file with
-      nothing beneath it - describes itself in-band, in its own header or metadata, and
-      only points up: its place in the tree is its up-pointer. Not every file needs a
-      sidecar; every container does.</p>
+    <p><strong>Only containers get the overview - and they earn it.</strong> A leaf - a
+      lone file with nothing beneath it - describes itself in-band, in its own header or
+      metadata, and only points up: its place in the tree is its up-pointer. A container
+      earns an overview when it has something to say that the shape doesn't already; a
+      grouping folder whose contents are self-evident can go without. What the law
+      governs is the <em>name</em>: wherever an overview exists, it is named after its
+      container.</p>
     <p><strong>The mechanism is medium-specific.</strong> The law is the
       <em>behavior</em> - self-describe, point up and down - not the file type. Folders a
       human opens to understand the structure get a <code>folder/folder.md</code>.
@@ -461,7 +464,7 @@
     <div class="down">
       <div class="item" style="--stop: var(--magenta);">
         <b>The self-identifying filesystem</b> &nbsp;
-        <span class="d">- a folder's overview is named after the folder, at every level. The Project System runs on this.</span>
+        <span class="d">- a folder's overview is named after the folder, at every level, the workspace root included: <code>Projects/projects.md</code> describes the workspace and lists no projects - a project is a folder in a tier, and the dashboard reads the disk. The Project System runs on this; the master <code>INDEX.md</code> it once kept, drift check and all, is gone.</span>
       </div>
       <div class="item" style="--stop: var(--purple);">
         <b>A folder-per-tool catalog</b> &nbsp;

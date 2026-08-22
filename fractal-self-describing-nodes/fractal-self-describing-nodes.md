@@ -38,7 +38,7 @@ portfolio/
 
 **Don't create a node that can't describe itself.** Any new container - a project, a sub-tool, a module, a grouping - gets a self-named overview in its level's shape. It points up to its parent; what lies beneath it is found by the same rule, not by a list it keeps. That single discipline is the whole of FSDN, applied.
 
-**Only containers get the overview.** A leaf - a lone file with nothing beneath it - describes itself in-band, in its own header or metadata, and only points up: its place in the tree is its up-pointer. Not every file needs a sidecar; every container does.
+**Only containers get the overview - and they earn it.** A leaf - a lone file with nothing beneath it - describes itself in-band, in its own header or metadata, and only points up: its place in the tree is its up-pointer. A container earns an overview when it has something to say that the shape doesn't already; a grouping folder whose contents are self-evident can go without. What the law governs is the *name*: wherever an overview exists, it is named after its container.
 
 **The mechanism is medium-specific.** The law is the *behavior* - self-describe, point up and down - not the file type. Folders a human opens to understand the structure get a `folder/folder.md`. *Code* packages already self-describe in their own idiom - a package docstring, a README - so they satisfy the law without a parallel `.md` that would only shadow the code's own description. The test: *would a human navigate here to understand the system?* If yes, it's an organizational node and earns the overview.
 
@@ -83,7 +83,7 @@ The shoebox of prints makes the distinction physical. What's written on the back
 
 FSDN is already load-bearing across the lab - the node pointing **down**. Each of these describes itself, and everything beneath it describes itself the same way:
 
-- **The self-identifying filesystem** - a folder's overview is named after the folder, at every level. The Project System runs on this.
+- **The self-identifying filesystem** - a folder's overview is named after the folder, at every level, the workspace root included: `Projects/projects.md` describes the workspace and lists no projects - a project is a folder in a tier, and the dashboard reads the disk. The Project System runs on this; the master `INDEX.md` it once kept, drift check and all, is gone.
 
 - **A folder-per-tool catalog** - `stack/<tool>/<tool>.md`, each entry a self-describing node in a folder-per-tool shape.
 
