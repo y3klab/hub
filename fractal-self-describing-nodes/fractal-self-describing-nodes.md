@@ -74,26 +74,35 @@ Why enforce FSDN, instead of keeping a good index by hand? Because the law buys 
 
 ## A worked example
 
-Say you get back from Yosemite with a phone full of photos. The law decides the shape before you do:
+Say you add an apple pie to the Y3K Cookbook. The law decides the shape before you do:
 
 ```
-photos/
-├─ photos.md            ← describes the collection
-└─ 2024/
-   ├─ 2024.md           ← describes the year
-   ├─ birthday/
-   │  └─ birthday.md
-   └─ yosemite/         ← the new node, named for the trip
-      ├─ yosemite.md    ← names itself: who, when, where
-      ├─ half-dome.jpg  ← leaves: each names its subject;
-      └─ campfire.jpg      the file itself carries the rest
+y3k-cookbook/
+├─ y3k-cookbook.md        ← whose kitchen, the chapters, how to read a card
+└─ desserts/
+   ├─ desserts.md         ← what counts as dessert; pastry and sugar basics
+   ├─ lemon-tart/
+   │  └─ lemon-tart.md    ← ingredients, steps, provenance, related recipes
+   └─ apple-pie/
+      ├─ apple-pie.md     ← ingredients, steps, provenance; crust + filling
+      ├─ hero.jpg         ← the finished pie
+      ├─ crust/
+      │  └─ crust.md      ← ingredients, steps; a recipe inside the recipe
+      └─ filling/
+         └─ filling.md    ← ingredients, steps
 ```
 
-The folder is named for the trip; inside it, a file named for the folder describes it - the self-naming move. The photos beside it are leaves: each is named for what it shows, and the file itself carries the rest - the date, the place, the camera - the digital back of the print. Navigation now works in both directions *for free*: from the year you step **down** into the trip; from the trip you step **up** to the year and across to the birthday. Nobody wired those links - the shape did.
+Four depths, one rule, four different documents. The book's overview is front matter. The chapter's is an opener - what counts as a dessert in this kitchen, and the pastry and sugar basics every recipe below it assumes. The dish's is a recipe card. The crust's is a recipe card too, because a crust is a recipe. Nobody would confuse them, and nobody wrote a template for each: the same rule, applied to whatever was in front of it, produced all four.
 
-Skip the rule and you get what everyone already owns: a folder of `IMG_4821.jpg` through `IMG_4990.jpg` with nothing beside them - a node that can't describe itself. Who is this? Where was it? Ten years on, the only way to know is to find someone who was there. The tempting patch is a list in `2024.md` - *July: Yosemite* - but that is exactly the index the law exists to dissolve: kept by hand, and only ever as true as its last edit.
+**A recipe of recipes.** The pie is a crust and a filling, and each of those is a recipe in its own right - so the node's children are the same kind of thing as the node. `describe(apple-pie)` calls `describe(crust)`. That is the fractal claim, run one turn further than the generator above shows.
 
-The shoebox of prints makes the distinction physical. What's written on the back of a photo - *Yosemite, July 2024, Mom and Sam* - travels with it forever; it can't get separated from the thing it describes. The index card taped inside the lid is the separate map: true the day it's written, wrong the day someone reshuffles the boxes. The law can't force you to write on the back - that's the discipline FSDN asks for. What it *guarantees* is the other half: write it there, and it can never drift from the thing.
+Navigation works in every direction *for free*: from the chapter you step **down** into the pie; from the pie, **up** to the chapter and across to the lemon tart; from the crust, up to the pie it belongs to. Nobody wired those links - the shape did.
+
+**The book's two indexes write themselves.** The table of contents is `ls` - no author types one; it is generated from the chapters at layout, page numbers and all. The index at the back - *apples, 112, 140* - is generated from the recipe cards by the indexer, never written first. Every cookbook you own already computes both from its structure.
+
+Skip the rule and you get the folder everyone has: `hero.jpg`, and nothing beside it. You can see what it was. You can't make it again - the only way is to ask whoever did, and the day they're gone, so is the dish. That is the provenance line, missing: the one fact a photo can't give back.
+
+The law can't make you write the card - that's the discipline it asks for. What it *guarantees* is the other half: a card written there can never drift to another dish. `apple-pie/apple-pie.md` cannot describe the lemon tart.
 
 ## Instances
 
