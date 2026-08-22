@@ -84,13 +84,13 @@ One rule produced all of it - front matter, a chapter opener, recipe cards, and,
 
 This is a deliberate synthesis, not a coinage from nothing. What's genuinely new is none of the pieces below but their **fusion - and the insistence on enforcing it**: the synthesis becomes a rule of construction rather than a description added after the fact - a self-naming overview at every depth, so a structure can never drift from the thing that explains it. The ideas it fuses:
 
+- **Self-similarity** *fractal* Mandelbrot, 1975 - a shape made by one generator applied at every depth without end, so that any part, magnified, is the whole again. FSDN is that construction with `describe()` as the generator and nodes in place of segments. The name is not a metaphor.
+
+- **The Composite pattern** *in code* Gang of Four - a leaf and a composition present the same interface, so the caller never branches on which one it holds. Look again at the generator: nothing in it asks whether a node has children. For a leaf, the loop simply runs zero times.
+
 - **Holon & holarchy** *whole-and-part* Koestler, 1967 - a thing that is simultaneously a whole and a part. The closest single-named ancestor.
 
-- **The Composite pattern** *in code* Gang of Four - treat an individual object and a composition of objects uniformly. The same idea, stated for software.
-
 - **HATEOAS · Zettelkasten · Maps of Content** *up/down links* Hypermedia that carries its own links; atomic notes, each self-contained yet an index to others. The “no dead-ends” property.
-
-- **Self-similarity** *fractal* Mandelbrot - one generator, applied at every depth; the part resembles the whole, at every scale.
 
 This page is itself a fractal self-describing node. It names itself, it points **up** to its parent - [the Y3K Lab hub](https://y3klab.com/) - and **down** to where the law runs: [the Project System](https://y3klab.com/project-system/), which dissolved its master index on the strength of it, and [the Y3K RC Garage](https://garage.y3krc.com), rendered from its nodes with no list of vehicles anywhere. It practices what it documents.
 
