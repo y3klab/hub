@@ -80,17 +80,13 @@ y3k-cookbook/
 
 One rule produced all of it - front matter, a chapter opener, recipe cards, and, because a broth is a recipe, a recipe inside the recipe: `describe(pho)` calls `describe(broth)`. The photos are named for what they show, not for the dish; the folder already says *pho*. The table of contents is `ls`, and the index at the back is generated from the cards - every cookbook you own already computes both. Skip the rule and you get the folder everyone has: `hero.jpg` and nothing beside it. You can see what it was. You can't make it again.
 
-## Instances
+## Where it runs
 
-FSDN is already load-bearing across the lab - the node pointing **down**. Each of these describes itself, and everything beneath it describes itself the same way:
+Two systems already run on the law - the node pointing **down**:
 
-- **The self-identifying filesystem** - a folder's overview is named after the folder, at every level, the workspace root included: `Projects/projects.md` describes the workspace and lists no projects - a project is a folder in a tier, and the dashboard reads the disk. The Project System runs on this; the master `INDEX.md` it once kept, drift check and all, is gone.
+- **[The Project System](https://y3klab.com/project-system/)** - a workspace where a project is a folder and every folder's overview carries its name, the root included: `Projects/projects.md` describes the workspace and lists no projects; the dashboard reads the disk. It once kept a master `INDEX.md`, with a drift check to police it. Both are gone.
 
-- **A folder-per-tool catalog** - `stack/<tool>/<tool>.md`, each entry a self-describing node in a folder-per-tool shape.
-
-- **[The Y3K RC Garage](https://garage.y3krc.com)** - a fleet catalog where every vehicle is a node: `fleet/<slug>/<slug>.md` plus role-named assets.
-
-- **An ecosystem map** - a self-describing node for an entire multi-project ecosystem, spanning platforms, tools, and catalogs alike.
+- **[The Y3K RC Garage](https://garage.y3krc.com)** - a fleet catalog where every vehicle is a node: `fleet/<slug>/<slug>.md` plus role-named assets. The site is rendered from the nodes; no list of vehicles exists anywhere.
 
 ## Lineage
 

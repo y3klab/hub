@@ -247,7 +247,7 @@
   }
   .down .item b { color: var(--ink); font-weight: 700; }
   .down .item .d { color: color-mix(in srgb, var(--ink) 60%, var(--dim)); font-size: 13px; }
-  .down .item .arw { float: right; color: var(--stop, var(--accent)); }
+  .down .item .arw { float: right; margin-left: 14px; color: var(--stop, var(--accent)); }
 
   /* ── Lineage - the constituent ideas, as a clear list. ── */
   .lineage { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 16px; }
@@ -443,28 +443,19 @@
       the rule and you get the folder everyone has: <code>hero.jpg</code> and nothing
       beside it. You can see what it was. You can't make it again.</p>
 
-    <h2 id="instances"><span class="n">05</span> &nbsp;Instances</h2>
-    <p>FSDN is already load-bearing across the lab - the node pointing <strong>down</strong>.
-      Each of these describes itself, and everything beneath it describes itself the
-      same way:</p>
+    <h2 id="instances"><span class="n">05</span> &nbsp;Where it runs</h2>
+    <p>Two systems already run on the law - the node pointing <strong>down</strong>:</p>
     <div class="down">
-      <div class="item" style="--stop: var(--magenta);">
-        <b>The self-identifying filesystem</b> &nbsp;
-        <span class="d">- a folder's overview is named after the folder, at every level, the workspace root included: <code>Projects/projects.md</code> describes the workspace and lists no projects - a project is a folder in a tier, and the dashboard reads the disk. The Project System runs on this; the master <code>INDEX.md</code> it once kept, drift check and all, is gone.</span>
-      </div>
-      <div class="item" style="--stop: var(--purple);">
-        <b>A folder-per-tool catalog</b> &nbsp;
-        <span class="d">- <code>stack/&lt;tool&gt;/&lt;tool&gt;.md</code>, each entry a self-describing node in a folder-per-tool shape.</span>
-      </div>
+      <a class="item" href="/project-system/" style="--stop: var(--magenta);">
+        <span class="arw">→</span>
+        <b>The Project System</b> &nbsp;
+        <span class="d">- a workspace where a project is a folder and every folder's overview carries its name, the root included: <code>Projects/projects.md</code> describes the workspace and lists no projects; the dashboard reads the disk. It once kept a master <code>INDEX.md</code>, with a drift check to police it. Both are gone.</span>
+      </a>
       <a class="item" href="https://garage.y3krc.com" target="_blank" rel="noopener noreferrer" style="--stop: var(--cyan);">
         <span class="arw">→</span>
         <b>The Y3K RC Garage</b> &nbsp;
-        <span class="d">- a fleet catalog where every vehicle is a node: <code>fleet/&lt;slug&gt;/&lt;slug&gt;.md</code> plus role-named assets.</span>
+        <span class="d">- a fleet catalog where every vehicle is a node: <code>fleet/&lt;slug&gt;/&lt;slug&gt;.md</code> plus role-named assets. The site is rendered from the nodes; no list of vehicles exists anywhere.</span>
       </a>
-      <div class="item" style="--stop: var(--blue);">
-        <b>An ecosystem map</b> &nbsp;
-        <span class="d">- a self-describing node for an entire multi-project ecosystem, spanning platforms, tools, and catalogs alike.</span>
-      </div>
     </div>
 
     <h2 id="lineage"><span class="n">06</span> &nbsp;Lineage</h2>
