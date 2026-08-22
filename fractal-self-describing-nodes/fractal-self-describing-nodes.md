@@ -80,14 +80,6 @@ y3k-cookbook/
 
 One rule produced all of it - front matter, a chapter opener, recipe cards, and, because a broth is a recipe, a recipe inside the recipe: `describe(pho)` calls `describe(broth)`. The photos are named for what they show, not for the dish; the folder already says *pho*. The table of contents is `ls`, and the index at the back is generated from the cards - every cookbook you own already computes both. Skip the rule and you get the folder everyone has: `hero.jpg` and nothing beside it. You can see what it was. You can't make it again.
 
-## Where it runs
-
-Two systems already run on the law - the node pointing **down**:
-
-- **[The Project System](https://y3klab.com/project-system/)** - a workspace where a project is a folder and every folder's overview carries its name, the root included: `Projects/projects.md` describes the workspace and lists no projects; the dashboard reads the disk. It once kept a master `INDEX.md`, with a drift check to police it. Both are gone.
-
-- **[The Y3K RC Garage](https://garage.y3krc.com)** - a fleet catalog where every vehicle is a node: `fleet/<slug>/<slug>.md` plus role-named assets. The site is rendered from the nodes; no list of vehicles exists anywhere.
-
 ## Lineage
 
 This is a deliberate synthesis, not a coinage from nothing. What's genuinely new is none of the pieces below but their **fusion - and the insistence on enforcing it**: the synthesis becomes a rule of construction rather than a description added after the fact - a self-naming overview at every depth, so a structure can never drift from the thing that explains it. The ideas it fuses:
@@ -100,7 +92,7 @@ This is a deliberate synthesis, not a coinage from nothing. What's genuinely new
 
 - **Self-similarity** *fractal* Mandelbrot - one generator, applied at every depth; the part resembles the whole, at every scale.
 
-This page is itself a fractal self-describing node. It names itself, it points **up** to its parent - [the Y3K Lab hub](https://y3klab.com/) - and **down** to [its instances](#instances). It practices what it documents.
+This page is itself a fractal self-describing node. It names itself, it points **up** to its parent - [the Y3K Lab hub](https://y3klab.com/) - and **down** to where the law runs: [the Project System](https://y3klab.com/project-system/), which dissolved its master index on the strength of it, and [the Y3K RC Garage](https://garage.y3krc.com), rendered from its nodes with no list of vehicles anywhere. It practices what it documents.
 
 Every node is a fractal self.
 

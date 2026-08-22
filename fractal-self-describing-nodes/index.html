@@ -5,8 +5,8 @@
   (../index.html): same palette, floor grid, CRT scanlines, power-on motion.
 
   This page is itself a fractal self-describing node: it names itself (the slug
-  is the concept), it points UP to its parent (the Y3K Lab hub), and DOWN to its
-  instances (the surfaces that apply the law). It practices what it documents.
+  is the concept), it points UP to its parent (the Y3K Lab hub), and DOWN to where
+  the law runs (the Project System, the Garage). It practices what it documents.
 -->
 <html lang="en">
 <head>
@@ -228,26 +228,6 @@
     font-family: inherit; font-size: inherit; color: inherit;
   }
 
-  /* ── Instances - the node points DOWN to its children. ── */
-  .down { display: grid; gap: 12px; }
-  .down .item {
-    display: block; text-decoration: none; color: inherit;
-    padding: 14px 16px 14px 18px; position: relative; overflow: hidden;
-    background: var(--panel); border: 1px solid var(--rail); border-radius: 9px;
-    transition: border-color .18s, transform .18s, box-shadow .18s;
-  }
-  .down .item::before {
-    content: ""; position: absolute; inset: 0 auto 0 0; width: 3px;
-    background: var(--stop, var(--accent)); opacity: .85;
-  }
-  a.item:hover, a.item:focus-visible {
-    outline: none; transform: translateX(2px);
-    border-color: var(--stop, var(--accent));
-    box-shadow: 0 10px 26px -20px var(--stop, var(--accent));
-  }
-  .down .item b { color: var(--ink); font-weight: 700; }
-  .down .item .d { color: color-mix(in srgb, var(--ink) 60%, var(--dim)); font-size: 13px; }
-  .down .item .arw { float: right; margin-left: 14px; color: var(--stop, var(--accent)); }
 
   /* ── Lineage - the constituent ideas, as a clear list. ── */
   .lineage { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 16px; }
@@ -443,22 +423,7 @@
       the rule and you get the folder everyone has: <code>hero.jpg</code> and nothing
       beside it. You can see what it was. You can't make it again.</p>
 
-    <h2 id="instances"><span class="n">05</span> &nbsp;Where it runs</h2>
-    <p>Two systems already run on the law - the node pointing <strong>down</strong>:</p>
-    <div class="down">
-      <a class="item" href="/project-system/" style="--stop: var(--magenta);">
-        <span class="arw">→</span>
-        <b>The Project System</b> &nbsp;
-        <span class="d">- a workspace where a project is a folder and every folder's overview carries its name, the root included: <code>Projects/projects.md</code> describes the workspace and lists no projects; the dashboard reads the disk. It once kept a master <code>INDEX.md</code>, with a drift check to police it. Both are gone.</span>
-      </a>
-      <a class="item" href="https://garage.y3krc.com" target="_blank" rel="noopener noreferrer" style="--stop: var(--cyan);">
-        <span class="arw">→</span>
-        <b>The Y3K RC Garage</b> &nbsp;
-        <span class="d">- a fleet catalog where every vehicle is a node: <code>fleet/&lt;slug&gt;/&lt;slug&gt;.md</code> plus role-named assets. The site is rendered from the nodes; no list of vehicles exists anywhere.</span>
-      </a>
-    </div>
-
-    <h2 id="lineage"><span class="n">06</span> &nbsp;Lineage</h2>
+    <h2 id="lineage"><span class="n">05</span> &nbsp;Lineage</h2>
     <p>This is a deliberate synthesis, not a coinage from nothing. What's genuinely new
       is none of the pieces below but their <strong>fusion - and the insistence on
       enforcing it</strong>: the synthesis becomes a rule of construction rather than a
@@ -490,8 +455,12 @@
     <div class="meta-close">
       <p>This page is itself a fractal self-describing node. It names itself, it points
         <strong>up</strong> to its parent - <a class="inline" href="/">the Y3K&nbsp;Lab
-        hub</a> - and <strong>down</strong> to <a class="inline" href="#instances">its
-        instances</a>. It practices what it documents.</p>
+        hub</a> - and <strong>down</strong> to where the law runs: <a class="inline"
+        href="/project-system/">the Project System</a>, which dissolved its master index
+        on the strength of it, and <a class="inline" href="https://garage.y3krc.com"
+        target="_blank" rel="noopener noreferrer">the Y3K&nbsp;RC Garage</a>, rendered
+        from its nodes with no list of vehicles anywhere. It practices what it
+        documents.</p>
       <span class="echo">Every node is a fractal self.</span>
     </div>
 
