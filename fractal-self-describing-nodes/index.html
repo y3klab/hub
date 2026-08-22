@@ -449,18 +449,20 @@
     <h2 id="example"><span class="n">04</span> &nbsp;A worked example</h2>
     <p>Say you add pho to the Y3K Cookbook. The law decides the shape before you do:</p>
     <div class="tree"><code class="dir">y3k-cookbook/</code>
-├─ <code class="self">y3k-cookbook.md</code>        <code class="cmt">← whose kitchen, the chapters, how to read a card</code>
+├─ <code class="self">y3k-cookbook.md</code>         <code class="cmt">← whose kitchen, the chapters, how to read a card</code>
 └─ <code class="dir">soups/</code>
-   ├─ <code class="self">soups.md</code>            <code class="cmt">← what counts as soup; stock and simmer basics</code>
+   ├─ <code class="self">soups.md</code>             <code class="cmt">← what counts as soup; stock and simmer basics</code>
    ├─ <code class="dir">ramen/</code>
-   │  └─ <code class="self">ramen.md</code>         <code class="cmt">← ingredients, steps, provenance, related recipes</code>
+   │  └─ <code class="self">ramen.md</code>          <code class="cmt">← ingredients, steps, provenance, related recipes</code>
    └─ <code class="dir">pho/</code>
-      ├─ <code class="self">pho.md</code>           <code class="cmt">← ingredients, steps, provenance; broth + garnish</code>
-      ├─ hero.jpg         <code class="cmt">← the finished bowl</code>
+      ├─ <code class="self">pho.md</code>            <code class="cmt">← ingredients, steps, provenance; broth + garnish</code>
+      ├─ hero.jpg          <code class="cmt">← the finished bowl</code>
+      ├─ assembly.jpg      <code class="cmt">← the bowl being built</code>
       ├─ <code class="dir">broth/</code>
-      │  └─ <code class="self">broth.md</code>      <code class="cmt">← ingredients, steps; a recipe inside the recipe</code>
+      │  ├─ <code class="self">broth.md</code>       <code class="cmt">← ingredients, steps; a recipe inside the recipe</code>
+      │  └─ simmering.jpg  <code class="cmt">← the pot at hour six</code>
       └─ <code class="dir">garnish/</code>
-         └─ <code class="self">garnish.md</code>    <code class="cmt">← the herb plate: basil, sprouts, lime, chili</code></div>
+         └─ <code class="self">garnish.md</code>     <code class="cmt">← the herb plate: basil, sprouts, lime, chili</code></div>
     <p style="margin-top:20px">Four depths, one rule, four different documents. The
       book's overview is front matter. The chapter's is an opener - what counts as a
       soup in this kitchen, and the stock and simmer basics every recipe below it
@@ -473,6 +475,14 @@
       thing as the node. <code>describe(pho)</code> calls <code>describe(broth)</code>.
       That is the fractal claim, run one turn further than the generator above
       shows.</p>
+    <p><strong>Named for what the path doesn't say.</strong> Three photos, and none is
+      named for the dish, because the folder already is. Inside a node, a file that isn't
+      the overview is named for its role or its subject - <code>hero.jpg</code>,
+      <code>assembly.jpg</code> - and a photo of the broth lives with the broth, as
+      <code>broth/simmering.jpg</code>, because an asset belongs to the node it depicts.
+      The day the hero shot leaves the folder for a flat <code>images/</code> directory
+      it becomes <code>pho-hero.jpg</code>: the path stopped saying <em>pho</em>, so the
+      name has to.</p>
     <p>Navigation works in every direction <em>for free</em>: from the chapter you step
       <strong>down</strong> into the pho; from the pho, <strong>up</strong> to the chapter
       and across to the ramen; from the broth, up to the bowl it belongs to. Nobody wired
