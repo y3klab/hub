@@ -434,44 +434,14 @@
       │  └─ simmering.jpg  <code class="cmt">← the pot at hour six</code>
       └─ <code class="dir">greens/</code>
          └─ <code class="self">greens.md</code>      <code class="cmt">← rau sống: Thai basil, sprouts, lime, chili</code></div>
-    <p style="margin-top:20px">Four depths, one rule, four different documents. The
-      book's overview is front matter. The chapter's is an opener - what counts as a
-      soup in this kitchen, and the stock and simmer basics every recipe below it
-      assumes. The dish's is a recipe card. The broth's is a recipe card too, because a
-      broth is a recipe. Nobody would confuse them, and nobody wrote a template for
-      each: the same rule, applied to whatever was in front of it, produced all four.</p>
-    <p><strong>A recipe of recipes.</strong> Pho is a broth over noodles and a plate of
-      greens - <em>rau sống</em>: the basil, sprouts, lime and chili the diner adds, not
-      a garnish but half the dish - and the broth is a recipe in its own right: charred onion and
-      ginger, bones, star anise, a day's simmer. So the node's children are the same
-      kind of thing as the node. <code>describe(pho)</code> calls <code>describe(broth)</code>.
-      That is the fractal claim, run one turn further than the generator above
-      shows.</p>
-    <p><strong>Named for what the path doesn't say.</strong> Three photos, and none is
-      named for the dish, because the folder already is. Inside a node, a file that isn't
-      the overview is named for its role or its subject - <code>hero.jpg</code>,
-      <code>assembly.jpg</code> - and a photo of the broth lives with the broth, as
-      <code>broth/simmering.jpg</code>, because an asset belongs to the node it depicts.
-      The day the hero shot leaves the folder for a flat <code>images/</code> directory
-      it becomes <code>pho-hero.jpg</code>: the path stopped saying <em>pho</em>, so the
-      name has to. The same rule is why two nodes can both be called <code>broth/</code>
-      - one inside the ramen, one inside the pho - and neither has to say which.</p>
-    <p>Navigation works in every direction <em>for free</em>: from the chapter you step
-      <strong>down</strong> into the pho; from the pho, <strong>up</strong> to the chapter
-      and across to the ramen; from the broth, up to the bowl it belongs to. Nobody wired
-      those links - the shape did.</p>
-    <p><strong>The book's two indexes write themselves.</strong> The table of contents is
-      <code>ls</code> - no author types one; it is generated from the chapters at layout,
-      page numbers and all. The index at the back - <em>star anise, 88, 140</em> - is
-      generated from the recipe cards by the indexer, never written first. Every cookbook
-      you own already computes both from its structure.</p>
-    <p>Skip the rule and you get the folder everyone has: <code>hero.jpg</code>, and
-      nothing beside it. You can see what it was. You can't make it again - the only way
-      is to ask whoever did, and the day they're gone, so is the dish. That is the
-      provenance line, missing: the one fact a photo can't give back.</p>
-    <p>The law can't make you write the card - that's the discipline it asks for. What it
-      <em>guarantees</em> is the other half: a card written there can never drift to
-      another dish. <code>pho/pho.md</code> cannot describe the ramen.</p>
+    <p style="margin-top:20px">One rule produced all of it - front matter, a chapter
+      opener, recipe cards, and, because a broth is a recipe, a recipe inside the
+      recipe: <code>describe(pho)</code> calls <code>describe(broth)</code>. The photos
+      are named for what they show, not for the dish; the folder already says
+      <em>pho</em>. The table of contents is <code>ls</code>, and the index at the back
+      is generated from the cards - every cookbook you own already computes both. Skip
+      the rule and you get the folder everyone has: <code>hero.jpg</code> and nothing
+      beside it. You can see what it was. You can't make it again.</p>
 
     <h2 id="instances"><span class="n">05</span> &nbsp;Instances</h2>
     <p>FSDN is already load-bearing across the lab - the node pointing <strong>down</strong>.

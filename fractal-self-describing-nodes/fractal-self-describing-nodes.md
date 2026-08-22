@@ -78,19 +78,7 @@ y3k-cookbook/
          └─ greens.md      ← rau sống: Thai basil, sprouts, lime, chili
 ```
 
-Four depths, one rule, four different documents. The book's overview is front matter. The chapter's is an opener - what counts as a soup in this kitchen, and the stock and simmer basics every recipe below it assumes. The dish's is a recipe card. The broth's is a recipe card too, because a broth is a recipe. Nobody would confuse them, and nobody wrote a template for each: the same rule, applied to whatever was in front of it, produced all four.
-
-**A recipe of recipes.** Pho is a broth over noodles and a plate of greens - *rau sống*: the basil, sprouts, lime and chili the diner adds, not a garnish but half the dish - and the broth is a recipe in its own right: charred onion and ginger, bones, star anise, a day's simmer. So the node's children are the same kind of thing as the node. `describe(pho)` calls `describe(broth)`. That is the fractal claim, run one turn further than the generator above shows.
-
-**Named for what the path doesn't say.** Three photos, and none is named for the dish, because the folder already is. Inside a node, a file that isn't the overview is named for its role or its subject - `hero.jpg`, `assembly.jpg` - and a photo of the broth lives with the broth, as `broth/simmering.jpg`, because an asset belongs to the node it depicts. The day the hero shot leaves the folder for a flat `images/` directory it becomes `pho-hero.jpg`: the path stopped saying *pho*, so the name has to. The same rule is why two nodes can both be called `broth/` - one inside the ramen, one inside the pho - and neither has to say which.
-
-Navigation works in every direction *for free*: from the chapter you step **down** into the pho; from the pho, **up** to the chapter and across to the ramen; from the broth, up to the bowl it belongs to. Nobody wired those links - the shape did.
-
-**The book's two indexes write themselves.** The table of contents is `ls` - no author types one; it is generated from the chapters at layout, page numbers and all. The index at the back - *star anise, 88, 140* - is generated from the recipe cards by the indexer, never written first. Every cookbook you own already computes both from its structure.
-
-Skip the rule and you get the folder everyone has: `hero.jpg`, and nothing beside it. You can see what it was. You can't make it again - the only way is to ask whoever did, and the day they're gone, so is the dish. That is the provenance line, missing: the one fact a photo can't give back.
-
-The law can't make you write the card - that's the discipline it asks for. What it *guarantees* is the other half: a card written there can never drift to another dish. `pho/pho.md` cannot describe the ramen.
+One rule produced all of it - front matter, a chapter opener, recipe cards, and, because a broth is a recipe, a recipe inside the recipe: `describe(pho)` calls `describe(broth)`. The photos are named for what they show, not for the dish; the folder already says *pho*. The table of contents is `ls`, and the index at the back is generated from the cards - every cookbook you own already computes both. Skip the rule and you get the folder everyone has: `hero.jpg` and nothing beside it. You can see what it was. You can't make it again.
 
 ## Instances
 
