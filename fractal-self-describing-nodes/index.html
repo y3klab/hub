@@ -5,7 +5,7 @@
   (../index.html): same palette, floor grid, CRT scanlines, power-on motion.
 
   This page is itself a fractal self-describing node: it names itself (the slug
-  is the concept), it points UP to its index (the Y3K Lab hub), and DOWN to its
+  is the concept), it points UP to its parent (the Y3K Lab hub), and DOWN to its
   instances (the surfaces that apply the law). It practices what it documents.
 -->
 <html lang="en">
@@ -13,7 +13,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fractal Self-Describing Nodes [FSDN] - Y3K Lab</title>
-<meta name="description" content="Fractal Self-Describing Nodes (FSDN) - a structural law: every node describes itself, in a consistent shape, at every altitude. Self-describing, scale-invariant, whole-and-part at once. Every node is a fractal self.">
+<meta name="description" content="Fractal Self-Describing Nodes (FSDN) - a structural law: every node describes itself, in a consistent shape, at every altitude, so there is no index to keep. The shape is the index. Self-describing, scale-invariant, whole-and-part at once. Every node is a fractal self.">
 <link rel="canonical" href="https://y3klab.com/fractal-self-describing-nodes/">
 
 <!-- Favicon + share assets live at the site root; we're one level deep. -->
@@ -25,7 +25,7 @@
 <!-- OpenGraph / Twitter - reuses the Lab share card until a bespoke one ships. -->
 <meta property="og:type" content="article">
 <meta property="og:title" content="Fractal Self-Describing Nodes [FSDN]">
-<meta property="og:description" content="Every node describes itself, in a consistent shape, at every altitude. A structural law from Y3K Lab. Every node is a fractal self.">
+<meta property="og:description" content="Every node describes itself, in a consistent shape, at every altitude - so there is no index to keep. The shape is the index. A structural law from Y3K Lab. Every node is a fractal self.">
 <meta property="og:url" content="https://y3klab.com/fractal-self-describing-nodes/">
 <meta property="og:image" content="https://y3klab.com/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -105,7 +105,7 @@
 
   .wrap { max-width: 720px; margin: 0 auto; }
 
-  /* ── Up-link: the node points UP to its index (the hub). ── */
+  /* ── Up-link: the node points UP to its parent (the hub). ── */
   .uplink {
     display: flex; align-items: center; gap: 10px;
     padding: 26px 0 0; margin-bottom: 4rem;
@@ -209,7 +209,7 @@
   .prop h3 .i { color: var(--stop, var(--accent)); font-size: 12px; font-weight: 800; letter-spacing: .1em; }
   .prop p { margin: 0; font-size: 13.5px; line-height: 1.55; color: color-mix(in srgb, var(--ink) 64%, var(--dim)); }
 
-  /* ── The mechanism - a code-ish block showing the self-naming index file. ── */
+  /* ── The mechanism - a code-ish block showing the self-naming overview. ── */
   .tree {
     margin: 4px 0 0; padding: 20px 22px;
     background: #060608; border: 1px solid var(--rail); border-radius: 10px;
@@ -314,7 +314,7 @@
 </head>
 <body>
 
-  <!-- UP - the node points to its index. -->
+  <!-- UP - the node points to its parent. -->
   <nav class="uplink">
     <a class="home" href="/">Y3K Lab</a>
     <span class="sep">/</span>
@@ -327,7 +327,8 @@
       <p class="kicker rise">A structural law</p>
       <h1 class="rise">Fractal Self-Describing Nodes</h1>
       <p class="law rise"><strong>Every node describes itself</strong>, in a consistent
-        shape, <strong>at every altitude.</strong></p>
+        shape, <strong>at every altitude</strong> - so there is no index to keep.
+        <strong>The shape is the index.</strong></p>
     </header>
 
     <h2 id="node"><span class="n">01</span> &nbsp;What a node is</h2>
@@ -344,7 +345,7 @@
       <div class="prop" style="--stop: var(--magenta);">
         <h3><span class="i">i</span> Self-describing</h3>
         <p>Each node carries its own overview in a consistent, templated shape - the
-          portfolio's index, a project's overview, a tool's doc. The same
+          portfolio's overview, a project's overview, a tool's doc. The same
           “describe&nbsp;yourself” move at every level.</p>
       </div>
       <div class="prop" style="--stop: var(--purple);">
@@ -355,10 +356,10 @@
       </div>
       <div class="prop" style="--stop: var(--cyan);">
         <h3><span class="i">iii</span> Whole <em>and</em> part</h3>
-        <p>Each node is self-contained <em>and</em> a member of the node above and an
-          index to the nodes below. It's <strong>built to point up</strong> and
-          <strong>down</strong> - both a map and a thing-on-a-map - so navigation
-          needn't dead-end.</p>
+        <p>Each node is self-contained <em>and</em> a member of the node above - and
+          everything beneath it is findable by the same rule, with no list to keep. It's
+          <strong>built to point up</strong> and <strong>down</strong> - both a map and
+          a thing-on-a-map - so navigation needn't dead-end.</p>
       </div>
     </div>
 
@@ -378,8 +379,9 @@
       └─ <code class="self">tool.md</code>        <code class="cmt">← the tool describes itself</code></div>
     <p style="margin-top:20px"><strong>Don't create a node that can't describe itself.</strong>
       Any new container - a project, a sub-tool, a module, a grouping - gets a
-      self-named overview in its level's shape, pointing up to its index and down to
-      its children. That single discipline is the whole of FSDN, applied.</p>
+      self-named overview in its level's shape. It points up to its parent; what lies
+      beneath it is found by the same rule, not by a list it keeps. That single
+      discipline is the whole of FSDN, applied.</p>
     <p><strong>Only containers get the overview.</strong> A leaf - a lone file with
       nothing beneath it - describes itself in-band, in its own header or metadata, and
       only points up: its place in the tree is its up-pointer. Not every file needs a
@@ -396,6 +398,11 @@
     <h2 id="why"><span class="n">04</span> &nbsp;Why it matters</h2>
     <p>Why enforce FSDN, instead of keeping a good index by hand? Because the law buys
       properties a maintained map can't:</p>
+    <p><strong>There is no index to keep.</strong> Because every child names itself by
+      rule, what lies below any node is computed, never written - the directory listing
+      <em>is</em> the index. A parent's overview describes the parent, not its children.
+      It may still curate - an order, a <em>start here</em> - but nothing depends on that
+      list being complete: delete it, and everything is still findable.</p>
     <p><strong>The description can't drift from the thing.</strong> The overview lives
       inside what it describes and is named after it, so the two move together - rename,
       relocate, or delete a node and its description travels with it. There is no separate
@@ -418,7 +425,7 @@
     <div class="tree"><code class="dir">photos/</code>
 ├─ <code class="self">photos.md</code>            <code class="cmt">← describes the collection</code>
 └─ <code class="dir">2024/</code>
-   ├─ <code class="self">2024.md</code>           <code class="cmt">← describes the year; lists its trips</code>
+   ├─ <code class="self">2024.md</code>           <code class="cmt">← describes the year</code>
    ├─ <code class="dir">birthday/</code>
    │  └─ <code class="self">birthday.md</code>
    └─ <code class="dir">yosemite/</code>         <code class="cmt">← the new node, named for the trip</code>
@@ -435,9 +442,10 @@
     <p>Skip the rule and you get what everyone already owns: a folder of
       <code>IMG_4821.jpg</code> through <code>IMG_4990.jpg</code> with nothing beside
       them - a node that can't describe itself. Who is this? Where was it? Ten years on,
-      the only way to know is to find someone who was there. It might still be listed in
-      <code>2024.md</code> - but that listing is now hand-maintained, and the day it
-      isn't, the index lies and the folder is a dead-end.</p>
+      the only way to know is to find someone who was there. The tempting patch is a
+      list in <code>2024.md</code> - <em>July: Yosemite</em> - but that is exactly the
+      index the law exists to dissolve: kept by hand, and only ever as true as its last
+      edit.</p>
     <p>The shoebox of prints makes the distinction physical. What's written on the back
       of a photo - <em>Yosemite, July 2024, Mom and Sam</em> - travels with it forever; it
       can't get separated from the thing it describes. The index card taped inside the
@@ -448,7 +456,8 @@
 
     <h2 id="instances"><span class="n">06</span> &nbsp;Instances</h2>
     <p>FSDN is already load-bearing across the lab - the node pointing <strong>down</strong>.
-      Each of these describes itself and indexes the nodes beneath it:</p>
+      Each of these describes itself, and everything beneath it describes itself the
+      same way:</p>
     <div class="down">
       <div class="item" style="--stop: var(--magenta);">
         <b>The self-identifying filesystem</b> &nbsp;
@@ -456,7 +465,7 @@
       </div>
       <div class="item" style="--stop: var(--purple);">
         <b>A folder-per-tool catalog</b> &nbsp;
-        <span class="d">- <code>stack/&lt;tool&gt;/&lt;tool&gt;.md</code>, each entry a self-describing node under a master index.</span>
+        <span class="d">- <code>stack/&lt;tool&gt;/&lt;tool&gt;.md</code>, each entry a self-describing node in a folder-per-tool shape.</span>
       </div>
       <a class="item" href="https://garage.y3krc.com" target="_blank" rel="noopener noreferrer" style="--stop: var(--cyan);">
         <span class="arw">→</span>
@@ -465,7 +474,7 @@
       </a>
       <div class="item" style="--stop: var(--blue);">
         <b>An ecosystem map</b> &nbsp;
-        <span class="d">- a self-describing node for an entire multi-project ecosystem, indexing platforms, tools, and catalogs alike.</span>
+        <span class="d">- a self-describing node for an entire multi-project ecosystem, spanning platforms, tools, and catalogs alike.</span>
       </div>
     </div>
 
@@ -473,7 +482,7 @@
     <p>This is a deliberate synthesis, not a coinage from nothing. What's genuinely new
       is none of the pieces below but their <strong>fusion - and the insistence on
       enforcing it</strong>: the synthesis becomes a rule of construction rather than a
-      description added after the fact - a self-naming index file at every altitude, so a
+      description added after the fact - a self-naming overview at every altitude, so a
       structure can never drift from the thing that explains it. The ideas it fuses:</p>
     <ul class="lineage">
       <li>
@@ -500,7 +509,7 @@
     <!-- The payoff: the page declares its own node-hood. -->
     <div class="meta-close">
       <p>This page is itself a fractal self-describing node. It names itself, it points
-        <strong>up</strong> to its index - <a class="inline" href="/">the Y3K&nbsp;Lab
+        <strong>up</strong> to its parent - <a class="inline" href="/">the Y3K&nbsp;Lab
         hub</a> - and <strong>down</strong> to <a class="inline" href="#instances">its
         instances</a>. It practices what it documents.</p>
       <span class="echo">Every node is a fractal self.</span>
