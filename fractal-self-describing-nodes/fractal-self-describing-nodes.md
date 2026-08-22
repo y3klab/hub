@@ -60,7 +60,7 @@ Say you add pho to the Y3K Cookbook. The law decides the shape before you do:
 
 ```
 y3k-cookbook/
-├─ y3k-cookbook.md         ← whose kitchen, the chapters, how to read a card
+├─ y3k-cookbook.md         ← what this book is; how to read a card
 └─ soups/
    ├─ soups.md             ← what counts as soup; stock and simmer basics
    ├─ ramen/
