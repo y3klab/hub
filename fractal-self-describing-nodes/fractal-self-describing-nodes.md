@@ -4,29 +4,23 @@
 
 ## What FSDN is
 
-**Every node describes itself.** A node is any unit of organization - a whole portfolio, a project, a sub-tool, a single catalog entry. The word is deliberate: a node is never just an item; it is a thing among other things that knows its place among them. To describe itself, a node carries its own overview *inside* itself, named for it - `project/project.md`. The description is part of the thing, so it can't wander off from the thing.
-
-**By the same rule.** Not a template per level - one rule, applied to whatever is in front of it. A portfolio's overview, a project's, and a catalog entry's look different; they were all made the same way. That sameness is what lets one reader - a person, a script, an AI agent - walk the whole structure knowing one thing.
-
-**At every depth.** The rule has no depth in it, so there is no depth it stops at. Zoom in or out and you land on a node that explains itself: self-similar, the way a fractal is one rule applied at every depth. Hence the name.
-
-**So there is no index to keep. The structure is the index.** Because every child names itself by the rule, what lies below any node is computed - `ls` - never written. A parent's overview describes the parent, not its children; it may curate - an order, a *start here* - but nothing depends on that list being complete. Each node is both a map and a thing-on-a-map: it points up to its parent by where it sits, and down to its children by the rule. Delete every list, and everything is still findable.
+A **node** is any unit of organization - a whole portfolio, a project, a sub-tool, a single catalog entry. The word is deliberate: a node is never just an item; it is a thing among other things that knows its place among them. Under FSDN, each one carries its own overview inside itself, named for it - made by the same rule as every other node, at every depth - so what lies below any node is computed, never written. Nothing is kept, so nothing goes stale.
 
 ### Self-describing
 
-Each node carries its own overview, inside itself and named for it. The description is part of the thing it describes.
+Each node carries its own overview, inside itself and named for it - `project/project.md`. The description is part of the thing, so it can't wander off from the thing.
 
 ### One rule
 
-The same move at every level. The output varies; the rule doesn't - one thing to know, and the whole structure is walkable.
+Not a template per level - one rule, applied to whatever is in front of it. The output varies; the rule doesn't. Know one thing, and you can walk the whole structure.
 
 ### Every depth
 
-The rule has no depth in it, so there is no depth it stops at. Self-similar, like a fractal - hence the name.
+The rule has no depth in it, so there is no depth it stops at. Zoom in or out and you land on a node that explains itself - self-similar, like a fractal. Hence the name.
 
 ### No index
 
-What lies below any node is computed, never written. Nothing is kept, so nothing goes stale. The structure is the index.
+What lies below any node is computed - `ls` - never written. A parent's overview describes the parent, not its children. The structure is the index.
 
 ## The mechanism
 
@@ -54,7 +48,7 @@ describe(node):
 
 **Notice what's missing.** A fractal tree drawn by code is `draw(branch, depth - 1)`: its branches don't exist until the rule invents them, so the rule has to carry its own stopping point. Here there is no depth parameter. The recursion stops where the data stops - at a node with no children - which is why the law can say *at every depth* without naming one.
 
-**Don't create a node that can't describe itself.** Any new container - a project, a sub-tool, a module, a grouping - gets a self-named overview in its level's shape. It points up to its parent; what lies beneath it is found by the same rule, not by a list it keeps. That single discipline is the whole of FSDN, applied.
+**Don't create a node that can't describe itself.** Any new container - a project, a sub-tool, a module, a grouping - gets a self-named overview in its level's shape. It points up to its parent; what lies beneath it is found by the same rule, not by a list it keeps - it may curate one, an order or a *start here*, but nothing depends on that list being complete. That single discipline is the whole of FSDN, applied.
 
 **Only containers get the overview - and they earn it.** A leaf - a lone file with nothing beneath it - describes itself in-band, in its own header or metadata, and only points up: its place in the tree is its up-pointer. A container earns an overview when it has something to say that the shape doesn't already; a grouping folder whose contents are self-evident can go without. What the law governs is the *name*: wherever an overview exists, it is named after its container.
 
