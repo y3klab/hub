@@ -13,7 +13,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fractal Self-Describing Nodes [FSDN] - Y3K Lab</title>
-<meta name="description" content="Fractal Self-Describing Nodes (FSDN) - a structural law: every node describes itself, by the same rule, at every depth, so there is no index to keep. The structure is the index. Self-describing, scale-invariant, whole-and-part at once. Every node is a fractal self.">
+<meta name="description" content="Fractal Self-Describing Nodes (FSDN) - a structural law: every node describes itself, by the same rule, at every depth, so there is no index to keep. The structure is the index. Self-describing, one rule, every depth, no index. Every node is a fractal self.">
 <link rel="canonical" href="https://y3klab.com/fractal-self-describing-nodes/">
 
 <!-- Favicon + share assets live at the site root; we're one level deep. -->
@@ -189,8 +189,8 @@
     border-radius: 5px; padding: 1px 6px;
   }
 
-  /* ── The three properties - reuse the hub card, spine stepping the ramp. ── */
-  .props { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+  /* ── The four clauses as cards - reuse the hub card, spine stepping the ramp. ── */
+  .props { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
   .prop {
     position: relative; padding: 18px 18px 18px 22px; overflow: hidden;
     background:
@@ -333,39 +333,53 @@
         <strong>The structure is the index.</strong></p>
     </header>
 
-    <h2 id="node"><span class="n">01</span> &nbsp;What a node is</h2>
-    <p>A <strong>node</strong> is any unit of organization - the whole portfolio, a
-      project, a sub-tool, a single catalog entry. The word is deliberate: a node is
-      inherently <em>part of a graph</em>. It is never just an item; it is a thing that
-      sits among other things and knows its place among them.</p>
-    <p>The law - <strong>FSDN</strong>, for short - says that whatever the node, and whatever its size, it carries its own
-      identity in the same recognizable shape - and it does so all the way up and all
-      the way down.</p>
-
-    <h2 id="properties"><span class="n">02</span> &nbsp;Three properties</h2>
+    <h2 id="what"><span class="n">01</span> &nbsp;What FSDN is</h2>
+    <p><strong>Every node describes itself.</strong> A node is any unit of organization -
+      a whole portfolio, a project, a sub-tool, a single catalog entry. The word is
+      deliberate: a node is never just an item; it is a thing among other things that
+      knows its place among them. To describe itself, a node carries its own overview
+      <em>inside</em> itself, named for it - <code>project/project.md</code>. The
+      description is part of the thing, so it can't wander off from the thing.</p>
+    <p><strong>By the same rule.</strong> Not a template per level - one rule, applied to
+      whatever is in front of it. A portfolio's overview, a project's, and a catalog
+      entry's look different; they were all made the same way. That sameness is what
+      lets one reader - a person, a script, an AI agent - walk the whole structure
+      knowing one thing.</p>
+    <p><strong>At every depth.</strong> The rule has no depth in it, so there is no depth
+      it stops at. Zoom in or out and you land on a node that explains itself:
+      self-similar, the way a fractal is one rule applied at every depth. Hence the
+      name.</p>
+    <p><strong>So there is no index to keep. The structure is the index.</strong> Because
+      every child names itself by the rule, what lies below any node is computed -
+      <code>ls</code> - never written. A parent's overview describes the parent, not its
+      children; it may curate - an order, a <em>start here</em> - but nothing depends on
+      that list being complete. Each node is both a map and a thing-on-a-map: it points
+      up to its parent by where it sits, and down to its children by the rule. Delete
+      every list, and everything is still findable.</p>
     <div class="props">
       <div class="prop" style="--stop: var(--magenta);">
         <h3><span class="i">i</span> Self-describing</h3>
-        <p>Each node carries its own overview in a consistent, templated shape - the
-          portfolio's overview, a project's overview, a tool's doc. The same
-          “describe&nbsp;yourself” move at every level.</p>
+        <p>Each node carries its own overview, inside itself and named for it. The
+          description is part of the thing it describes.</p>
       </div>
       <div class="prop" style="--stop: var(--purple);">
-        <h3><span class="i">ii</span> Scale-invariant</h3>
-        <p>That move repeats at <em>every</em> depth. Zoom in or out and you always
-          land on a node that explains itself. Self-similar, like a fractal - hence the
-          name.</p>
+        <h3><span class="i">ii</span> One rule</h3>
+        <p>The same move at every level. The output varies; the rule doesn't - one
+          thing to know, and the whole structure is walkable.</p>
       </div>
       <div class="prop" style="--stop: var(--cyan);">
-        <h3><span class="i">iii</span> Whole <em>and</em> part</h3>
-        <p>Each node is self-contained <em>and</em> a member of the node above - and
-          everything beneath it is findable by the same rule, with no list to keep. It's
-          <strong>built to point up</strong> and <strong>down</strong> - both a map and
-          a thing-on-a-map - so navigation needn't dead-end.</p>
+        <h3><span class="i">iii</span> Every depth</h3>
+        <p>The rule has no depth in it, so there is no depth it stops at. Self-similar,
+          like a fractal - hence the name.</p>
+      </div>
+      <div class="prop" style="--stop: var(--brtcyan);">
+        <h3><span class="i">iv</span> No index</h3>
+        <p>What lies below any node is computed, never written. Nothing is kept, so
+          nothing goes stale. The structure is the index.</p>
       </div>
     </div>
 
-    <h2 id="mechanism"><span class="n">03</span> &nbsp;The mechanism</h2>
+    <h2 id="mechanism"><span class="n">02</span> &nbsp;The mechanism</h2>
     <p>The law isn't a metaphor - a single rule of construction makes it concrete: a
       container's overview is <strong>named after the container</strong>, in the shape
       that level uses. That co-location <strong>structurally enforces it against
@@ -413,14 +427,9 @@
       navigate here to understand the system?</em> If yes, it's an organizational node and
       earns the overview.</p>
 
-    <h2 id="why"><span class="n">04</span> &nbsp;Why it matters</h2>
+    <h2 id="why"><span class="n">03</span> &nbsp;What it buys</h2>
     <p>Why enforce FSDN, instead of keeping a good index by hand? Because the law buys
       properties a maintained map can't:</p>
-    <p><strong>There is no index to keep.</strong> Because every child names itself by
-      rule, what lies below any node is computed, never written - the directory listing
-      <em>is</em> the index. A parent's overview describes the parent, not its children.
-      It may still curate - an order, a <em>start here</em> - but nothing depends on that
-      list being complete: delete it, and everything is still findable.</p>
     <p><strong>The description can't drift from the thing.</strong> The overview lives
       inside what it describes and is named after it, so the two move together - rename,
       relocate, or delete a node and its description travels with it. There is no separate
@@ -437,7 +446,7 @@
       every depth means a tool - or an AI agent - can walk the structure with no bespoke
       instructions for any of it. Self-similarity is an API.</p>
 
-    <h2 id="example"><span class="n">05</span> &nbsp;A worked example</h2>
+    <h2 id="example"><span class="n">04</span> &nbsp;A worked example</h2>
     <p>Say you get back from Yosemite with a phone full of photos. The law decides the
       shape before you do:</p>
     <div class="tree"><code class="dir">photos/</code>
@@ -472,7 +481,7 @@
       discipline FSDN asks for. What it <em>guarantees</em> is the other half: write it
       there, and it can never drift from the thing.</p>
 
-    <h2 id="instances"><span class="n">06</span> &nbsp;Instances</h2>
+    <h2 id="instances"><span class="n">05</span> &nbsp;Instances</h2>
     <p>FSDN is already load-bearing across the lab - the node pointing <strong>down</strong>.
       Each of these describes itself, and everything beneath it describes itself the
       same way:</p>
@@ -496,7 +505,7 @@
       </div>
     </div>
 
-    <h2 id="lineage"><span class="n">07</span> &nbsp;Lineage</h2>
+    <h2 id="lineage"><span class="n">06</span> &nbsp;Lineage</h2>
     <p>This is a deliberate synthesis, not a coinage from nothing. What's genuinely new
       is none of the pieces below but their <strong>fusion - and the insistence on
       enforcing it</strong>: the synthesis becomes a rule of construction rather than a

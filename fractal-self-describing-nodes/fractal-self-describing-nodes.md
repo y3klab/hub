@@ -2,25 +2,31 @@
 
 **Every node describes itself**, by the same rule, **at every depth** - so there is no index to keep. **The structure is the index.**
 
-## What a node is
+## What FSDN is
 
-A **node** is any unit of organization - the whole portfolio, a project, a sub-tool, a single catalog entry. The word is deliberate: a node is inherently *part of a graph*. It is never just an item; it is a thing that sits among other things and knows its place among them.
+**Every node describes itself.** A node is any unit of organization - a whole portfolio, a project, a sub-tool, a single catalog entry. The word is deliberate: a node is never just an item; it is a thing among other things that knows its place among them. To describe itself, a node carries its own overview *inside* itself, named for it - `project/project.md`. The description is part of the thing, so it can't wander off from the thing.
 
-The law - **FSDN**, for short - says that whatever the node, and whatever its size, it carries its own identity in the same recognizable shape - and it does so all the way up and all the way down.
+**By the same rule.** Not a template per level - one rule, applied to whatever is in front of it. A portfolio's overview, a project's, and a catalog entry's look different; they were all made the same way. That sameness is what lets one reader - a person, a script, an AI agent - walk the whole structure knowing one thing.
 
-## Three properties
+**At every depth.** The rule has no depth in it, so there is no depth it stops at. Zoom in or out and you land on a node that explains itself: self-similar, the way a fractal is one rule applied at every depth. Hence the name.
+
+**So there is no index to keep. The structure is the index.** Because every child names itself by the rule, what lies below any node is computed - `ls` - never written. A parent's overview describes the parent, not its children; it may curate - an order, a *start here* - but nothing depends on that list being complete. Each node is both a map and a thing-on-a-map: it points up to its parent by where it sits, and down to its children by the rule. Delete every list, and everything is still findable.
 
 ### Self-describing
 
-Each node carries its own overview in a consistent, templated shape - the portfolio's overview, a project's overview, a tool's doc. The same “describe yourself” move at every level.
+Each node carries its own overview, inside itself and named for it. The description is part of the thing it describes.
 
-### Scale-invariant
+### One rule
 
-That move repeats at *every* depth. Zoom in or out and you always land on a node that explains itself. Self-similar, like a fractal - hence the name.
+The same move at every level. The output varies; the rule doesn't - one thing to know, and the whole structure is walkable.
 
-### Whole *and* part
+### Every depth
 
-Each node is self-contained *and* a member of the node above - and everything beneath it is findable by the same rule, with no list to keep. It's **built to point up** and **down** - both a map and a thing-on-a-map - so navigation needn't dead-end.
+The rule has no depth in it, so there is no depth it stops at. Self-similar, like a fractal - hence the name.
+
+### No index
+
+What lies below any node is computed, never written. Nothing is kept, so nothing goes stale. The structure is the index.
 
 ## The mechanism
 
@@ -54,11 +60,9 @@ describe(node):
 
 **The mechanism is medium-specific.** The law is the *behavior* - self-describe, point up and down - not the file type. Folders a human opens to understand the structure get a `folder/folder.md`. *Code* packages already self-describe in their own idiom - a package docstring, a README - so they satisfy the law without a parallel `.md` that would only shadow the code's own description. The test: *would a human navigate here to understand the system?* If yes, it's an organizational node and earns the overview.
 
-## Why it matters
+## What it buys
 
 Why enforce FSDN, instead of keeping a good index by hand? Because the law buys properties a maintained map can't:
-
-**There is no index to keep.** Because every child names itself by rule, what lies below any node is computed, never written - the directory listing *is* the index. A parent's overview describes the parent, not its children. It may still curate - an order, a *start here* - but nothing depends on that list being complete: delete it, and everything is still findable.
 
 **The description can't drift from the thing.** The overview lives inside what it describes and is named after it, so the two move together - rename, relocate, or delete a node and its description travels with it. There is no separate map to forget to update, so there is no stale map.
 
