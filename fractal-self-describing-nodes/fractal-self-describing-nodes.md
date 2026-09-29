@@ -20,7 +20,7 @@ The rule has no depth in it, so there is no depth it stops at. Zoom in or out an
 
 ### No index
 
-What lies below any node is computed - `ls` - never written. A parent's overview describes the parent, not its children. The structure is the index.
+What lies below any node is computed - `ls` - never written. So is what lies above: the nearest node up the tree that describes itself. A parent's overview describes the parent, not its children; where the tree is out of view, a renderer draws the breadcrumb from it. The structure is the index.
 
 ## The mechanism
 
@@ -92,7 +92,7 @@ This is a deliberate synthesis, not a coinage from nothing. What's genuinely new
 
 - **Zettelkasten · HATEOAS · Maps of Content** *up/down links* Luhmann, 1952 · Fielding, 2000 · Milo, 2020 - atomic notes, each self-contained yet an index to others; hypermedia that carries its own links. The “no dead-ends” property.
 
-This page is itself a fractal self-describing node. It names itself, it points **up** to its parent - [the Y3K Lab hub](https://y3klab.com/) - and **down** to where the law runs: [the Project System](https://y3klab.com/project-system/), which dissolved its master index on the strength of it, and [the Y3K RC Garage](https://garage.y3krc.com), rendered from its nodes with no list of vehicles anywhere. It practices what it documents.
+This page is itself a fractal self-describing node. It names itself, it points **up** to its parent - [the Y3K Lab hub](https://y3klab.com/) - and **down** to where the law runs: [the Project System](https://y3klab.com/project-system/), which dissolved its master index on the strength of it, and [the Y3K RC Garage](https://garage.y3krc.com), rendered from its nodes with no list of vehicles anywhere. It practices what it documents, down to the one line it writes by hand: a hand-authored page has no renderer to draw its breadcrumb.
 
 Every node is a fractal self.
 
