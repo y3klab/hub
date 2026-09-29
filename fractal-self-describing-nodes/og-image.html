@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<!--
+  Fractal Self-Describing Nodes - social / OpenGraph share card. Body is EXACTLY
+  1200x630px. Same hand as ../og-image.html (palette, ramp bar, floor, footer
+  labels), with one addition: the Mandelbrot set itself, rendered live on a
+  canvas by the escape-time algorithm - z -> z^2 + c - and colored by the Y3K
+  ramp. The page's Lineage says the name is not a metaphor; the card shows why.
+
+  Render to og-image.png with headless Chrome:
+    chrome --headless=new --screenshot=og-image.png --window-size=1200,630 \
+           --force-device-scale-factor=2 --hide-scrollbars \
+           --virtual-time-budget=20000 file://$PWD/og-image.html
+  then downscale the 2400x1260 capture to 1200x630 (sips -z 630 1200). No deps.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fractal Self-Describing Nodes - share card</title>
+<style>
+  :root {
+    --magenta:#ff5fff; --rose:#ff5fd7; --pink:#d75fd7; --purple:#af5fff;
+    --indigo:#875fff;  --blue:#5fafff; --cyan:#00d7ff; --brtcyan:#00ffff;
+    --accent:#00afff;
+    --ramp: linear-gradient(100deg,
+      var(--magenta), var(--pink), var(--purple), var(--indigo),
+      var(--blue), var(--cyan), var(--brtcyan));
+    --bg:#0a0a12; --ink:#e8e8f4; --dim:#8a8aa6; --rail:#2a2a3e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.5 ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    position: relative;
+  }
+
+  /* The set, full bleed. Drawn once by the script below. */
+  #set { position: absolute; inset: 0; width: 1200px; height: 630px; display: block; }
+
+  /* Scrim: the left column reads as page, the right stays fractal. */
+  .scrim {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(10,10,18,.96) 0%, rgba(10,10,18,.92) 34%, rgba(10,10,18,.55) 52%, rgba(10,10,18,0) 70%),
+      linear-gradient(0deg, rgba(10,10,18,.9) 0%, rgba(10,10,18,0) 22%);
+  }
+
+  /* CRT scanlines, faint - the house texture. */
+  .scan {
+    position: absolute; inset: 0; pointer-events: none; z-index: 3;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px);
+    mix-blend-mode: multiply;
+  }
+
+  /* The ramp bar across the very top - the palette, the canonical asset. */
+  .topramp { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--ramp); z-index: 4; }
+
+  .stage {
+    position: absolute; left: 64px; top: 92px; width: 660px; z-index: 2;
+  }
+  .kicker {
+    color: var(--cyan); font-size: 17px; letter-spacing: .34em; text-transform: uppercase;
+    margin-bottom: 26px;
+  }
+  .kicker .b { color: var(--dim); }
+  h1 {
+    font-size: 66px; font-weight: 800; line-height: 1.06; letter-spacing: -.01em;
+    background: var(--ramp);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 22px rgba(175,95,255,.35));
+    margin-bottom: 30px;
+  }
+  .law {
+    font-size: 21px; line-height: 1.55; color: var(--ink); max-width: 600px;
+    padding: 18px 22px;
+    border: 1px solid color-mix(in srgb, var(--purple) 40%, var(--rail));
+    border-left: 4px solid var(--magenta);
+    border-radius: 12px;
+    background: rgba(6,6,8,.72);
+    box-shadow: 0 0 60px -28px var(--purple);
+  }
+  .law b { color: var(--cyan); font-weight: 700; }
+
+  /* The generator, tagged on the set like a specimen label. */
+  .gen {
+    position: absolute; right: 60px; top: 88px; z-index: 2;
+    font-size: 19px; letter-spacing: .12em; color: var(--dim);
+    padding: 8px 16px; border: 1px solid color-mix(in srgb, var(--cyan) 30%, var(--rail));
+    border-radius: 999px; background: rgba(6,6,8,.6);
+  }
+  .gen b { color: var(--brtcyan); font-weight: 700; }
+
+  /* Bottom-left wordmark + bottom-right motto, like a brand sheet footer. */
+  .label {
+    position: absolute; bottom: 34px; z-index: 2;
+    font-size: 17px; letter-spacing: .26em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .label.left  { left: 64px; }
+  .label.right { right: 60px; }
+  .label .motto {
+    background: var(--ramp);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+  <canvas id="set"></canvas>
+  <div class="scrim"></div>
+  <div class="scan"></div>
+  <div class="topramp"></div>
+
+  <div class="stage">
+    <div class="kicker">[ A structural law ]</div>
+    <h1>Fractal Self-<br>Describing Nodes</h1>
+    <div class="law"><b>Every node describes itself</b>, by the same rule, <b>at every depth</b> - so there is no index to keep. <b>The structure is the index.</b></div>
+  </div>
+
+  <div class="gen">z &rarr; <b>z&sup2; + c</b></div>
+
+  <div class="label left">Y3K Lab &middot; Fractal Self-Describing Nodes</div>
+  <div class="label right"><span class="motto">Every node is a fractal self</span></div>
+
+<script>
+(function () {
+  // Escape-time Mandelbrot, smooth-colored, painted in the Y3K ramp.
+  // The window is the period-3 minibrot on the antenna, west of the main set
+  // at c = -1.755: the whole set again, smaller, hung on a filament - which is
+  // the page's point. The set sits right of center so the text clears it. Card is 1200x630; the canvas renders at the
+  // device pixel ratio so a 2x capture is crisp.
+  var W = 1200, H = 630, dpr = window.devicePixelRatio || 1;
+  var cv = document.getElementById('set');
+  cv.width = W * dpr; cv.height = H * dpr;
+  var ctx = cv.getContext('2d');
+  var w = cv.width, h = cv.height;
+  var img = ctx.createImageData(w, h), px = img.data;
+
+  // Viewport: center + width in the complex plane; height follows the aspect.
+  // Defaults are the shipped view; ?cx=&cy=&span=&cycle=&fade= override them for
+  // exploring windows without editing the file.
+  var q = new URLSearchParams(location.search);
+  var num = function (k, d) { var v = parseFloat(q.get(k)); return isNaN(v) ? d : v; };
+  var cx = num('cx', -1.755), cy = num('cy', 0), span = num('span', 0.105);
+  var xw = num('xw', 0.76);                            // where cx sits, as a fraction of width
+  var x0 = cx - span * xw, x1 = cx + span * (1 - xw);
+  var ratio = h / w, yspan = (x1 - x0) * ratio;
+  var y0 = cy - yspan * 0.5, y1 = cy + yspan * 0.5;
+  var maxIt = 900, bail = 256;
+
+  // Palette: a cycle that returns to dark, so bands read as neon filaments.
+  var stops = [
+    [0.00, [10, 10, 18]],   // bg
+    [0.18, [135, 95, 255]], // indigo
+    [0.34, [255, 95, 255]], // magenta
+    [0.52, [215, 95, 215]], // pink
+    [0.68, [95, 175, 255]], // blue
+    [0.84, [0, 215, 255]],  // cyan
+    [1.00, [10, 10, 18]]    // back to bg
+  ];
+  var LUT = new Uint8ClampedArray(2048 * 3);
+  for (var i = 0; i < 2048; i++) {
+    var t = i / 2047, k = 0;
+    while (k < stops.length - 2 && t > stops[k + 1][0]) k++;
+    var a = stops[k], b = stops[k + 1], f = (t - a[0]) / (b[0] - a[0]);
+    f = f * f * (3 - 2 * f);
+    LUT[i * 3]     = a[1][0] + (b[1][0] - a[1][0]) * f;
+    LUT[i * 3 + 1] = a[1][1] + (b[1][1] - a[1][1]) * f;
+    LUT[i * 3 + 2] = a[1][2] + (b[1][2] - a[1][2]) * f;
+  }
+  var LOG2 = Math.log(2), cycle = num('cycle', 0.06), fade = num('fade', 22);
+
+  for (var j = 0; j < h; j++) {
+    var ci = y1 - (j / (h - 1)) * (y1 - y0);
+    for (var i2 = 0; i2 < w; i2++) {
+      var cr = x0 + (i2 / (w - 1)) * (x1 - x0);
+      var zr = 0, zi = 0, zr2 = 0, zi2 = 0, n = 0;
+      while (n < maxIt && zr2 + zi2 < bail) {
+        zi = 2 * zr * zi + ci;
+        zr = zr2 - zi2 + cr;
+        zr2 = zr * zr; zi2 = zi * zi;
+        n++;
+      }
+      var o = (j * w + i2) * 4;
+      if (n >= maxIt) {                 // inside: the set is the darkest thing here
+        px[o] = 6; px[o + 1] = 6; px[o + 2] = 8;
+      } else {
+        var nu = n + 1 - Math.log(Math.log(zr2 + zi2) / 2) / LOG2;
+        var t2 = (nu * cycle) % 1;
+        // fade the far exterior toward bg so the card has dark to breathe in
+        var near = Math.min(1, nu / fade);
+        var li = (t2 * 2047) | 0;
+        px[o]     = 10 + (LUT[li * 3]     - 10) * near;
+        px[o + 1] = 10 + (LUT[li * 3 + 1] - 10) * near;
+        px[o + 2] = 18 + (LUT[li * 3 + 2] - 18) * near;
+      }
+      px[o + 3] = 255;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+  document.documentElement.setAttribute('data-rendered', '1');
+})();
+</script>
+</body>
+</html>
