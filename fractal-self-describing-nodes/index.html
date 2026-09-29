@@ -280,6 +280,13 @@
     .law { padding: 20px; }
     h2 { margin: 3rem 0 1.2rem; letter-spacing: .2em; }
     .tree { font-size: 12px; padding: 16px; }
+    /* Phones: the arrow comments can't sit beside the entries (the longest line
+       runs ~70 columns; ~43 fit), so each comment drops to its own line under its
+       entry and wraps. CSS-only, so the markup and the derived .md twin are
+       untouched. A comment that opens a block stays put. */
+    .tree .cmt { white-space: pre-wrap; }
+    .tree .cmt::before { content: "\A   "; white-space: pre; }
+    .tree .cmt:first-child::before { content: none; }
     .meta-close { padding: 22px; }
   }
 
@@ -478,7 +485,7 @@
 
   <footer>
     <p class="motto">Certified Y3K Ready</p>
-    <p><a href="/">← Y3K Lab</a> · <a href="fractal-self-describing-nodes.md" title="This page as plain Markdown - ideal for pasting to an AI assistant">View as Markdown</a> · © 1970-3000 Y3K · Shareware - copy it, share it, distribute freely on any BBS.</p>
+    <p><a href="/">← Y3K Lab</a> · <a href="fractal-self-describing-nodes.md" target="_blank" rel="noopener noreferrer" title="This page as plain Markdown - ideal for pasting to an AI assistant">View as Markdown</a> · © 1970-3000 Y3K · Shareware - copy it, share it, distribute freely on any BBS.</p>
   </footer>
 
 </body>
