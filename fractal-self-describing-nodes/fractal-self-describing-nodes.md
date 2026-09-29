@@ -4,7 +4,7 @@
 
 ## What FSDN is
 
-A **node** is any unit of organization - a whole portfolio, a project, a sub-tool, a single catalog entry. The word is deliberate: a node is never just an item; it is a thing among other things that knows its place among them. Under FSDN, each one carries its own overview inside itself, named for it - made by the same rule as every other node, at every depth - so what lies below any node is computed, never written. Nothing is kept, so nothing goes stale.
+A **node** is any unit of organization - a whole portfolio, a project, a sub-tool, a single catalog entry. The word is deliberate: a node is never just an item; it is a thing among other things that knows its place among them. Under FSDN, each one carries its own overview inside itself, named for it - made by the same rule as every other node, at every depth - so what lies below any node is computed, never written. No list is kept, so no list goes stale.
 
 ### Self-describing
 
@@ -48,7 +48,7 @@ describe(node):
 
 **There is no depth parameter.** A fractal tree drawn by code is `draw(branch, depth - 1)`: its branches don't exist until the rule invents them, so the rule has to carry its own stopping point. This one stops where the data stops - at a node with no children - which is why the law can say *at every depth* without naming one.
 
-**What the rule asks of you.** Every container gets a self-named overview - don't create a node that can't describe itself - but only containers, and only when there is something to say: a leaf describes itself in-band, in its own header, and a grouping folder whose contents are self-evident can go without. The law governs the name, not the file type - a code package already describes itself through its docstring or README and needs no parallel `.md`. The test: *would a human navigate here to understand the system?* If yes, it earns the overview. A parent may still curate a list of what's below it; nothing may depend on that list.
+**What the rule asks of you.** Every container gets a self-named overview - don't create a node that can't describe itself - but only containers, and only when there is something to say: a leaf is its own overview - it describes itself in-band, in its own header, so the rule holds there with nothing to write - and a grouping folder whose contents are self-evident can go without. The law governs the name, not the file type - a code package already describes itself through its docstring or README and needs no parallel `.md`. The test: *would a human navigate here to understand the system?* If yes, it earns the overview. A parent may still curate a list of what's below it; nothing may depend on that list.
 
 ## Why it matters
 
@@ -78,7 +78,7 @@ y3k-cookbook/
          └─ greens.md      ← rau sống: Thai basil, sprouts, lime, chili
 ```
 
-One rule produced all of it - front matter, a chapter opener, recipe cards, and, because a broth is a recipe, a recipe inside the recipe: `describe(pho)` calls `describe(broth)`. The photos are named for what they show, not for the dish; the folder already says *pho*. The table of contents is `ls`, and the index at the back is generated from the cards - every cookbook you own already computes both. Skip the rule and you get the folder everyone has: `hero.jpg` and nothing beside it. You can see what it was. You can't make it again.
+One rule produced all of it - front matter, a chapter opener, recipe cards, and, because a broth is a recipe, a recipe inside the recipe: `describe(pho)` calls `describe(broth)`. The photos are named for what they show, not for the dish; the folder already says *pho*. The table of contents is `ls`, and the index at the back is generated from the cards, the way a printed cookbook's index is compiled from its pages. Skip the rule and you get the folder everyone has: `hero.jpg` and nothing beside it. You can see what it was. You can't make it again.
 
 ## Lineage
 
@@ -86,11 +86,11 @@ This is a deliberate synthesis, not a coinage from nothing. What's genuinely new
 
 - **Self-similarity** *fractal* Mandelbrot, 1975 - a shape made by one generator applied at every depth without end, so that any part, magnified, is the whole again. FSDN is that construction with `describe()` as the generator and nodes in place of segments. The name is not a metaphor.
 
-- **The Composite pattern** *in code* Gang of Four - a leaf and a composition present the same interface, so the caller never branches on which one it holds. Look again at the generator: nothing in it asks whether a node has children. For a leaf, the loop simply runs zero times.
+- **The Composite pattern** *in code* Gang of Four, 1994 - a leaf and a composition present the same interface, so the caller never branches on which one it holds. Look again at the generator: nothing in it asks whether a node has children. For a leaf, the overview is the leaf itself, and the loop simply runs zero times.
 
 - **Holon & holarchy** *whole-and-part* Koestler, 1967 - a thing that is simultaneously a whole and a part. The closest single-named ancestor.
 
-- **HATEOAS · Zettelkasten · Maps of Content** *up/down links* Hypermedia that carries its own links; atomic notes, each self-contained yet an index to others. The “no dead-ends” property.
+- **Zettelkasten · HATEOAS · Maps of Content** *up/down links* Luhmann, 1952 · Fielding, 2000 · Milo, 2020 - atomic notes, each self-contained yet an index to others; hypermedia that carries its own links. The “no dead-ends” property.
 
 This page is itself a fractal self-describing node. It names itself, it points **up** to its parent - [the Y3K Lab hub](https://y3klab.com/) - and **down** to where the law runs: [the Project System](https://y3klab.com/project-system/), which dissolved its master index on the strength of it, and [the Y3K RC Garage](https://garage.y3krc.com), rendered from its nodes with no list of vehicles anywhere. It practices what it documents.
 

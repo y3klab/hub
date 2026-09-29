@@ -319,7 +319,7 @@
       an item; it is a thing among other things that knows its place among them. Under
       FSDN, each one carries its own overview inside itself, named for it - made by the
       same rule as every other node, at every depth - so what lies below any node is
-      computed, never written. Nothing is kept, so nothing goes stale.</p>
+      computed, never written. No list is kept, so no list goes stale.</p>
     <div class="props">
       <div class="prop" style="--stop: var(--magenta);">
         <h3><span class="i">i</span> Self-describing</h3>
@@ -374,8 +374,9 @@
       law can say <em>at every depth</em> without naming one.</p>
     <p><strong>What the rule asks of you.</strong> Every container gets a self-named
       overview - don't create a node that can't describe itself - but only containers,
-      and only when there is something to say: a leaf describes itself in-band, in its
-      own header, and a grouping folder whose contents are self-evident can go without.
+      and only when there is something to say: a leaf is its own overview - it describes
+      itself in-band, in its own header, so the rule holds there with nothing to write -
+      and a grouping folder whose contents are self-evident can go without.
       The law governs the name, not the file type - a code package already describes
       itself through its docstring or README and needs no parallel <code>.md</code>. The
       test: <em>would a human navigate here to understand the system?</em> If yes, it
@@ -419,8 +420,8 @@
       recipe: <code>describe(pho)</code> calls <code>describe(broth)</code>. The photos
       are named for what they show, not for the dish; the folder already says
       <em>pho</em>. The table of contents is <code>ls</code>, and the index at the back
-      is generated from the cards - every cookbook you own already computes both. Skip
-      the rule and you get the folder everyone has: <code>hero.jpg</code> and nothing
+      is generated from the cards, the way a printed cookbook's index is compiled from
+      its pages. Skip the rule and you get the folder everyone has: <code>hero.jpg</code> and nothing
       beside it. You can see what it was. You can't make it again.</p>
 
     <h2 id="lineage"><span class="n">05</span> &nbsp;Lineage</h2>
@@ -439,10 +440,10 @@
       </li>
       <li>
         <span class="src">The Composite pattern</span><span class="tag">in code</span>
-        <span class="gloss">Gang of Four - a leaf and a composition present the same
+        <span class="gloss">Gang of Four, 1994 - a leaf and a composition present the same
           interface, so the caller never branches on which one it holds. Look again at
           the generator: nothing in it asks whether a node has children. For a leaf, the
-          loop simply runs zero times.</span>
+          overview is the leaf itself, and the loop simply runs zero times.</span>
       </li>
       <li>
         <span class="src">Holon &amp; holarchy</span><span class="tag">whole-and-part</span>
@@ -450,9 +451,10 @@
           part. The closest single-named ancestor.</span>
       </li>
       <li>
-        <span class="src">HATEOAS · Zettelkasten · Maps of Content</span><span class="tag">up/down links</span>
-        <span class="gloss">Hypermedia that carries its own links; atomic notes, each
-          self-contained yet an index to others. The “no dead-ends” property.</span>
+        <span class="src">Zettelkasten · HATEOAS · Maps of Content</span><span class="tag">up/down links</span>
+        <span class="gloss">Luhmann, 1952 · Fielding, 2000 · Milo, 2020 - atomic notes, each
+          self-contained yet an index to others; hypermedia that carries its own links.
+          The “no dead-ends” property.</span>
       </li>
     </ul>
 
