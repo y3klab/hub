@@ -125,6 +125,37 @@
   .uplink .sep { color: var(--rail); }
   .uplink .here { color: var(--dim); }
 
+  /* ── The set, live, behind the title ──
+     The same generator as the share card (og-image.html) - z -> z^2 + c on the
+     period-3 minibrot at c = -1.755 - drawn on load in a Web Worker so the page
+     never stalls, then faded in. Nothing here is an image file: the page computes
+     its own hero by the rule it documents. Masked toward the left and bottom so
+     the text sits on dark; the law box is opaque anyway. */
+  #set, .setscrim {
+    position: absolute; left: 0; top: 0; width: 100%; height: 760px;
+    pointer-events: none; z-index: -1;
+  }
+  #set {
+    display: block; opacity: 0;
+    -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+  }
+  #set[data-ready] { opacity: .92; }
+  .setscrim {
+    background: linear-gradient(90deg,
+      var(--bg) 0%, color-mix(in srgb, var(--bg) 88%, transparent) 40%,
+      color-mix(in srgb, var(--bg) 40%, transparent) 58%, transparent 74%);
+  }
+  @media (max-width: 720px) {
+    #set { opacity: 0; }
+    #set[data-ready] { opacity: .6; }
+    .setscrim {
+      background: linear-gradient(180deg,
+        color-mix(in srgb, var(--bg) 55%, transparent) 0%, transparent 35%,
+        transparent 70%, var(--bg) 100%);
+    }
+  }
+
   /* ── Title block ── */
   .kicker {
     color: color-mix(in srgb, var(--ink) 70%, var(--dim));
@@ -294,6 +325,7 @@
   /* ── Power-on load - content rises in; honors reduced-motion (§ degrade-off-TTY). ── */
   @media (prefers-reduced-motion: no-preference) {
     .rise { opacity: 0; animation: rise .55s ease forwards; }
+    #set { transition: opacity 1.2s ease; }
     .rise:nth-child(1){animation-delay:.04s} .rise:nth-child(2){animation-delay:.10s}
     .rise:nth-child(3){animation-delay:.16s} .rise:nth-child(4){animation-delay:.22s}
     @keyframes rise { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform:none; } }
@@ -303,6 +335,10 @@
 </style>
 </head>
 <body>
+
+  <!-- The set, computed live by the generator (script at the end of the body). -->
+  <canvas id="set" aria-hidden="true"></canvas>
+  <div class="setscrim" aria-hidden="true"></div>
 
   <!-- UP - the node points to its parent. -->
   <nav class="uplink">
@@ -491,5 +527,91 @@
     <p><a href="/">← Y3K Lab</a> · <a href="fractal-self-describing-nodes.md" target="_blank" rel="noopener noreferrer" title="This page as plain Markdown - ideal for pasting to an AI assistant">View as Markdown</a> · © 1970-3000 Y3K · Shareware - copy it, share it, distribute freely on any BBS.</p>
   </footer>
 
+<script>
+(function () {
+  // The hero is the share card's fractal, computed here rather than shipped as a
+  // file. A Web Worker (inline, no deps) runs the escape-time loop in row bands
+  // and posts each band back; the main thread only paints. See og-image.html for
+  // the same routine with its parameters explained.
+  var cv = document.getElementById('set');
+  if (!cv || !window.Worker || !window.Blob) return;
+  var ctx = cv.getContext('2d');
+
+  var workerSrc = function () {
+    var stops = [[0,[10,10,18]],[.18,[135,95,255]],[.34,[255,95,255]],[.52,[215,95,215]],[.68,[95,175,255]],[.84,[0,215,255]],[1,[10,10,18]]];
+    var LUT = new Uint8ClampedArray(2048 * 3);
+    for (var i = 0; i < 2048; i++) {
+      var t = i / 2047, k = 0;
+      while (k < stops.length - 2 && t > stops[k + 1][0]) k++;
+      var a = stops[k], b = stops[k + 1], f = (t - a[0]) / (b[0] - a[0]);
+      f = f * f * (3 - 2 * f);
+      for (var c = 0; c < 3; c++) LUT[i * 3 + c] = a[1][c] + (b[1][c] - a[1][c]) * f;
+    }
+    var LOG2 = Math.log(2);
+    self.onmessage = function (e) {
+      var d = e.data, w = d.w, h = d.h, x0 = d.x0, x1 = d.x1, y0 = d.y0, y1 = d.y1;
+      var maxIt = d.maxIt, cycle = d.cycle, fade = d.fade, band = 24;
+      for (var ys = 0; ys < h; ys += band) {
+        var rows = Math.min(band, h - ys), px = new Uint8ClampedArray(w * rows * 4);
+        for (var j = 0; j < rows; j++) {
+          var ci = y1 - ((ys + j) / (h - 1)) * (y1 - y0);
+          for (var i2 = 0; i2 < w; i2++) {
+            var cr = x0 + (i2 / (w - 1)) * (x1 - x0);
+            var zr = 0, zi = 0, zr2 = 0, zi2 = 0, n = 0;
+            while (n < maxIt && zr2 + zi2 < 256) {
+              zi = 2 * zr * zi + ci; zr = zr2 - zi2 + cr;
+              zr2 = zr * zr; zi2 = zi * zi; n++;
+            }
+            var o = (j * w + i2) * 4;
+            if (n >= maxIt) { px[o] = 6; px[o + 1] = 6; px[o + 2] = 8; }
+            else {
+              var nu = n + 1 - Math.log(Math.log(zr2 + zi2) / 2) / LOG2;
+              var li = ((nu * cycle) % 1 * 2047) | 0, near = Math.min(1, nu / fade);
+              px[o]     = 10 + (LUT[li * 3]     - 10) * near;
+              px[o + 1] = 10 + (LUT[li * 3 + 1] - 10) * near;
+              px[o + 2] = 18 + (LUT[li * 3 + 2] - 18) * near;
+            }
+            px[o + 3] = 255;
+          }
+        }
+        self.postMessage({ y: ys, rows: rows, px: px }, [px.buffer]);
+      }
+      self.postMessage({ done: true });
+    };
+  }.toString();
+  var url = URL.createObjectURL(new Blob(['(' + workerSrc + ')()'], { type: 'text/javascript' }));
+
+  var worker = null, lastW = 0;
+  function render() {
+    var vw = document.documentElement.clientWidth, H = 760;
+    if (Math.abs(vw - lastW) < 80 && worker === null && cv.hasAttribute('data-ready')) return;
+    lastW = vw;
+    if (worker) { worker.terminate(); worker = null; }
+    // Resolution: crisp up to 2x, capped so the whole hero stays under ~2.4M px.
+    var scale = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(2.4e6 / (vw * H)));
+    var w = Math.round(vw * scale), h = Math.round(H * scale);
+    cv.width = w; cv.height = h;
+    // Where the set sits, in CSS px: right of the 720px column on desktop, like
+    // the card; centered-right and smaller on a phone. Vertical center between
+    // the title and the law box.
+    var phone = vw <= 720;
+    var setX = phone ? vw * 0.68 : Math.min(vw / 2 + 470, vw - 220);
+    var setY = phone ? 325 : 310;                         // phone: behind the law box, whose panel hides the body
+    var upp = (phone ? 2.1 : 1) * 0.105 / 1200;        // complex units per CSS px, as the card
+    var cx = -1.755, cy = 0;
+    var x0 = cx - setX * upp, x1 = cx + (vw - setX) * upp;
+    var y0 = cy - (H - setY) * upp, y1 = cy + setY * upp;
+    worker = new Worker(url);
+    worker.onmessage = function (e) {
+      var d = e.data;
+      if (d.done) { cv.setAttribute('data-ready', '1'); worker.terminate(); worker = null; return; }
+      ctx.putImageData(new ImageData(d.px, w, d.rows), 0, d.y);
+    };
+    worker.postMessage({ w: w, h: h, x0: x0, x1: x1, y0: y0, y1: y1, maxIt: 700, cycle: 0.06, fade: 22 });
+  }
+  render();
+  var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(render, 250); });
+})();
+</script>
 </body>
 </html>
