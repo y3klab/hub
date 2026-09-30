@@ -129,10 +129,11 @@
      The same generator as the share card (og-image.html) - z -> z^2 + c on the
      period-3 minibrot at c = -1.755 - drawn on load in a Web Worker so the page
      never stalls, then faded in. Nothing here is an image file: the page computes
-     its own hero by the rule it documents. The script places the band over
-     section 01 (What FSDN is) from the DOM, right of the column on desktop and
-     behind the first, opaque property card on a phone; masked at both ends and
-     scrimmed toward the text so the prose sits on dark. */
+     its own hero by the rule it documents. The script centers the band on the
+     gap between the law box and the 01 header, from the DOM - the antenna runs
+     through that gap, as on the card - right of the column on desktop; on a
+     phone it sits behind the first, opaque property card instead. Masked at
+     both ends and scrimmed toward the text so the prose sits on dark. */
   #set, .setscrim {
     position: absolute; left: 0; top: 0; width: 100%; height: 760px;
     pointer-events: none; z-index: -1;
@@ -144,9 +145,11 @@
   }
   #set[data-ready] { opacity: .92; }
   .setscrim {
+    /* Stops keyed to the 720px column, not the viewport, so the prose stays on
+       dark at any width: opaque through the column, clear past it. */
     background: linear-gradient(90deg,
-      var(--bg) 0%, color-mix(in srgb, var(--bg) 88%, transparent) 40%,
-      color-mix(in srgb, var(--bg) 40%, transparent) 58%, transparent 74%);
+      var(--bg) 0%, color-mix(in srgb, var(--bg) 88%, transparent) calc(50% + 180px),
+      color-mix(in srgb, var(--bg) 45%, transparent) calc(50% + 370px), transparent calc(50% + 520px));
   }
   /* ── The Julia set, live, behind the footer ──
      Same generator, other reading: c held at the hero's -1.755, the pixel as
@@ -155,8 +158,8 @@
   #julia {
     position: absolute; left: 0; top: 0; width: 100%; height: 460px;
     display: block; opacity: 0; pointer-events: none; z-index: -1;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 38%, #000 88%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, #000 38%, #000 88%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 42%);
+            mask-image: linear-gradient(to bottom, transparent 0%, #000 42%);
   }
   #julia[data-ready] { opacity: .85; }
   .jstage { height: 220px; }
@@ -369,7 +372,7 @@
   <article class="wrap">
 
     <header>
-      <p class="kicker rise">A structural law</p>
+      <p class="kicker rise">FSDN &middot; A structural law</p>
       <h1 class="rise">Fractal Self-Describing Nodes</h1>
       <p class="law rise"><strong>Every node describes itself</strong>, by the same
         rule, <strong>at every depth</strong> - so there is no index to keep.
@@ -539,7 +542,7 @@
   </main>
 
   <footer>
-    <p class="jcap">Below: the Julia set for <code>c = -1.755</code>, the point the minibrot above sits on. Every <code>c</code> has a Julia set; the Mandelbrot set is the index of the ones that hold together.</p>
+    <p class="jcap">At the foot of this page: the Julia set for <code>c = -1.755</code>, the point the minibrot above sits on. Every <code>c</code> has a Julia set; the Mandelbrot set is the index of the ones that hold together.</p>
     <p class="motto">Certified Y3K Ready</p>
     <p><a href="/">← Y3K Lab</a> · <a href="fractal-self-describing-nodes.md" target="_blank" rel="noopener noreferrer" title="This page as plain Markdown - ideal for pasting to an AI assistant">View as Markdown</a> · © 1970-3000 Y3K · Shareware - copy it, share it, distribute freely on any BBS.</p>
   </footer>
@@ -621,16 +624,21 @@
   }
   function docY(el) { return el.getBoundingClientRect().top + window.scrollY; }
 
-  // The hero: a 760px band over section 01 (header through the four cards) on
-  // desktop, over the first, opaque property card on a phone. Positions come
-  // from the DOM so the band follows the layout at any width.
+  // The hero: a 760px band centered on the gap between the law box and the
+  // 01 header. Positions come from the DOM so the band follows the layout at
+  // any width; right of the column on desktop, centered on a phone.
   var lastW = 0, setDone = false, juliaWanted = false, juliaDone = false;
   function placeSet(render) {
     var vw = document.documentElement.clientWidth, H = 760, phone = vw <= 720;
-    var sec = document.getElementById('what'), props = document.querySelector('.props'), card = document.querySelector('.prop');
+    // Desktop: the antenna runs through the gap between the law box and the 01
+    // header, as on the card; the body reaches into the law panel above (opaque,
+    // so it hides) and the opening paragraph below. Phone: behind the first,
+    // opaque property card, where only the tips of the spikes show - the gap
+    // treatment puts the 01 header on the ring at that width.
+    var law = document.querySelector('.law'), sec = document.getElementById('what'), card = document.querySelector('.prop');
     var centerY;
     if (phone && card) centerY = docY(card) + card.getBoundingClientRect().height / 2;
-    else if (sec && props) centerY = (docY(sec) + docY(props) + props.getBoundingClientRect().height) / 2;
+    else if (law && sec) centerY = (docY(law) + law.getBoundingClientRect().height + docY(sec)) / 2;
     else centerY = 310 + H / 2;
     var top = Math.round(centerY - H / 2);
     setCv.style.top = top + 'px'; if (setScrim) setScrim.style.top = top + 'px';
@@ -644,18 +652,19 @@
           function () { setDone = true; if (juliaWanted && !juliaDone) placeJulia(true); });
   }
 
-  // The footer: a 460px band ending at the document's bottom, the Julia set's
-  // real axis on the stage below the footer, so the footer text sits on dark
-  // above it with only the set's central spine rising through.
+  // The footer: a 460px band ending at the document's bottom. The Julia set's
+  // origin sits at the band's bottom-left, just outside the column, so only the
+  // upper-right quarter of the central disc shows: the spine rises up the left
+  // side and the bead line runs low, off to the right, under the footer.
   function placeJulia(render) {
     var vw = document.documentElement.clientWidth, H = 460, phone = vw <= 720;
     var footer = document.querySelector('footer'); if (!footer) return;
     var docH = document.documentElement.scrollHeight, top = Math.max(0, docH - H);
     julCv.style.top = top + 'px';
     if (!render || !setDone || julCv._worker) return;
-    var fr = footer.getBoundingClientRect(), centerY = docY(footer) + fr.height + (phone ? 80 : 110) - top;
-    var wide = Math.min(vw * 0.92, 1400), upp = 3.9 / wide;    // the airplane spans ~3.8 units on the real axis
-    paint(julCv, { x0: -(vw / 2) * upp, x1: (vw / 2) * upp, y0: -(H - centerY) * upp, y1: centerY * upp,
+    var disc = phone ? 90 : 130, upp = 0.15 / disc;             // the central disc is ~0.15 units across
+    var ox = phone ? 28 : Math.max(28, vw / 2 - 360 - 24), oy = H - 44;   // the origin, in band px
+    paint(julCv, { x0: -ox * upp, x1: (vw - ox) * upp, y0: -(H - oy) * upp, y1: oy * upp,
                    julia: [-1.755, 0], maxIt: phone ? 400 : 600, cycle: 0.06, fade: 30 }, vw, H,
           function () { juliaDone = true; });
   }
