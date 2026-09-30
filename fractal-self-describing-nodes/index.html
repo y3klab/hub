@@ -156,23 +156,25 @@
      z0. Every c has a Julia set; the Mandelbrot set is the index of the ones
      that hold together. Rendered when the footer scrolls near, after the hero. */
   #julia {
-    position: absolute; left: 0; top: 0; width: 100%; height: 380px;
+    position: absolute; left: 0; top: 0; width: 100%; height: 460px;
     display: block; opacity: 0; pointer-events: none; z-index: -1;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
-            mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 28%, #000 72%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, #000 28%, #000 72%, transparent 100%);
   }
   #julia[data-ready] { opacity: .9; }
-  /* The footer nests into the band: the specimen label sits left, beside the
-     spine; the motto and links sit right, over the bead line. */
-  footer .jlabel { text-align: left; max-width: 300px; }
-  footer .jlabel .jname {
-    margin: 0 0 8px; font-size: 11px; letter-spacing: .26em; text-transform: uppercase;
+  /* The coda: the note beneath the page's last rule. The Julia set's real axis
+     is that rule - the band is centered on the gap between the closing box and
+     this block, so the bead line runs between them, the disc and spine hanging
+     off its left end, and the note sits below like a caption. */
+  .coda { margin: 150px 0 0; max-width: 560px; }
+  .coda .jname {
+    margin: 0 0 10px; font-size: 11px; letter-spacing: .26em; text-transform: uppercase;
     color: var(--blue);
   }
-  footer .jlabel .jname code { color: var(--cyan); letter-spacing: .06em; }
-  footer .jlabel .jcap { margin: 0; font-size: 11.5px; line-height: 1.6; color: color-mix(in srgb, var(--dim) 85%, var(--ink)); }
-  footer .fmeta { text-align: right; }
-  footer .fmeta p { margin: 0 0 6px; }
+  .coda .jname code { color: var(--cyan); letter-spacing: .06em; }
+  .coda .jcap { margin: 0; font-size: 14px; line-height: 1.65; color: color-mix(in srgb, var(--dim) 70%, var(--ink)); }
+  .coda .jcap code { color: var(--cyan); }
+  @media (max-width: 720px) { .coda { margin-top: 120px; padding-left: 40px; } }
   @media (max-width: 720px) {
     #set { opacity: 0; }
     #set[data-ready] { opacity: .6; }
@@ -324,8 +326,7 @@
   footer {
     max-width: 720px; margin: 4.5rem auto 0; padding-top: 28px;
     border-top: 1px solid var(--rail);
-    color: var(--dim); font-size: 12px;
-    display: grid; grid-template-columns: 300px 1fr; gap: 32px; align-items: end;
+    text-align: center; color: var(--dim); font-size: 12px;
   }
   footer .motto {
     background: var(--ramp); -webkit-background-clip: text; background-clip: text; color: transparent;
@@ -333,11 +334,6 @@
   }
   footer a { color: var(--blue); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
-  /* After the footer rules on purpose: same specificity, so order decides. */
-  @media (max-width: 720px) {
-    footer { grid-template-columns: 1fr; padding-left: 40px; }
-    footer .jlabel, footer .fmeta { text-align: left; max-width: none; }
-  }
 
   @media (max-width: 560px) {
     body { padding: 0 18px 48px; }
@@ -551,18 +547,18 @@
       <span class="echo">Every node is a fractal self.</span>
     </div>
 
+    <!-- The coda, beneath the Julia set's axis: the same generator, read the other way. -->
+    <aside class="coda">
+      <p class="jname">J(c) &middot; <code>c = -1.755</code></p>
+      <p class="jcap">The same rule with <code>c</code> held fixed. Every <code>c</code> names a Julia set of its own, and the set above is the index of them: inside it, a Julia set is one piece; outside, dust. This is the entry at the minibrot's own point.</p>
+    </aside>
+
   </article>
   </main>
 
   <footer>
-    <div class="jlabel">
-      <p class="jname">J(c) &middot; <code>c = -1.755</code></p>
-      <p class="jcap">The Julia set at the point the minibrot above sits on. Every <code>c</code> has one; the Mandelbrot set is the index of those that hold together.</p>
-    </div>
-    <div class="fmeta">
     <p class="motto">Certified Y3K Ready</p>
     <p><a href="/">← Y3K Lab</a> · <a href="fractal-self-describing-nodes.md" target="_blank" rel="noopener noreferrer" title="This page as plain Markdown - ideal for pasting to an AI assistant">View as Markdown</a> · © 1970-3000 Y3K · Shareware - copy it, share it, distribute freely on any BBS.</p>
-    </div>
   </footer>
 
 <script>
@@ -673,18 +669,20 @@
           function () { setDone = true; if (juliaWanted && !juliaDone) placeJulia(true); });
   }
 
-  // The footer: a 380px band ending at the document's bottom, its bottom edge
-  // on the set's real axis, so only the top half shows and the symmetry is
-  // implied. The origin sits left of the column: the spine rises up the left
-  // beside the label, the bead line runs along the bottom under the links.
+  // The coda's rule: a 460px band centered on the gap between the closing box
+  // and the coda, the Julia set's real axis on that midline so the bead line
+  // reads as the page's last horizontal rule. The origin sits left of the
+  // column, so the disc and spine hang off the rule's left end, clear of text.
   function placeJulia(render) {
-    var vw = document.documentElement.clientWidth, H = 380, phone = vw <= 720;
-    var footer = document.querySelector('footer'); if (!footer) return;
-    var docH = document.documentElement.scrollHeight, top = Math.max(0, docH - H);
+    var vw = document.documentElement.clientWidth, H = 460, phone = vw <= 720;
+    var close = document.querySelector('.meta-close'), coda = document.querySelector('.coda');
+    if (!close || !coda) return;
+    var axisY = (docY(close) + close.getBoundingClientRect().height + docY(coda)) / 2;
+    var top = Math.round(axisY - H / 2);
     julCv.style.top = top + 'px';
     if (!render || !setDone || julCv._worker) return;
     var disc = phone ? 90 : 130, upp = 0.15 / disc;             // the central disc is ~0.15 units across
-    var ox = phone ? 18 : Math.max(18, vw / 2 - 360 - 96), oy = H;       // the origin: left of the column, on the bottom edge
+    var ox = phone ? 18 : Math.max(18, vw / 2 - 360 - 96), oy = H / 2;   // the origin: left of the column, on the band's midline
     paint(julCv, { x0: -ox * upp, x1: (vw - ox) * upp, y0: -(H - oy) * upp, y1: oy * upp,
                    julia: [-1.755, 0], maxIt: phone ? 400 : 600, cycle: 0.05, fade: 30, stops: COLD }, vw, H,
           function () { juliaDone = true; });
@@ -696,7 +694,7 @@
   // rather than an IntersectionObserver: observers go quiet in a tab that is
   // not being rendered, which made the band untestable from a background tab.
   function nearFooter() {
-    var f = document.querySelector('footer');
+    var f = document.querySelector('.coda') || document.querySelector('footer');
     return f && f.getBoundingClientRect().top < window.innerHeight + 900;
   }
   function wantJulia() {
