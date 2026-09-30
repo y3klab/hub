@@ -24,7 +24,7 @@ What lies below any node is computed - `ls` - never written. So is what lies abo
 
 ## The naming rule
 
-A single naming rule makes the law concrete: a container's overview is **named after the container**. Because the description lives inside the thing and carries its name, it can't separate from it - that co-location is what the law **structurally enforces**; completeness and accuracy stay a *discipline*.
+The naming rule makes the law concrete: a container's overview is **named after the container**. Because the description lives inside the thing and carries its name, it can't separate from it - that co-location is what the law **structurally enforces**; completeness and accuracy stay a *discipline*.
 
 ```
 # a self-naming overview at every depth
