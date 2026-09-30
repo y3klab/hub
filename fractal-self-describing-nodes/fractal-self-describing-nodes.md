@@ -2,6 +2,12 @@
 
 **Every node describes itself**, by the same rule, **at every depth** - so there is no index to keep. **The structure is the index.**
 
+**naming rule** *n.* *FSDN*
+
+1. A container's overview lives inside it and takes its name: `thing/thing.md`.
+
+Note That is the whole rule. It fixes the place and the name - not the file type, not the shape, not the depth.
+
 ## What FSDN is
 
 A **node** is any unit of organization - a whole portfolio, a project, a sub-tool, a single catalog entry. The word is deliberate: a node is never just an item; it is a thing among other things that knows its place among them. Under FSDN, each one carries its own overview inside itself, named for it - made by the same rule as every other node, at every depth - so what lies below any node is computed, never written. No list is kept, so no list goes stale.
@@ -24,13 +30,7 @@ What lies below any node is computed - `ls` - never written. So is what lies abo
 
 ## The naming rule
 
-**naming rule** *n.* *FSDN*
-
-1. A container's overview lives inside it and takes its name: `thing/thing.md`.
-
-Note That is the whole rule. It fixes the place and the name - not the file type, not the shape, not the depth.
-
-It makes the law concrete. Because the description lives inside the thing and carries its name, it can't separate from it - that co-location is what the law **structurally enforces**; completeness and accuracy stay a *discipline*.
+The naming rule makes the law concrete. Because the description lives inside the thing and carries its name, it can't separate from it - that co-location is what the law **structurally enforces**; completeness and accuracy stay a *discipline*.
 
 ```
 # a self-naming overview at every depth
