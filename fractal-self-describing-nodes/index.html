@@ -156,16 +156,23 @@
      z0. Every c has a Julia set; the Mandelbrot set is the index of the ones
      that hold together. Rendered when the footer scrolls near, after the hero. */
   #julia {
-    position: absolute; left: 0; top: 0; width: 100%; height: 460px;
+    position: absolute; left: 0; top: 0; width: 100%; height: 380px;
     display: block; opacity: 0; pointer-events: none; z-index: -1;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 42%);
-            mask-image: linear-gradient(to bottom, transparent 0%, #000 42%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
+            mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
   }
-  #julia[data-ready] { opacity: .85; }
-  .jstage { height: 220px; }
-  @media (max-width: 720px) { .jstage { height: 150px; } }
-  footer .jcap { margin: 0 0 14px; font-size: 11.5px; letter-spacing: .04em; color: color-mix(in srgb, var(--dim) 80%, var(--ink)); }
-  footer .jcap code { color: var(--cyan); }
+  #julia[data-ready] { opacity: .9; }
+  /* The footer nests into the band: the specimen label sits left, beside the
+     spine; the motto and links sit right, over the bead line. */
+  footer .jlabel { text-align: left; max-width: 300px; }
+  footer .jlabel .jname {
+    margin: 0 0 8px; font-size: 11px; letter-spacing: .26em; text-transform: uppercase;
+    color: var(--blue);
+  }
+  footer .jlabel .jname code { color: var(--cyan); letter-spacing: .06em; }
+  footer .jlabel .jcap { margin: 0; font-size: 11.5px; line-height: 1.6; color: color-mix(in srgb, var(--dim) 85%, var(--ink)); }
+  footer .fmeta { text-align: right; }
+  footer .fmeta p { margin: 0 0 6px; }
   @media (max-width: 720px) {
     #set { opacity: 0; }
     #set[data-ready] { opacity: .6; }
@@ -317,7 +324,8 @@
   footer {
     max-width: 720px; margin: 4.5rem auto 0; padding-top: 28px;
     border-top: 1px solid var(--rail);
-    text-align: center; color: var(--dim); font-size: 12px;
+    color: var(--dim); font-size: 12px;
+    display: grid; grid-template-columns: 300px 1fr; gap: 32px; align-items: end;
   }
   footer .motto {
     background: var(--ramp); -webkit-background-clip: text; background-clip: text; color: transparent;
@@ -325,6 +333,11 @@
   }
   footer a { color: var(--blue); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
+  /* After the footer rules on purpose: same specificity, so order decides. */
+  @media (max-width: 720px) {
+    footer { grid-template-columns: 1fr; padding-left: 40px; }
+    footer .jlabel, footer .fmeta { text-align: left; max-width: none; }
+  }
 
   @media (max-width: 560px) {
     body { padding: 0 18px 48px; }
@@ -542,11 +555,15 @@
   </main>
 
   <footer>
-    <p class="jcap">At the foot of this page: the Julia set for <code>c = -1.755</code>, the point the minibrot above sits on. Every <code>c</code> has a Julia set; the Mandelbrot set is the index of the ones that hold together.</p>
+    <div class="jlabel">
+      <p class="jname">J(c) &middot; <code>c = -1.755</code></p>
+      <p class="jcap">The Julia set at the point the minibrot above sits on. Every <code>c</code> has one; the Mandelbrot set is the index of those that hold together.</p>
+    </div>
+    <div class="fmeta">
     <p class="motto">Certified Y3K Ready</p>
     <p><a href="/">← Y3K Lab</a> · <a href="fractal-self-describing-nodes.md" target="_blank" rel="noopener noreferrer" title="This page as plain Markdown - ideal for pasting to an AI assistant">View as Markdown</a> · © 1970-3000 Y3K · Shareware - copy it, share it, distribute freely on any BBS.</p>
+    </div>
   </footer>
-  <div class="jstage" aria-hidden="true"></div>
 
 <script>
 (function () {
@@ -560,18 +577,17 @@
   if (!setCv || !julCv || !window.Worker || !window.Blob) return;
 
   var workerSrc = function () {
-    var stops = [[0,[10,10,18]],[.18,[135,95,255]],[.34,[255,95,255]],[.52,[215,95,215]],[.68,[95,175,255]],[.84,[0,215,255]],[1,[10,10,18]]];
-    var LUT = new Uint8ClampedArray(2048 * 3);
-    for (var i = 0; i < 2048; i++) {
-      var t = i / 2047, k = 0;
-      while (k < stops.length - 2 && t > stops[k + 1][0]) k++;
-      var a = stops[k], b = stops[k + 1], f = (t - a[0]) / (b[0] - a[0]);
-      f = f * f * (3 - 2 * f);
-      for (var c = 0; c < 3; c++) LUT[i * 3 + c] = a[1][c] + (b[1][c] - a[1][c]) * f;
-    }
     var LOG2 = Math.log(2);
     self.onmessage = function (e) {
       var d = e.data, w = d.w, h = d.h, x0 = d.x0, x1 = d.x1, y0 = d.y0, y1 = d.y1;
+      var stops = d.stops, LUT = new Uint8ClampedArray(2048 * 3);
+      for (var i = 0; i < 2048; i++) {
+        var t = i / 2047, k = 0;
+        while (k < stops.length - 2 && t > stops[k + 1][0]) k++;
+        var a = stops[k], b = stops[k + 1], f = (t - a[0]) / (b[0] - a[0]);
+        f = f * f * (3 - 2 * f);
+        for (var c = 0; c < 3; c++) LUT[i * 3 + c] = a[1][c] + (b[1][c] - a[1][c]) * f;
+      }
       var maxIt = d.maxIt, cycle = d.cycle, fade = d.fade, band = 24;
       var julia = d.julia, jr = julia ? julia[0] : 0, ji = julia ? julia[1] : 0;
       for (var ys = 0; ys < h; ys += band) {
@@ -605,6 +621,11 @@
     };
   }.toString();
   var url = URL.createObjectURL(new Blob(['(' + workerSrc + ')()'], { type: 'text/javascript' }));
+  // Two palettes, both cycling back to dark so bands read as filaments: the
+  // hero in the full ramp, the footer in a cold register - indigo to blue to a
+  // muted teal, no magenta - so the two sets read as different voices.
+  var HOT  = [[0,[10,10,18]],[.18,[135,95,255]],[.34,[255,95,255]],[.52,[215,95,215]],[.68,[95,175,255]],[.84,[0,215,255]],[1,[10,10,18]]];
+  var COLD = [[0,[10,10,18]],[.22,[50,36,124]],[.42,[98,84,214]],[.62,[52,110,190]],[.82,[84,196,214]],[1,[10,10,18]]];
 
   // Paint one canvas: size it (crisp to 2x, capped near 2.4M px), run the worker.
   function paint(cv, job, W, H, onDone) {
@@ -648,24 +669,24 @@
     var cx = -1.755, cy = 0;
     setDone = false;
     paint(setCv, { x0: cx - setX * upp, x1: cx + (vw - setX) * upp, y0: cy - (H - setY) * upp, y1: cy + setY * upp,
-                   maxIt: 700, cycle: 0.06, fade: 22 }, vw, H,
+                   maxIt: 700, cycle: 0.06, fade: 22, stops: HOT }, vw, H,
           function () { setDone = true; if (juliaWanted && !juliaDone) placeJulia(true); });
   }
 
-  // The footer: a 460px band ending at the document's bottom. The Julia set's
-  // origin sits at the band's bottom-left, just outside the column, so only the
-  // upper-right quarter of the central disc shows: the spine rises up the left
-  // side and the bead line runs low, off to the right, under the footer.
+  // The footer: a 380px band ending at the document's bottom, its bottom edge
+  // on the set's real axis, so only the top half shows and the symmetry is
+  // implied. The origin sits left of the column: the spine rises up the left
+  // beside the label, the bead line runs along the bottom under the links.
   function placeJulia(render) {
-    var vw = document.documentElement.clientWidth, H = 460, phone = vw <= 720;
+    var vw = document.documentElement.clientWidth, H = 380, phone = vw <= 720;
     var footer = document.querySelector('footer'); if (!footer) return;
     var docH = document.documentElement.scrollHeight, top = Math.max(0, docH - H);
     julCv.style.top = top + 'px';
     if (!render || !setDone || julCv._worker) return;
     var disc = phone ? 90 : 130, upp = 0.15 / disc;             // the central disc is ~0.15 units across
-    var ox = phone ? 28 : Math.max(28, vw / 2 - 360 - 24), oy = H - 44;   // the origin, in band px
+    var ox = phone ? 18 : Math.max(18, vw / 2 - 360 - 96), oy = H;       // the origin: left of the column, on the bottom edge
     paint(julCv, { x0: -ox * upp, x1: (vw - ox) * upp, y0: -(H - oy) * upp, y1: oy * upp,
-                   julia: [-1.755, 0], maxIt: phone ? 400 : 600, cycle: 0.06, fade: 30 }, vw, H,
+                   julia: [-1.755, 0], maxIt: phone ? 400 : 600, cycle: 0.05, fade: 30, stops: COLD }, vw, H,
           function () { juliaDone = true; });
   }
 
