@@ -10,9 +10,9 @@ A **node** is any unit of organization - a whole portfolio, a project, a sub-too
 
 Each node carries its own overview, inside itself and named for it - `project/project.md`. The description is part of the thing, so it can't wander off from the thing.
 
-### One rule
+### One naming rule
 
-Not a template per level - one rule, applied to whatever is in front of it. The output varies; the rule doesn't. Know one thing, and you can walk the whole structure.
+Not a template per level - one naming rule, applied to whatever is in front of it. The output varies; the rule doesn't. Know one thing, and you can walk the whole structure.
 
 ### Every depth
 
@@ -22,9 +22,9 @@ The rule has no depth in it, so there is no depth it stops at. Zoom in or out an
 
 What lies below any node is computed - `ls` - never written. So is what lies above: the nearest node up the tree that describes itself. A parent's overview describes the parent, not its children; where the tree is out of view, a renderer draws the breadcrumb from it. The structure is the index.
 
-## The rule
+## The naming rule
 
-A single rule of construction makes the law concrete: a container's overview is **named after the container**. Because the description lives inside the thing and carries its name, it can't separate from it - that co-location is what the law **structurally enforces**; completeness and accuracy stay a *discipline*.
+A single naming rule makes the law concrete: a container's overview is **named after the container**. Because the description lives inside the thing and carries its name, it can't separate from it - that co-location is what the law **structurally enforces**; completeness and accuracy stay a *discipline*.
 
 ```
 # a self-naming overview at every depth
@@ -48,11 +48,11 @@ describe(node):
 
 **There is no depth parameter.** A fractal tree drawn by code is `draw(branch, depth - 1)`: its branches don't exist until the rule invents them, so the rule has to carry its own stopping point. This one stops where the data stops - at a node with no children - which is why the law can say *at every depth* without naming one.
 
-**What the rule asks of you.** Every container gets a self-named overview - don't create a node that can't describe itself - but only containers, and only when there is something to say: a leaf is its own overview - it describes itself in-band, in its own header, so the rule holds there with nothing to write - and a grouping folder whose contents are self-evident can go without. The law governs the name, not the file type - a code package already describes itself through its docstring or README and needs no parallel `.md`. The test: *would a human navigate here to understand the system?* If yes, it earns the overview. A parent may still curate a list of what's below it; nothing may depend on that list.
+**What the naming rule asks of you.** Every container gets a self-named overview - don't create a node that can't describe itself - but only containers, and only when there is something to say: a leaf is its own overview - it describes itself in-band, in its own header, so the rule holds there with nothing to write - and a grouping folder whose contents are self-evident can go without. The law governs the name, not the file type - a code package already describes itself through its docstring or README and needs no parallel `.md`. The test: *would a human navigate here to understand the system?* If yes, it earns the overview. A parent may still curate a list of what's below it; nothing may depend on that list.
 
 ## Why it matters
 
-Why enforce FSDN instead of keeping a good index by hand? Because the law buys what a maintained map can't. **The description can't drift from the thing**: it lives inside what it describes and carries its name, so rename, move, or delete a node and its description travels with it. **Navigation doesn't dead-end**: land at any depth and you can read where you are, step up to its context, or down into its parts, with no guide who already knows the layout. **It scales without a center**: no master document has to know everything, so add a thousand nodes and nothing is rewired. And **it's traversable by machines** as well as people: one rule at every depth means a tool - or an AI agent - can walk the whole structure with no instructions for any of it. Self-similarity is an API.
+Why enforce FSDN instead of keeping a good index by hand? Because the law buys what a maintained map can't. **The description can't drift from the thing**: it lives inside what it describes and carries its name, so rename, move, or delete a node and its description travels with it. **Navigation doesn't dead-end**: land at any depth and you can read where you are, step up to its context, or down into its parts, with no guide who already knows the layout. **It scales without a center**: no master document has to know everything, so add a thousand nodes and nothing is rewired. And **it's traversable by machines** as well as people: one naming rule at every depth means a tool - or an AI agent - can walk the whole structure with no instructions for any of it. Self-similarity is an API.
 
 ## A worked example
 
@@ -78,7 +78,7 @@ y3k-cookbook/
          └─ greens.md      ← rau sống: Thai basil, sprouts, lime, chili
 ```
 
-One rule produced all of it - front matter, a chapter opener, recipe cards, and, because a broth is a recipe, a recipe inside the recipe: `describe(pho)` calls `describe(broth)`. The photos are named for what they show, not for the dish; the folder already says *pho*. The table of contents is `ls`, and the index at the back is generated from the cards, the way a printed cookbook's index is compiled from its pages. Skip the rule and you get the folder everyone has: `hero.jpg` and nothing beside it. You can see what it was. You can't make it again.
+One naming rule produced all of it - front matter, a chapter opener, recipe cards, and, because a broth is a recipe, a recipe inside the recipe: `describe(pho)` calls `describe(broth)`. The photos are named for what they show, not for the dish; the folder already says *pho*. The table of contents is `ls`, and the index at the back is generated from the cards, the way a printed cookbook's index is compiled from its pages. Skip the rule and you get the folder everyone has: `hero.jpg` and nothing beside it. You can see what it was. You can't make it again.
 
 ## Lineage
 
