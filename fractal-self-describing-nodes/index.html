@@ -293,7 +293,8 @@
     margin: 0 0 8px; font-size: 15px; font-weight: 700; color: var(--ink);
     display: flex; align-items: baseline; gap: 8px;
   }
-  .prop h3 .i { color: var(--stop, var(--accent)); font-size: 12px; font-weight: 800; letter-spacing: .1em; }
+  /* A tally, not a rank: the cards are four clauses of one law, in no order. */
+  .prop h3 .i { color: var(--stop, var(--accent)); font-size: 13px; font-weight: 800; letter-spacing: .28em; margin-right: 2px; }
   .prop p { margin: 0; font-size: 13.5px; line-height: 1.55; color: color-mix(in srgb, var(--ink) 64%, var(--dim)); }
 
   /* ── Naming rule - a code-ish block showing the self-naming overview. ── */
@@ -426,25 +427,25 @@
       computed, never written. No list is kept, so no list goes stale.</p>
     <div class="props">
       <div class="prop" style="--stop: var(--magenta);">
-        <h3><span class="i">i</span> Self-describing</h3>
+        <h3><span class="i">•</span> Self-describing</h3>
         <p>Each node carries its own overview, inside itself and named for it -
           <code>project/project.md</code>. The description is part of the thing, so it
           can't wander off from the thing.</p>
       </div>
       <div class="prop" style="--stop: var(--purple);">
-        <h3><span class="i">ii</span> One naming rule</h3>
+        <h3><span class="i">••</span> One naming rule</h3>
         <p>Not a template per level - one naming rule, applied to whatever is in front of it.
           The output varies; the rule doesn't. Know one thing, and you can walk the
           whole structure.</p>
       </div>
       <div class="prop" style="--stop: var(--cyan);">
-        <h3><span class="i">iii</span> Every depth</h3>
+        <h3><span class="i">•••</span> Every depth</h3>
         <p>The rule has no depth in it, so there is no depth it stops at. Zoom in or out
           and you land on a node that explains itself - self-similar, like a fractal.
           Hence the name.</p>
       </div>
       <div class="prop" style="--stop: var(--brtcyan);">
-        <h3><span class="i">iv</span> No index</h3>
+        <h3><span class="i">••••</span> No index</h3>
         <p>What lies below any node is computed - <code>ls</code> - never written; so is
           what lies above, the nearest node up the tree that describes itself. A
           parent's overview describes the parent, not its children. The structure is
