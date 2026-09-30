@@ -22,7 +22,7 @@ The rule has no depth in it, so there is no depth it stops at. Zoom in or out an
 
 What lies below any node is computed - `ls` - never written. So is what lies above: the nearest node up the tree that describes itself. A parent's overview describes the parent, not its children; where the tree is out of view, a renderer draws the breadcrumb from it. The structure is the index.
 
-## The mechanism
+## The rule
 
 A single rule of construction makes the law concrete: a container's overview is **named after the container**. Because the description lives inside the thing and carries its name, it can't separate from it - that co-location is what the law **structurally enforces**; completeness and accuracy stay a *discipline*.
 
