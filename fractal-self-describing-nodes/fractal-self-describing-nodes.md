@@ -58,7 +58,9 @@ describe(node):
 
 ## Why it matters
 
-Why enforce FSDN instead of keeping a good index by hand? Because the law buys what a maintained map can't. **The description can't drift from the thing**: it lives inside what it describes and carries its name, so rename, move, or delete a node and its description travels with it. **Navigation doesn't dead-end**: land at any depth and you can read where you are, step up to its context, or down into its parts, with no guide who already knows the layout. **It scales without a center**: no master document has to know everything, so add a thousand nodes and nothing is rewired. And **it's traversable by machines** as well as people: one naming rule at every depth means a tool - or an AI agent - can walk the whole structure with no instructions for any of it. Self-similarity is an API.
+**You always know what you are looking at.** In any folder, the file that carries the folder's name is its description. There is nothing to hunt for and nothing to guess: the name alone tells you what the file is for and where it belongs.
+
+And over time the law buys what a maintained map can't. **The description can't drift from the thing**: it lives inside what it describes and carries its name, so rename, move, or delete a node and its description travels with it. **Navigation doesn't dead-end**: land at any depth and you can read where you are, step up to its context, or down into its parts, with no guide who already knows the layout. **It scales without a center**: no master document has to know everything, so add a thousand nodes and nothing is rewired. And **it's traversable by machines** as well as people: one naming rule at every depth means a tool - or an AI agent - can walk the whole structure with no instructions for any of it. Self-similarity is an API.
 
 ## A worked example
 
