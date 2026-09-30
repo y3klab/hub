@@ -42,7 +42,7 @@
   .scrim {
     position: absolute; inset: 0;
     background:
-      linear-gradient(90deg, rgba(10,10,18,.96) 0%, rgba(10,10,18,.92) 34%, rgba(10,10,18,.55) 52%, rgba(10,10,18,0) 70%),
+      linear-gradient(90deg, rgba(10,10,18,.90) 0%, rgba(10,10,18,.84) 34%, rgba(10,10,18,.50) 52%, rgba(10,10,18,0) 70%),
       linear-gradient(0deg, rgba(10,10,18,.9) 0%, rgba(10,10,18,0) 22%);
   }
 
@@ -53,11 +53,9 @@
     mix-blend-mode: multiply;
   }
 
-  /* The ramp bar across the very top - the palette, the canonical asset. */
-  .topramp { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--ramp); z-index: 4; }
 
   .stage {
-    position: absolute; left: 64px; top: 140px; width: 660px; z-index: 2;
+    position: absolute; left: 64px; top: 118px; width: 660px; z-index: 2;
   }
   .kicker {
     color: var(--cyan); font-size: 17px; letter-spacing: .34em; text-transform: uppercase;
@@ -69,7 +67,7 @@
     background: var(--ramp);
     -webkit-background-clip: text; background-clip: text; color: transparent;
     filter: drop-shadow(0 0 22px rgba(175,95,255,.35));
-    margin-bottom: 30px;
+    margin-bottom: 58px;
   }
   .law {
     font-size: 21px; line-height: 1.55; color: var(--ink); max-width: 600px;
@@ -110,7 +108,6 @@
   <canvas id="set"></canvas>
   <div class="scrim"></div>
   <div class="scan"></div>
-  <div class="topramp"></div>
 
   <div class="stage">
     <div class="kicker">[ A structural law ]</div>
@@ -128,8 +125,9 @@
   // Escape-time Mandelbrot, smooth-colored, painted in the Y3K ramp.
   // The window is the period-3 minibrot on the antenna, west of the main set
   // at c = -1.755: the whole set again, smaller, hung on a filament - which is
-  // the page's point. The set sits whole in the right half, on the card's
-  // midline, with the text block centered on the same line at the left. Card is 1200x630; the canvas renders at the
+  // the page's point. The set sits whole in the right half; its antenna runs
+  // through the gap between the title and the law box, so the line is seen
+  // crossing the whole card rather than hiding behind type. Card is 1200x630; the canvas renders at the
   // device pixel ratio so a 2x capture is crisp.
   var W = 1200, H = 630, dpr = window.devicePixelRatio || 1;
   var cv = document.getElementById('set');
@@ -143,8 +141,8 @@
   // exploring windows without editing the file.
   var q = new URLSearchParams(location.search);
   var num = function (k, d) { var v = parseFloat(q.get(k)); return isNaN(v) ? d : v; };
-  var cx = num('cx', -1.755), cy = num('cy', 0), span = num('span', 0.17);
-  var xw = num('xw', 0.80), yw = num('yw', 0.50);      // where (cx, cy) sits, as fractions of width and height
+  var cx = num('cx', -1.755), cy = num('cy', 0), span = num('span', 0.18);
+  var xw = num('xw', 0.80), yw = num('yw', 0.542);      // where (cx, cy) sits, as fractions of width and height
   var x0 = cx - span * xw, x1 = cx + span * (1 - xw);
   var ratio = h / w, yspan = (x1 - x0) * ratio;
   var y0 = cy - yspan * (1 - yw), y1 = cy + yspan * yw;
