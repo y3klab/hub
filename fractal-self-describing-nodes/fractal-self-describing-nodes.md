@@ -20,7 +20,7 @@ The rule has no depth in it, so there is no depth it stops at. Zoom in or out an
 
 ### No index
 
-What lies below any node is computed - `ls` - never written. So is what lies above: the nearest node up the tree that describes itself. A parent's overview describes the parent, not its children; where the tree is out of view, a renderer draws the breadcrumb from it. The structure is the index.
+What lies below any node is computed - `ls` - never written; so is what lies above, the nearest node up the tree that describes itself. A parent's overview describes the parent, not its children. The structure is the index.
 
 ## Naming rule
 
