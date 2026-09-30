@@ -207,6 +207,41 @@
     color: var(--ink);
   }
   .law strong { color: var(--cyan); }
+  /* The naming rule as a dictionary entry - headword, part of speech, sense,
+     note - set apart so no reader can miss the one line the page turns on. */
+  .def {
+    margin: 0 0 22px; padding: 22px 26px 20px;
+    border: 1px solid color-mix(in srgb, var(--cyan) 30%, var(--rail));
+    border-left: 3px solid var(--cyan);
+    border-radius: 10px;
+    background: linear-gradient(150deg, color-mix(in srgb, var(--cyan) 7%, transparent), transparent 50%), var(--panel);
+    box-shadow: inset 0 0 60px -40px var(--cyan);
+  }
+  .def p { margin: 0; }
+  .def .hw {
+    margin-bottom: 10px; font-size: 22px; line-height: 1.2; letter-spacing: -.005em;
+  }
+  .def .hw strong {
+    font-weight: 800;
+    background: linear-gradient(100deg, var(--brtcyan), var(--cyan), var(--blue));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .def .hw em { color: var(--dim); font-size: 15px; margin-left: 6px; }
+  .def .hw .tag {
+    margin-left: 10px; vertical-align: 3px;
+    font-size: 10.5px; letter-spacing: .22em; text-transform: uppercase; font-style: normal;
+    color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--rail));
+    border-radius: 999px; padding: 2px 8px;
+  }
+  .def .sense { font-size: 17.5px; line-height: 1.55; color: var(--ink); padding-left: 1.6em; text-indent: -1.6em; }
+  .def .sense .num { color: var(--cyan); font-weight: 700; display: inline-block; width: 1.6em; text-indent: 0; }
+  .def .sense code { color: var(--brtcyan); font-weight: 700; }
+  .def .note { margin-top: 12px; padding-left: 1.6em; font-size: 14px; line-height: 1.6; color: var(--dim); }
+  .def .note .lbl {
+    font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--blue);
+    margin-right: 8px;
+  }
+  @media (max-width: 560px) { .def { padding: 18px 18px 16px; } .def .hw { font-size: 20px; } .def .sense { font-size: 16px; } }
 
   /* ── Section headers - dim uppercase with a gradient rule (hub idiom). ── */
   h2 {
@@ -416,11 +451,18 @@
     </div>
 
     <h2 id="mechanism"><span class="n">02</span> &nbsp;The naming rule</h2>
-    <p>The naming rule makes the law concrete: a container's overview is
-      <strong>named after the container</strong>. Because the description lives inside
-      the thing and carries its name, it can't separate from it - that co-location is
-      what the law <strong>structurally enforces</strong>; completeness and accuracy stay
-      a <em>discipline</em>.</p>
+    <!-- The naming rule, as a dictionary entry: the one thing the page must make unmistakable. -->
+    <div class="def">
+      <p class="hw"><strong>naming rule</strong> <em>n.</em> <span class="tag">FSDN</span></p>
+      <p class="sense"><span class="num">1.</span> A container's overview lives inside it and takes
+        its name: <code>thing/thing.md</code>.</p>
+      <p class="note"><span class="lbl">Note</span> That is the whole rule. It fixes the place and the
+        name - not the file type, not the shape, not the depth.</p>
+    </div>
+    <p>It makes the law concrete. Because the description lives inside the thing and
+      carries its name, it can't separate from it - that co-location is what the law
+      <strong>structurally enforces</strong>; completeness and accuracy stay a
+      <em>discipline</em>.</p>
     <div class="tree"><code class="cmt"># a self-naming overview at every depth</code>
 <code class="dir">portfolio/</code>
 ├─ <code class="self">portfolio.md</code>         <code class="cmt">← the portfolio describes itself</code>

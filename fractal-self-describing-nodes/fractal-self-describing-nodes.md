@@ -24,7 +24,13 @@ What lies below any node is computed - `ls` - never written. So is what lies abo
 
 ## The naming rule
 
-The naming rule makes the law concrete: a container's overview is **named after the container**. Because the description lives inside the thing and carries its name, it can't separate from it - that co-location is what the law **structurally enforces**; completeness and accuracy stay a *discipline*.
+**naming rule** *n.* *FSDN*
+
+1. A container's overview lives inside it and takes its name: `thing/thing.md`.
+
+Note That is the whole rule. It fixes the place and the name - not the file type, not the shape, not the depth.
+
+It makes the law concrete. Because the description lives inside the thing and carries its name, it can't separate from it - that co-location is what the law **structurally enforces**; completeness and accuracy stay a *discipline*.
 
 ```
 # a self-naming overview at every depth
