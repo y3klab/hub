@@ -210,7 +210,7 @@
   /* The naming rule as a dictionary entry - headword, part of speech, sense,
      note - set apart so no reader can miss the one line the page turns on. */
   .def {
-    margin: 18px 0 0; padding: 22px 26px 20px;
+    margin: 0 0 22px; padding: 22px 26px 20px;
     border: 1px solid color-mix(in srgb, var(--cyan) 30%, var(--rail));
     border-left: 3px solid var(--cyan);
     border-radius: 10px;
@@ -296,7 +296,7 @@
   .prop h3 .i { color: var(--stop, var(--accent)); font-size: 12px; font-weight: 800; letter-spacing: .1em; }
   .prop p { margin: 0; font-size: 13.5px; line-height: 1.55; color: color-mix(in srgb, var(--ink) 64%, var(--dim)); }
 
-  /* ── The naming rule - a code-ish block showing the self-naming overview. ── */
+  /* ── Naming rule - a code-ish block showing the self-naming overview. ── */
   .tree {
     margin: 4px 0 0; padding: 20px 22px;
     background: #060608; border: 1px solid var(--rail); border-radius: 10px;
@@ -415,15 +415,6 @@
       <p class="law rise"><strong>Every node describes itself</strong>, by the same
         rule, <strong>at every depth</strong> - so there is no index to keep.
         <strong>The structure is the index.</strong></p>
-      <!-- The law, then the one line that makes it so: the naming rule, as a dictionary
-           entry - the claim and its mechanism in the first screen. -->
-      <div class="def rise">
-        <p class="hw"><strong>naming rule</strong> <em>n.</em> <span class="tag">FSDN</span></p>
-        <p class="sense"><span class="num">1.</span> A container's overview lives inside it and takes
-          its name: <code>thing/thing.md</code>.</p>
-        <p class="note"><span class="lbl">Note</span> That is the whole rule. It fixes the place and the
-          name - not the file type, not the shape, not the depth.</p>
-      </div>
     </header>
 
     <h2 id="what"><span class="n">01</span> &nbsp;What FSDN is</h2>
@@ -462,7 +453,15 @@
       </div>
     </div>
 
-    <h2 id="mechanism"><span class="n">02</span> &nbsp;The naming rule</h2>
+    <h2 id="mechanism"><span class="n">02</span> &nbsp;Naming rule</h2>
+    <!-- The naming rule, as a dictionary entry: the one thing the page must make unmistakable. -->
+    <div class="def">
+      <p class="hw"><strong>naming rule</strong> <em>n.</em> <span class="tag">FSDN</span></p>
+      <p class="sense"><span class="num">1.</span> A container's overview lives inside it and takes
+        its name: <code>thing/thing.md</code>.</p>
+      <p class="note"><span class="lbl">Note</span> That is the whole rule. It fixes the place and the
+        name - not the file type, not the shape, not the depth.</p>
+    </div>
     <p>The naming rule makes the law concrete. Because the description lives inside
       the thing and carries its name, it can't separate from it - that co-location is
       what the law <strong>structurally enforces</strong>; completeness and accuracy stay
@@ -678,13 +677,12 @@
   var lastW = 0, setDone = false, juliaWanted = false, juliaDone = false;
   function placeSet(render) {
     var vw = document.documentElement.clientWidth, H = 760, phone = vw <= 720;
-    // Desktop: the antenna runs through the gap between the header (law box and
-    // the naming rule beneath it) and the 01
+    // Desktop: the antenna runs through the gap between the law box and the 01
     // header, as on the card; the body reaches into the law panel above (opaque,
     // so it hides) and the opening paragraph below. Phone: behind the first,
     // opaque property card, where only the tips of the spikes show - the gap
     // treatment puts the 01 header on the ring at that width.
-    var law = document.querySelector('header'), sec = document.getElementById('what'), card = document.querySelector('.prop');
+    var law = document.querySelector('.law'), sec = document.getElementById('what'), card = document.querySelector('.prop');
     var centerY;
     if (phone && card) centerY = docY(card) + card.getBoundingClientRect().height / 2;
     else if (law && sec) centerY = (docY(law) + law.getBoundingClientRect().height + docY(sec)) / 2;
