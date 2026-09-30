@@ -96,10 +96,6 @@ This page is itself a fractal self-describing node. It names itself, it points *
 
 Every node is a fractal self.
 
-J(c) · `c = -1.755`
-
-The same rule with `c` held fixed. Every `c` names a Julia set of its own, and the set above is the index of them: inside it, a Julia set is one piece; outside, dust. This is the entry at the minibrot's own point.
-
 ---
 
 Source: [https://y3klab.com/fractal-self-describing-nodes/](https://y3klab.com/fractal-self-describing-nodes/) - Y3K Lab
