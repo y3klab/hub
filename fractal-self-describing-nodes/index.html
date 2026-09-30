@@ -6,7 +6,7 @@
 
   This page is itself a fractal self-describing node: it names itself (the slug
   is the concept), it points UP to its parent (the Y3K Lab hub), and DOWN to where
-  the law runs (the Project System, the Garage). It practices what it documents.
+  the law runs (the Project System). It practices what it documents.
 -->
 <html lang="en">
 <head>
@@ -125,20 +125,22 @@
   .uplink .sep { color: var(--rail); }
   .uplink .here { color: var(--dim); }
 
-  /* ── The set, live, behind the title ──
+  /* ── The set, live, beside section 01 ──
      The same generator as the share card (og-image.html) - z -> z^2 + c on the
      period-3 minibrot at c = -1.755 - drawn on load in a Web Worker so the page
      never stalls, then faded in. Nothing here is an image file: the page computes
-     its own hero by the rule it documents. Masked toward the left and bottom so
-     the text sits on dark; the law box is opaque anyway. */
+     its own hero by the rule it documents. The script places the band over
+     section 01 (What FSDN is) from the DOM, right of the column on desktop and
+     behind the first, opaque property card on a phone; masked at both ends and
+     scrimmed toward the text so the prose sits on dark. */
   #set, .setscrim {
     position: absolute; left: 0; top: 0; width: 100%; height: 760px;
     pointer-events: none; z-index: -1;
   }
   #set {
     display: block; opacity: 0;
-    -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 72%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 72%, transparent 100%);
   }
   #set[data-ready] { opacity: .92; }
   .setscrim {
@@ -146,6 +148,21 @@
       var(--bg) 0%, color-mix(in srgb, var(--bg) 88%, transparent) 40%,
       color-mix(in srgb, var(--bg) 40%, transparent) 58%, transparent 74%);
   }
+  /* ── The Julia set, live, behind the footer ──
+     Same generator, other reading: c held at the hero's -1.755, the pixel as
+     z0. Every c has a Julia set; the Mandelbrot set is the index of the ones
+     that hold together. Rendered when the footer scrolls near, after the hero. */
+  #julia {
+    position: absolute; left: 0; top: 0; width: 100%; height: 460px;
+    display: block; opacity: 0; pointer-events: none; z-index: -1;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 38%, #000 88%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, #000 38%, #000 88%, transparent 100%);
+  }
+  #julia[data-ready] { opacity: .85; }
+  .jstage { height: 220px; }
+  @media (max-width: 720px) { .jstage { height: 150px; } }
+  footer .jcap { margin: 0 0 14px; font-size: 11.5px; letter-spacing: .04em; color: color-mix(in srgb, var(--dim) 80%, var(--ink)); }
+  footer .jcap code { color: var(--cyan); }
   @media (max-width: 720px) {
     #set { opacity: 0; }
     #set[data-ready] { opacity: .6; }
@@ -325,7 +342,7 @@
   /* ── Power-on load - content rises in; honors reduced-motion (§ degrade-off-TTY). ── */
   @media (prefers-reduced-motion: no-preference) {
     .rise { opacity: 0; animation: rise .55s ease forwards; }
-    #set { transition: opacity 1.2s ease; }
+    #set, #julia { transition: opacity 1.2s ease; }
     .rise:nth-child(1){animation-delay:.04s} .rise:nth-child(2){animation-delay:.10s}
     .rise:nth-child(3){animation-delay:.16s} .rise:nth-child(4){animation-delay:.22s}
     @keyframes rise { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform:none; } }
@@ -339,6 +356,7 @@
   <!-- The set, computed live by the generator (script at the end of the body). -->
   <canvas id="set" aria-hidden="true"></canvas>
   <div class="setscrim" aria-hidden="true"></div>
+  <canvas id="julia" aria-hidden="true"></canvas>
 
   <!-- UP - the node points to its parent. -->
   <nav class="uplink">
@@ -511,9 +529,7 @@
         <strong>up</strong> to its parent - <a class="inline" href="/">the Y3K&nbsp;Lab
         hub</a> - and <strong>down</strong> to where the law runs: <a class="inline"
         href="/project-system/">the Project System</a>, which dissolved its master index
-        on the strength of it, and <a class="inline" href="https://garage.y3krc.com"
-        target="_blank" rel="noopener noreferrer">the Y3K&nbsp;RC Garage</a>, rendered
-        from its nodes with no list of vehicles anywhere. It practices what it
+        on the strength of it. It practices what it
         documents, down to the one line it writes by hand: a hand-authored page has
         no renderer to draw its breadcrumb.</p>
       <span class="echo">Every node is a fractal self.</span>
@@ -523,19 +539,22 @@
   </main>
 
   <footer>
+    <p class="jcap">Below: the Julia set for <code>c = -1.755</code>, the point the minibrot above sits on. Every <code>c</code> has a Julia set; the Mandelbrot set is the index of the ones that hold together.</p>
     <p class="motto">Certified Y3K Ready</p>
     <p><a href="/">← Y3K Lab</a> · <a href="fractal-self-describing-nodes.md" target="_blank" rel="noopener noreferrer" title="This page as plain Markdown - ideal for pasting to an AI assistant">View as Markdown</a> · © 1970-3000 Y3K · Shareware - copy it, share it, distribute freely on any BBS.</p>
   </footer>
+  <div class="jstage" aria-hidden="true"></div>
 
 <script>
 (function () {
-  // The hero is the share card's fractal, computed here rather than shipped as a
-  // file. A Web Worker (inline, no deps) runs the escape-time loop in row bands
-  // and posts each band back; the main thread only paints. See og-image.html for
-  // the same routine with its parameters explained.
-  var cv = document.getElementById('set');
-  if (!cv || !window.Worker || !window.Blob) return;
-  var ctx = cv.getContext('2d');
+  // Two live fractals, no image files. An inline Web Worker (no deps) runs the
+  // escape-time loop in row bands and posts each band back; the main thread only
+  // paints. The hero (#set) is the Mandelbrot minibrot the share card shows; the
+  // footer (#julia) is the Julia set at that same c. See og-image.html for the
+  // routine with its parameters explained.
+  var setCv = document.getElementById('set'), setScrim = document.querySelector('.setscrim');
+  var julCv = document.getElementById('julia');
+  if (!setCv || !julCv || !window.Worker || !window.Blob) return;
 
   var workerSrc = function () {
     var stops = [[0,[10,10,18]],[.18,[135,95,255]],[.34,[255,95,255]],[.52,[215,95,215]],[.68,[95,175,255]],[.84,[0,215,255]],[1,[10,10,18]]];
@@ -551,13 +570,16 @@
     self.onmessage = function (e) {
       var d = e.data, w = d.w, h = d.h, x0 = d.x0, x1 = d.x1, y0 = d.y0, y1 = d.y1;
       var maxIt = d.maxIt, cycle = d.cycle, fade = d.fade, band = 24;
+      var julia = d.julia, jr = julia ? julia[0] : 0, ji = julia ? julia[1] : 0;
       for (var ys = 0; ys < h; ys += band) {
         var rows = Math.min(band, h - ys), px = new Uint8ClampedArray(w * rows * 4);
         for (var j = 0; j < rows; j++) {
-          var ci = y1 - ((ys + j) / (h - 1)) * (y1 - y0);
+          var pi = y1 - ((ys + j) / (h - 1)) * (y1 - y0);
           for (var i2 = 0; i2 < w; i2++) {
-            var cr = x0 + (i2 / (w - 1)) * (x1 - x0);
-            var zr = 0, zi = 0, zr2 = 0, zi2 = 0, n = 0;
+            var pr = x0 + (i2 / (w - 1)) * (x1 - x0), zr, zi, cr, ci;
+            if (julia) { zr = pr; zi = pi; cr = jr; ci = ji; }   // Julia: z0 is the pixel, c is fixed
+            else       { zr = 0;  zi = 0;  cr = pr; ci = pi; }   // Mandelbrot: z0 = 0, c is the pixel
+            var zr2 = zr * zr, zi2 = zi * zi, n = 0;
             while (n < maxIt && zr2 + zi2 < 256) {
               zi = 2 * zr * zi + ci; zr = zr2 - zi2 + cr;
               zr2 = zr * zr; zi2 = zi * zi; n++;
@@ -581,36 +603,91 @@
   }.toString();
   var url = URL.createObjectURL(new Blob(['(' + workerSrc + ')()'], { type: 'text/javascript' }));
 
-  var worker = null, lastW = 0;
-  function render() {
-    var vw = document.documentElement.clientWidth, H = 760;
-    if (Math.abs(vw - lastW) < 80 && worker === null && cv.hasAttribute('data-ready')) return;
-    lastW = vw;
-    if (worker) { worker.terminate(); worker = null; }
-    // Resolution: crisp up to 2x, capped so the whole hero stays under ~2.4M px.
-    var scale = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(2.4e6 / (vw * H)));
-    var w = Math.round(vw * scale), h = Math.round(H * scale);
+  // Paint one canvas: size it (crisp to 2x, capped near 2.4M px), run the worker.
+  function paint(cv, job, W, H, onDone) {
+    if (cv._worker) { cv._worker.terminate(); cv._worker = null; }
+    var scale = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(2.4e6 / (W * H)));
+    var w = Math.round(W * scale), h = Math.round(H * scale);
     cv.width = w; cv.height = h;
-    // Where the set sits, in CSS px: right of the 720px column on desktop, like
-    // the card; centered-right and smaller on a phone. Vertical center between
-    // the title and the law box.
-    var phone = vw <= 720;
-    var setX = phone ? vw * 0.68 : Math.min(vw / 2 + 470, vw - 220);
-    var setY = phone ? 325 : 310;                         // phone: behind the law box, whose panel hides the body
-    var upp = (phone ? 2.1 : 1) * 0.105 / 1200;        // complex units per CSS px, as the card
-    var cx = -1.755, cy = 0;
-    var x0 = cx - setX * upp, x1 = cx + (vw - setX) * upp;
-    var y0 = cy - (H - setY) * upp, y1 = cy + setY * upp;
-    worker = new Worker(url);
+    var ctx = cv.getContext('2d'), worker = new Worker(url);
+    cv._worker = worker;
     worker.onmessage = function (e) {
       var d = e.data;
-      if (d.done) { cv.setAttribute('data-ready', '1'); worker.terminate(); worker = null; return; }
+      if (d.done) { cv.setAttribute('data-ready', '1'); worker.terminate(); cv._worker = null; if (onDone) onDone(); return; }
       ctx.putImageData(new ImageData(d.px, w, d.rows), 0, d.y);
     };
-    worker.postMessage({ w: w, h: h, x0: x0, x1: x1, y0: y0, y1: y1, maxIt: 700, cycle: 0.06, fade: 22 });
+    job.w = w; job.h = h;
+    worker.postMessage(job);
   }
-  render();
-  var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(render, 250); });
+  function docY(el) { return el.getBoundingClientRect().top + window.scrollY; }
+
+  // The hero: a 760px band over section 01 (header through the four cards) on
+  // desktop, over the first, opaque property card on a phone. Positions come
+  // from the DOM so the band follows the layout at any width.
+  var lastW = 0, setDone = false, juliaWanted = false, juliaDone = false;
+  function placeSet(render) {
+    var vw = document.documentElement.clientWidth, H = 760, phone = vw <= 720;
+    var sec = document.getElementById('what'), props = document.querySelector('.props'), card = document.querySelector('.prop');
+    var centerY;
+    if (phone && card) centerY = docY(card) + card.getBoundingClientRect().height / 2;
+    else if (sec && props) centerY = (docY(sec) + docY(props) + props.getBoundingClientRect().height) / 2;
+    else centerY = 310 + H / 2;
+    var top = Math.round(centerY - H / 2);
+    setCv.style.top = top + 'px'; if (setScrim) setScrim.style.top = top + 'px';
+    if (!render) return;
+    var setX = phone ? vw / 2 : Math.min(vw / 2 + 510, vw - 220), setY = H / 2;
+    var upp = (phone ? 2.5 : 1) * 0.105 / 1200;          // complex units per CSS px, as the card
+    var cx = -1.755, cy = 0;
+    setDone = false;
+    paint(setCv, { x0: cx - setX * upp, x1: cx + (vw - setX) * upp, y0: cy - (H - setY) * upp, y1: cy + setY * upp,
+                   maxIt: 700, cycle: 0.06, fade: 22 }, vw, H,
+          function () { setDone = true; if (juliaWanted && !juliaDone) placeJulia(true); });
+  }
+
+  // The footer: a 460px band ending at the document's bottom, the Julia set's
+  // real axis on the stage below the footer, so the footer text sits on dark
+  // above it with only the set's central spine rising through.
+  function placeJulia(render) {
+    var vw = document.documentElement.clientWidth, H = 460, phone = vw <= 720;
+    var footer = document.querySelector('footer'); if (!footer) return;
+    var docH = document.documentElement.scrollHeight, top = Math.max(0, docH - H);
+    julCv.style.top = top + 'px';
+    if (!render || !setDone || julCv._worker) return;
+    var fr = footer.getBoundingClientRect(), centerY = docY(footer) + fr.height + (phone ? 80 : 110) - top;
+    var wide = Math.min(vw * 0.92, 1400), upp = 3.9 / wide;    // the airplane spans ~3.8 units on the real axis
+    paint(julCv, { x0: -(vw / 2) * upp, x1: (vw / 2) * upp, y0: -(H - centerY) * upp, y1: centerY * upp,
+                   julia: [-1.755, 0], maxIt: phone ? 400 : 600, cycle: 0.06, fade: 30 }, vw, H,
+          function () { juliaDone = true; });
+  }
+
+  placeSet(true); placeJulia(false);
+  // Render the footer's set only once the footer is within ~900px of the
+  // viewport, and after the hero, never alongside it. A passive scroll check
+  // rather than an IntersectionObserver: observers go quiet in a tab that is
+  // not being rendered, which made the band untestable from a background tab.
+  function nearFooter() {
+    var f = document.querySelector('footer');
+    return f && f.getBoundingClientRect().top < window.innerHeight + 900;
+  }
+  function wantJulia() {
+    if (juliaWanted || !nearFooter()) return;
+    juliaWanted = true; window.removeEventListener('scroll', wantJulia);
+    placeJulia(true);
+  }
+  window.addEventListener('scroll', wantJulia, { passive: true });
+  wantJulia();
+
+  var t; window.addEventListener('resize', function () {
+    clearTimeout(t);
+    t = setTimeout(function () {
+      var vw = document.documentElement.clientWidth, again = Math.abs(vw - lastW) >= 80;
+      lastW = vw;
+      placeSet(again);
+      if (again) juliaDone = false;
+      placeJulia(again && juliaWanted);
+    }, 250);
+  });
+  lastW = document.documentElement.clientWidth;
 })();
 </script>
 </body>

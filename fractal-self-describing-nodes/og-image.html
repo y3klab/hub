@@ -57,7 +57,7 @@
   .topramp { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--ramp); z-index: 4; }
 
   .stage {
-    position: absolute; left: 64px; top: 92px; width: 660px; z-index: 2;
+    position: absolute; left: 64px; top: 140px; width: 660px; z-index: 2;
   }
   .kicker {
     color: var(--cyan); font-size: 17px; letter-spacing: .34em; text-transform: uppercase;
@@ -84,7 +84,7 @@
 
   /* The generator, tagged on the set like a specimen label. */
   .gen {
-    position: absolute; right: 60px; top: 88px; z-index: 2;
+    position: absolute; right: 64px; top: 64px; z-index: 2;
     font-size: 19px; letter-spacing: .12em; color: var(--dim);
     padding: 8px 16px; border: 1px solid color-mix(in srgb, var(--cyan) 30%, var(--rail));
     border-radius: 999px; background: rgba(6,6,8,.6);
@@ -98,7 +98,7 @@
     color: var(--dim);
   }
   .label.left  { left: 64px; }
-  .label.right { right: 60px; }
+  .label.right { right: 64px; }
   .label .motto {
     background: var(--ramp);
     -webkit-background-clip: text; background-clip: text; color: transparent;
@@ -128,7 +128,8 @@
   // Escape-time Mandelbrot, smooth-colored, painted in the Y3K ramp.
   // The window is the period-3 minibrot on the antenna, west of the main set
   // at c = -1.755: the whole set again, smaller, hung on a filament - which is
-  // the page's point. The set sits right of center so the text clears it. Card is 1200x630; the canvas renders at the
+  // the page's point. The set sits whole in the right half, on the card's
+  // midline, with the text block centered on the same line at the left. Card is 1200x630; the canvas renders at the
   // device pixel ratio so a 2x capture is crisp.
   var W = 1200, H = 630, dpr = window.devicePixelRatio || 1;
   var cv = document.getElementById('set');
@@ -142,11 +143,11 @@
   // exploring windows without editing the file.
   var q = new URLSearchParams(location.search);
   var num = function (k, d) { var v = parseFloat(q.get(k)); return isNaN(v) ? d : v; };
-  var cx = num('cx', -1.755), cy = num('cy', 0), span = num('span', 0.105);
-  var xw = num('xw', 0.76);                            // where cx sits, as a fraction of width
+  var cx = num('cx', -1.755), cy = num('cy', 0), span = num('span', 0.17);
+  var xw = num('xw', 0.80), yw = num('yw', 0.50);      // where (cx, cy) sits, as fractions of width and height
   var x0 = cx - span * xw, x1 = cx + span * (1 - xw);
   var ratio = h / w, yspan = (x1 - x0) * ratio;
-  var y0 = cy - yspan * 0.5, y1 = cy + yspan * 0.5;
+  var y0 = cy - yspan * (1 - yw), y1 = cy + yspan * yw;
   var maxIt = 900, bail = 256;
 
   // Palette: a cycle that returns to dark, so bands read as neon filaments.
