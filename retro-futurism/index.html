@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<!--
+  Retro-futurism - a Y3K Lab purpose page.
+  A self-contained, zero-dependency reference, built in the same hand as the hub
+  (../index.html): same palette, floor grid, CRT scanlines, power-on motion.
+
+  The companion to the Law (../fractal-self-describing-nodes/): the Law is how
+  the lab is built; this page is why it exists. Its centre is one sentence, the
+  lab's thesis, set in the wordmark's double-line frame as the page's hero and
+  powered on like a CRT. Everything else on the page serves that sentence.
+
+  It is a node like every other: it names itself (the slug is the concept) and
+  points UP to its parent (the Y3K Lab hub) and ACROSS to the Law.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retro-futurism - why Y3K Lab exists - Y3K Lab</title>
+<meta name="description" content="Retro-futurism is the aesthetic of a future that never arrived: the future as imagined by an earlier era, viewed from now, with the gap left visible. A retro-futurist experiment builds the thing the old future promised, for real, now that the parts are cheap. The future arrived half-built. I am building what we were promised.">
+<link rel="canonical" href="https://y3klab.com/retro-futurism/">
+
+<!-- Favicon + share assets live at the site root; we're one level deep. -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="/favicon.svg">
+<link rel="mask-icon" href="/favicon.svg" color="#ff5fff">
+<link rel="alternate" type="text/markdown" href="retro-futurism.md" title="Retro-futurism - Y3K Lab (Markdown)">
+
+<!-- OpenGraph / Twitter - the page's own card: og-image.html rendered to og-image.png (see its header). -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Retro-futurism - why Y3K Lab exists">
+<meta property="og:description" content="The future as imagined by an earlier era, viewed from now, with the gap left visible. Y3K Lab builds the thing the old future promised, for real, now that the parts are cheap. The future arrived half-built. I am building what we were promised.">
+<meta property="og:url" content="https://y3klab.com/retro-futurism/">
+<meta property="og:image" content="https://y3klab.com/retro-futurism/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Y3K Lab thesis in magenta-to-cyan gradient type inside a double-line frame: The future arrived half-built. I am building what we were promised.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Retro-futurism - why Y3K Lab exists">
+<meta name="twitter:description" content="The future arrived half-built. I am building what we were promised. Retro-futurism, and what makes Y3K Lab one.">
+<meta name="twitter:image" content="https://y3klab.com/retro-futurism/og-image.png">
+<meta name="theme-color" content="#0a0a12">
+<style>
+  /* ── The palette: the one canonical shared asset (ANSI-256 → hex). ──
+     Mirrors ../index.html; runtime-canonical values live in Phos4's y3k.sh. */
+  :root {
+    --magenta: #ff5fff;  /* 201 - warm end */
+    --rose:    #ff5fd7;  /* 207 */
+    --pink:    #d75fd7;  /* 171 */
+    --purple:  #af5fff;  /* 135 */
+    --indigo:  #875fff;  /*  99 */
+    --blue:    #5fafff;  /*  75 */
+    --cyan:    #00d7ff;  /*  45 */
+    --brtcyan: #00ffff;  /*  51 - cool end */
+    --accent:  #00afff;  /*  39 - the live cue */
+
+    --ramp: linear-gradient(100deg,
+      var(--magenta), var(--pink), var(--purple), var(--indigo),
+      var(--blue), var(--cyan), var(--brtcyan));
+
+    --bg:    #0a0a12;
+    --panel: #12121f;
+    --ink:   #e8e8f4;
+    --dim:   #8a8aa6;
+    --rail:  #2a2a3e;
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(900px 500px at 8% -8%, color-mix(in srgb, var(--magenta) 16%, transparent), transparent 55%),
+      radial-gradient(900px 500px at 100% 108%, color-mix(in srgb, var(--cyan) 12%, transparent), transparent 55%),
+      radial-gradient(1200px 600px at 50% -10%, #1a1030 0%, transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font: 16px/1.7 ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    min-height: 100vh;
+    padding: 0 24px 64px;
+  }
+  /* Faint synthwave floor grid - fixed, faded near the top so reading stays calm. */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      repeating-linear-gradient(to right,  color-mix(in srgb, var(--cyan) 8%, transparent) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(to bottom, color-mix(in srgb, var(--magenta) 6%, transparent) 0 1px, transparent 1px 64px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 45%, #000 100%);
+            mask-image: linear-gradient(to bottom, transparent 45%, #000 100%);
+    opacity: .5;
+  }
+  /* Faint CRT scanlines - overlaid on top so the page sits "behind the glass". */
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none;
+    background:
+      repeating-linear-gradient(to bottom, rgba(0,0,0,.16) 0 1px, transparent 1px 4px),
+      repeating-linear-gradient(to bottom,
+        color-mix(in srgb, var(--cyan) 9%, transparent) 0 1px, transparent 1px 4px);
+    background-size: 100% 4px;
+  }
+  @media (min-resolution: 2dppx) {
+    body::after {
+      background:
+        repeating-linear-gradient(to bottom, rgba(0,0,0,.20) 0 1.5px, transparent 1.5px 5px),
+        repeating-linear-gradient(to bottom,
+          color-mix(in srgb, var(--cyan) 9%, transparent) 0 1.5px, transparent 1.5px 5px);
+      background-size: 100% 5px;
+    }
+  }
+
+  .wrap { max-width: 720px; margin: 0 auto; }
+
+  /* ── Up-link: the node points UP to its parent (the hub). ── */
+  .uplink {
+    display: flex; align-items: center; gap: 10px;
+    padding: 26px 0 0; margin-bottom: 4rem;
+    font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .uplink a {
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    text-decoration: none; transition: color .18s;
+  }
+  .uplink a:hover, .uplink a:focus-visible { color: var(--cyan); outline: none; }
+  .uplink .home {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text;
+    color: transparent; font-weight: 800; letter-spacing: .06em;
+  }
+  .uplink .sep { color: var(--rail); }
+  .uplink .here { color: var(--dim); }
+
+  /* ── Title block ── */
+  .kicker {
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    letter-spacing: .28em; text-transform: uppercase; font-size: 11.5px;
+    margin: 0 0 14px;
+  }
+  .kicker::before { content: "[ "; color: var(--accent); }
+  .kicker::after  { content: " ]"; color: var(--accent); }
+
+  /* The title names the page and steps aside: plain ink, so the ramp, the
+     chromatic split and the frame all belong to the thesis below it. */
+  h1 {
+    margin: 0;
+    font-size: clamp(26px, 4.4vw, 36px);
+    font-weight: 800; letter-spacing: .01em; line-height: 1.1;
+    color: var(--ink);
+  }
+
+  /* ── The thesis - the page's centre, the loudest thing on it. ──
+     Set in the wordmark's own double-line frame (the box-rail ends: magenta
+     left, cyan right), swept by the full ramp with the H1-hero chromatic split,
+     and captioned on its top rail like a terminal panel title. A block cursor
+     in the accent - the one live cue - closes the line. */
+  .thesis {
+    position: relative; margin: 48px 0 0; padding: 44px 38px 36px;
+    border: 3px double color-mix(in srgb, var(--purple) 34%, var(--rail));
+    border-left-color:  color-mix(in srgb, var(--magenta) 72%, var(--rail));
+    border-right-color: color-mix(in srgb, var(--cyan)    72%, var(--rail));
+    border-radius: 12px;
+    background:
+      radial-gradient(520px 220px at 50% 0%, color-mix(in srgb, var(--purple) 9%, transparent), transparent 70%),
+      rgba(6,6,8,.55);
+    box-shadow: 0 0 90px -26px var(--purple), inset 0 0 46px -30px var(--magenta);
+  }
+  .thesis .legend {
+    position: absolute; top: 0; left: 32px; transform: translateY(-50%);
+    margin: 0; padding: 0 12px; line-height: 1.4; white-space: nowrap;
+    background: #0e0b1a; border-radius: 4px;
+    color: color-mix(in srgb, var(--ink) 70%, var(--dim));
+    font-size: 11.5px; letter-spacing: .28em; text-transform: uppercase;
+  }
+  .thesis .legend::before { content: "[ "; color: var(--accent); }
+  .thesis .legend::after  { content: " ]"; color: var(--accent); }
+  .thesis blockquote {
+    /* fit-content so the ramp spans the sentence itself and lands on cyan */
+    margin: 0; width: fit-content; max-width: 100%;
+    font-size: clamp(24px, 5.6vw, 44px); font-weight: 800; line-height: 1.22; letter-spacing: -.012em;
+    text-wrap: balance;
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter:
+      drop-shadow(-2px 0 0 color-mix(in srgb, var(--magenta) 60%, transparent))
+      drop-shadow( 2px 0 0 color-mix(in srgb, var(--cyan)    60%, transparent))
+      drop-shadow(0 0 18px color-mix(in srgb, var(--purple) 35%, transparent));
+  }
+  /* Two sentences, the break set by hand between them; "half-built" (the
+     line's key word) never splits at its hyphen. */
+  .thesis blockquote .nb { white-space: nowrap; }
+  .thesis blockquote::after {
+    content: ""; display: inline-block; width: .5em; height: .86em;
+    margin-left: .14em; vertical-align: -.08em;
+    background: var(--accent); border-radius: 1px;
+  }
+
+  /* ── Section headers - dim uppercase with a gradient rule (hub idiom). ── */
+  h2 {
+    width: 100%; margin: 5rem 0 1.4rem;
+    color: var(--dim); font-size: 13px; font-weight: 700;
+    letter-spacing: .26em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 14px;
+  }
+  h2 .n {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text;
+    color: transparent; font-weight: 800;
+  }
+  h2::after {
+    content: ""; flex: 1; height: 1px;
+    background: linear-gradient(90deg,
+      var(--magenta), color-mix(in srgb, var(--cyan) 50%, transparent), transparent);
+    opacity: .5;
+  }
+
+  p { color: color-mix(in srgb, var(--ink) 82%, var(--dim)); }
+  p strong { color: var(--ink); font-weight: 700; }
+  a.inline { color: var(--blue); text-decoration: none; border-bottom: 1px dotted color-mix(in srgb, var(--blue) 50%, transparent); }
+  a.inline:hover { color: var(--cyan); border-bottom-color: var(--cyan); }
+
+  /* The definition as a dictionary entry - headword, part of speech, sense -
+     the same entry the Law page uses for its naming rule. */
+  .def {
+    margin: 0 0 22px; padding: 22px 26px 20px;
+    border: 1px solid color-mix(in srgb, var(--cyan) 30%, var(--rail));
+    border-left: 3px solid var(--cyan);
+    border-radius: 10px;
+    background: linear-gradient(150deg, color-mix(in srgb, var(--cyan) 7%, transparent), transparent 50%), var(--panel);
+    box-shadow: inset 0 0 60px -40px var(--cyan);
+  }
+  .def p { margin: 0; }
+  .def .hw {
+    margin-bottom: 10px; font-size: 22px; line-height: 1.2; letter-spacing: -.005em;
+  }
+  .def .hw strong {
+    font-weight: 800;
+    background: linear-gradient(100deg, var(--brtcyan), var(--cyan), var(--blue));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .def .hw em { color: var(--dim); font-size: 15px; margin-left: 6px; }
+  .def .sense { font-size: 17.5px; line-height: 1.55; color: var(--ink); padding-left: 1.6em; text-indent: -1.6em; }
+  .def .sense .num { color: var(--cyan); font-weight: 700; display: inline-block; width: 1.6em; text-indent: 0; }
+  .def .sense strong { color: var(--brtcyan); }
+  @media (max-width: 560px) { .def { padding: 18px 18px 16px; } .def .hw { font-size: 20px; } .def .sense { font-size: 16px; } }
+
+  /* ── The two directions as cards - the hub card, spine at the ramp's two ends:
+     the two directions are the two ends of one sweep. The arrow on each says
+     which way the looking runs, past to future or future to past. ── */
+  .dirs { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .dir {
+    position: relative; padding: 18px 18px 18px 22px; overflow: hidden;
+    background:
+      linear-gradient(150deg, color-mix(in srgb, var(--stop, var(--accent)) 7%, transparent), transparent 44%),
+      var(--panel);
+    border: 1px solid var(--rail); border-radius: 10px;
+  }
+  .dir::before {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 3px;
+    background: var(--stop, var(--accent)); opacity: .9;
+  }
+  .dir h3 {
+    margin: 0 0 8px; font-size: 15px; font-weight: 700; color: var(--ink);
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  .dir h3 .i { color: var(--stop, var(--accent)); font-size: 15px; font-weight: 800; }
+  .dir p { margin: 0; font-size: 13.5px; line-height: 1.55; color: color-mix(in srgb, var(--ink) 64%, var(--dim)); }
+
+  /* ── The lab's experiments - one entry per project, as a clear list. ── */
+  .lineage { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 16px; }
+  .lineage li { position: relative; padding-left: 20px; }
+  .lineage li::before {
+    content: "▸"; position: absolute; left: 2px; top: 1px;
+    color: var(--cyan); font-size: 12px;
+  }
+  .lineage .src { color: var(--ink); font-weight: 700; }
+  .lineage .tag {
+    font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--cyan); margin-left: 8px;
+  }
+  .lineage .tag a { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in srgb, var(--cyan) 50%, transparent); }
+  .lineage .tag a:hover { color: var(--brtcyan); border-bottom-color: var(--brtcyan); }
+  .lineage .gloss {
+    display: block; margin-top: 3px;
+    color: color-mix(in srgb, var(--ink) 74%, var(--dim)); font-size: 14.5px;
+  }
+
+  /* ── The close - the page declares where it sits beside the Law. ── */
+  .meta-close {
+    margin: 5rem 0 0; padding: 28px;
+    border: 1px solid color-mix(in srgb, var(--cyan) 26%, var(--rail));
+    border-radius: 12px; text-align: center;
+    background:
+      radial-gradient(600px 200px at 50% 0%, color-mix(in srgb, var(--magenta) 10%, transparent), transparent 70%),
+      var(--panel);
+  }
+  .meta-close p { margin: 0; color: var(--ink); font-size: 15.5px; line-height: 1.6; }
+  .meta-close .echo {
+    display: block; margin-top: 16px; font-weight: 800; letter-spacing: .04em;
+    font-size: clamp(16px, 2.4vw, 20px);
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  footer {
+    max-width: 720px; margin: 5rem auto 0; padding-top: 28px;
+    border-top: 1px solid var(--rail);
+    text-align: center; color: var(--dim); font-size: 12px;
+  }
+  footer .motto {
+    background: var(--ramp); -webkit-background-clip: text; background-clip: text; color: transparent;
+    letter-spacing: .18em; text-transform: uppercase; font-weight: 700;
+  }
+  footer a { color: var(--blue); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 560px) {
+    body { padding: 0 18px 48px; }
+    .uplink { margin-bottom: 2.5rem; letter-spacing: .12em; font-size: 11px; }
+    .thesis { margin-top: 40px; padding: 36px 20px 26px; }
+    .thesis .legend { left: 16px; font-size: 10.5px; letter-spacing: .22em; }
+    h2 { margin: 3rem 0 1.2rem; letter-spacing: .2em; }
+    .meta-close { padding: 22px; }
+  }
+
+  /* ── Power-on load - content rises in; the thesis powers on like a CRT, a
+     line that opens to the full frame; the cursor blinks four times and then
+     holds. Sub-second, and all of it honors reduced-motion (§ degrade-off-TTY):
+     without motion the page renders in its resting state at once. ── */
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { opacity: 0; animation: rise .55s ease forwards; }
+    .rise:nth-child(1){animation-delay:.04s} .rise:nth-child(2){animation-delay:.10s}
+    @keyframes rise { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform:none; } }
+    .thesis { animation: crton .62s cubic-bezier(.2,.7,.2,1) .16s both; transform-origin: 50% 50%; }
+    @keyframes crton {
+      0%   { opacity: 0; transform: scale(.7, .012); filter: brightness(3); }
+      38%  { opacity: 1; transform: scale(1, .012); filter: brightness(3); }
+      100% { opacity: 1; transform: none; filter: none; }
+    }
+    .thesis blockquote::after { animation: blink 1s steps(1) .8s 4; }
+    @keyframes blink { 50% { opacity: 0; } }
+    body::after { animation: crtflicker 6s steps(60) infinite; }
+    @keyframes crtflicker { 0%,96%,100%{opacity:1} 97%{opacity:.94} 98%{opacity:.995} }
+  }
+</style>
+</head>
+<body>
+
+  <!-- UP - the node points to its parent. -->
+  <nav class="uplink">
+    <a class="home" href="/">Y3K Lab</a>
+    <span class="sep">/</span>
+    <span class="here">Retro-futurism</span>
+  </nav>
+
+  <main>
+  <article class="wrap">
+
+    <header>
+      <p class="kicker rise">Y3K Lab &middot; The purpose</p>
+      <h1 class="rise">Retro-futurism</h1>
+      <!-- The thesis: the one sentence the page turns on. -->
+      <div class="thesis" id="thesis">
+        <p class="legend">The through-line</p>
+        <blockquote>The future arrived <span class="nb">half-built</span>.<br>I am building what we were promised.</blockquote>
+      </div>
+    </header>
+
+    <h2 id="what"><span class="n">01</span> &nbsp;What retro-futurism is</h2>
+    <div class="def">
+      <p class="hw"><strong>retro-futurism</strong> <em>n.</em></p>
+      <p class="sense"><span class="num">1.</span> The aesthetic of a future that never arrived.
+        More precisely: the future as imagined by an earlier era, viewed from now,
+        <strong>with the gap left visible</strong>.</p>
+    </div>
+    <p>Chrome rockets with fins. Flying cars. The robot maid. A room-sized computer
+      with blinking lights that answers when you speak to it. The machine that makes
+      dinner appear out of nothing. The whole optimistic, streamlined tomorrow that the
+      1950s and 60s were certain was coming.</p>
+
+    <h2 id="directions"><span class="n">02</span> &nbsp;The two directions</h2>
+    <p>It runs in two directions, and both are useful:</p>
+    <div class="dirs">
+      <div class="dir" style="--stop: var(--magenta);">
+        <h3><span class="i">→</span> The future as seen from the past</h3>
+        <p>Raygun Gothic, the Jetsons, Tomorrowland. Someone in 1962 drawing what 2025
+          would look like.</p>
+      </div>
+      <div class="dir" style="--stop: var(--cyan);">
+        <h3><span class="i">←</span> The past as seen from the future</h3>
+        <p>Steampunk, dieselpunk, and best of all cassette futurism: the look of Alien
+          and Blade Runner, where starships run on chunky amber CRTs and physical
+          switches. Technology advanced, but nobody ever got around to inventing the
+          flat panel.</p>
+      </div>
+    </div>
+
+    <h2 id="ingredient"><span class="n">03</span> &nbsp;The essential ingredient</h2>
+    <p>The essential ingredient is <strong>the mismatch</strong>. Retro-futurism is
+      <strong>nostalgia pointed forward</strong>, which is a strange and lovely thing to
+      feel. We got the future. It just has worse typography than promised, and nothing
+      has fins.</p>
+
+    <h2 id="experiment"><span class="n">04</span> &nbsp;What a retro-futurist experiment is</h2>
+    <p>It is <strong>building the thing the old future promised, for real, now that the
+      parts are cheap.</strong></p>
+    <p>Which is what this lab is, project by project:</p>
+    <ul class="lineage">
+      <li>
+        <span class="src">Model rockets</span><span class="tag">Tuesday Drockets</span>
+        <span class="gloss">The single most 1950s object in existence.</span>
+      </li>
+      <li>
+        <span class="src">Scale 4x4 trucks</span><span class="tag"><a href="https://y3krc.com">Y3K RC</a></span>
+      </li>
+      <li>
+        <span class="src">3D printing</span><span class="tag">ABP 3D</span>
+        <span class="gloss">Literally the Replicator, the machine that makes objects out
+          of nothing, sitting on a desk.</span>
+      </li>
+      <li>
+        <span class="src">Solar Strategy</span><span class="tag"><a href="https://solarstrategy.y3klab.com">Field work</a></span>
+        <span class="gloss">The house runs on the sun and decides for itself when to
+          charge the battery: the house that thinks for itself, finally built.</span>
+      </li>
+      <li>
+        <span class="src">A browser remake of a 1987 tank game</span><span class="tag"><a href="https://bolo2k.com">Bolo2K</a></span>
+        <span class="gloss">Retro content on a platform its authors could not have
+          imagined.</span>
+      </li>
+      <li>
+        <span class="src">An entire toolkit devoted to making a terminal beautiful</span><span class="tag"><a href="/phos4/">Phos4</a> included</span>
+        <span class="gloss">Choosing to perfect the glowing text-grid instead of
+          replacing it is cassette futurism as a design philosophy.</span>
+      </li>
+    </ul>
+
+    <h2 id="name"><span class="n">05</span> &nbsp;The name</h2>
+    <p>“Built for the year 3000” does the same work in the name itself. Y2K was a real,
+      grubby, deeply unglamorous panic about two-digit dates. Borrowing its shape and
+      aiming it a thousand years out is exactly the move: <strong>the voice of a brochure
+      promising a future nobody can be held to.</strong></p>
+
+    <!-- The close: where this page sits beside the Law. -->
+    <div class="meta-close">
+      <p>This page is the companion to <a class="inline"
+        href="/fractal-self-describing-nodes/">the Law</a>. The Law is how the lab is
+        built; this page is why it exists. Like every node in the hub, it names itself
+        and points <strong>up</strong> to its parent - <a class="inline" href="/">the
+        Y3K&nbsp;Lab hub</a>.</p>
+      <span class="echo">Nostalgia, pointed forward.</span>
+    </div>
+
+  </article>
+  </main>
+
+  <footer>
+    <p class="motto">Certified Y3K Ready</p>
+    <p><a href="/">← Y3K Lab</a> · <a href="retro-futurism.md" target="_blank" rel="noopener noreferrer" title="This page as plain Markdown - ideal for pasting to an AI assistant">View as Markdown</a> · © 1970-3000 Y3K · Shareware - copy it, share it, distribute freely on any BBS.</p>
+  </footer>
+
+</body>
+</html>
